@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 26/11/2013 11:14:35 by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="DB.Assunto" table="ASSUNTO" schema="APP">
+        <id name="idassunto" type="int">
+            <column name="IDASSUNTO" precision="5" scale="0" />
+            <generator class="assigned" />
+        </id>
+        <property name="assunto" type="string">
+            <column name="ASSUNTO" length="50" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>
