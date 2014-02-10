@@ -14,13 +14,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.List;
 import javax.swing.JFileChooser;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.transform.Transformers;
 
 
 
@@ -157,8 +156,8 @@ public class GeradorPDF {
         }
                 
     }   // método criarListagem()
-    
-    public String listaProcurador(int dia) {
+      
+    private String listaProcurador(int dia) {
         int d;
         String procuradores = "";
         for(int x = 0; x < agenda.getRowCount(); x++) {
@@ -175,7 +174,7 @@ public class GeradorPDF {
         
     }
     
-    public List listaAfastamentos(int mes) {
+    private List listaAfastamentos(int mes) {
         String SQL_QUERY_AFASTAMENTOS_MES = "select APP.AFASTAMENTOS.DATAINICIO as DATAINICIO, APP.AFASTAMENTOS.DATAFIM as datafim, APP.AFASTAMENTOS.OBS as obs, APP.PROCURADOR.NOME as procurador , APP.PROCURADOR.SIGLA as sigla from APP.AFASTAMENTOS, APP.PROCURADOR where APP.PROCURADOR.IDPROCURADOR = APP.AFASTAMENTOS.IDPROCURADOR and month(APP.AFASTAMENTOS.DATAINICIO) = :mes and month(APP.AFASTAMENTOS.DATAFIM) = :mes";
         
         Session sessao = HibernateUtil.getSessionFactory().openSession();
@@ -186,7 +185,7 @@ public class GeradorPDF {
         return result;
     }
     
-    public List<AfastamentosProcurador> preencherArrayListAfastadosDia(int dia, List<Object[]> afastados) {
+    private List<AfastamentosProcurador> preencherArrayListAfastadosDia(int dia, List<Object[]> afastados) {
 
         List<AfastamentosProcurador> listaAfastados = new ArrayList<>();
         
@@ -205,6 +204,24 @@ public class GeradorPDF {
         return listaAfastados;
                 
     }
+    
+    private void criarTabelaLegenda() {
+        String TITULO[] = {"PROCURADOR", "SIGLA","CAUSA DO AFASTAMENTO", "INICIO", "FIM"};
+        // CONTEUDO DO CALENDARIO
+        PdfPTable tabelaLegenda = new PdfPTable(5);
+        tabelaLegenda.setSpacingBefore(10);
+        tabelaLegenda.setWidthPercentage(100);
+        int[] columnWidths = {10, 5, 10, 5, 5};
+        
+        try {
+            tabelaLegenda.setWidths(columnWidths);
+        } catch (DocumentException ex) {
+            Logger.getLogger(GeradorPDF.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        PdfPCell celula;            
+
+    }    
     
     public void criarCalendario() {
         document.setPageSize(PageSize.A4.rotate());
