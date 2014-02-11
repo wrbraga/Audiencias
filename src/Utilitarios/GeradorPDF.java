@@ -36,6 +36,7 @@ public class GeradorPDF {
     
     private static final Font fontCabecalho = new Font(Font.FontFamily.TIMES_ROMAN, 8, Font.BOLD);
     private static final Font fontLinha = new Font(Font.FontFamily.TIMES_ROMAN, 8, Font.NORMAL);
+    private static final Font fontLinhaLegenda = new Font(Font.FontFamily.TIMES_ROMAN, 6, Font.NORMAL);
     
     // criação do documento
     private Document document;
@@ -205,11 +206,11 @@ public class GeradorPDF {
                 
     }
     
-    private void criarTabelaLegenda() {
+    private PdfPTable criarTabelaLegenda() {
         String TITULO[] = {"PROCURADOR", "SIGLA","CAUSA DO AFASTAMENTO", "INICIO", "FIM"};
         // CONTEUDO DO CALENDARIO
         PdfPTable tabelaLegenda = new PdfPTable(5);
-        tabelaLegenda.setSpacingBefore(10);
+        tabelaLegenda.setSpacingBefore(0);
         tabelaLegenda.setWidthPercentage(100);
         int[] columnWidths = {10, 5, 10, 5, 5};
         
@@ -218,9 +219,24 @@ public class GeradorPDF {
         } catch (DocumentException ex) {
             Logger.getLogger(GeradorPDF.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        PdfPCell celula;            
-
+        
+        String conteudo = "";
+        //PdfPCell celula = new PdfPCell();            
+        
+        tabelaLegenda.addCell(new Phrase(TITULO[0],fontLinhaLegenda));
+        tabelaLegenda.addCell(new Phrase(TITULO[1],fontLinhaLegenda));
+        tabelaLegenda.addCell(new Phrase(TITULO[2],fontLinhaLegenda));
+        tabelaLegenda.addCell(new Phrase(TITULO[3],fontLinhaLegenda));
+        tabelaLegenda.addCell(new Phrase(TITULO[4],fontLinhaLegenda));
+        tabelaLegenda.setHeaderRows(1);
+        
+        for(int x = 0; x < 20; x++) {
+            PdfPCell celula = new PdfPCell(new Phrase(String.valueOf(x),fontLinhaLegenda));
+            tabelaLegenda.addCell(celula);
+        }
+        
+        
+        return tabelaLegenda;
     }    
     
     public void criarCalendario() {
@@ -266,14 +282,22 @@ public class GeradorPDF {
                         conteudo = COL[coluna];
                     }
                     
+                    // Tabela da legenda
                     if (coluna >= 2 && linha >= 16) {
+                        PdfPCell celulaLegenda = new PdfPCell();
                         if(linha == 16) {
                             conteudo = "LEGENDA";
+                            celulaLegenda = new PdfPCell(new Phrase(conteudo,fontLinha));
                         }
-                        PdfPCell celulaLegenda = new PdfPCell(new Phrase(conteudo,fontLinha));                        
-                        celulaLegenda.setColspan(5);                        
+                        
+                        if(linha == 17) {                           
+                            celulaLegenda = new PdfPCell(criarTabelaLegenda());
+                        }
+                        
+                        
+                        celulaLegenda.setColspan(5);
                         celulaLegenda.setHorizontalAlignment(Element.ALIGN_CENTER);
-                        celulaLegenda.setBackgroundColor(BaseColor.GRAY);
+                        celulaLegenda.setBackgroundColor(BaseColor.LIGHT_GRAY);
                         tabela.addCell(celulaLegenda);
                         
                         break;
@@ -299,7 +323,7 @@ public class GeradorPDF {
                     
                     switch(linha) { 
                         case 2:
-                            altura = 50f;
+                            altura = 60f;
                             if (coluna >= (inicio - 1)) {
                                 conteudo = listaProcurador(diaAudiencia++);
                             }
@@ -309,10 +333,10 @@ public class GeradorPDF {
                         case 11:
                         case 14:
                         case 17:
-                            altura = 50f;
+                            altura = 60f;
                             if (diaAudiencia <=  ultimoDia) {
                                 conteudo = listaProcurador(diaAudiencia++);
-                            }
+                            }                            
                     }                    
                     
                     List<AfastamentosProcurador> listaAfastados = new ArrayList<>();
