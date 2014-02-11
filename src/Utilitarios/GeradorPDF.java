@@ -318,10 +318,11 @@ public class GeradorPDF {
                             celulaLegenda = new PdfPCell(new Phrase(conteudo,fontLinha));
                         }
                         
+                        // Tabela com os dados dos afastados
                         if(linha == 17) {                           
                             celulaLegenda = new PdfPCell(criarTabelaLegenda(listaDeAfastamentos));
-                        }
-                        
+                            celulaLegenda.setRowspan(2);
+                        }                      
                         
                         celulaLegenda.setColspan(5);
                         celulaLegenda.setHorizontalAlignment(Element.ALIGN_CENTER);
