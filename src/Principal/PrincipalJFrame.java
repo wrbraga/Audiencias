@@ -81,7 +81,9 @@ public class PrincipalJFrame extends javax.swing.JFrame {
      */                 
     private static final String SQL_INSERT_AFASTAMENTOS = "INSERT INTO APP.Afastamentos (idafastamento, datainicio, datafim, obs, idprocurador) VALUES (:idafastamento, :datainicio, :datafim, :obs, :idprocurador)";
     private static final String SQL_QUERY_ALL_AFASTAMENTOS = "FROM Afastamentos";
-    
+    private static final String SQL_DELETE_AFASTAMENTOS = "DELETE FROM APP.Afastamentos WHERE idafastamento = :idafastamento";
+    private static final String SQL_UPDATE_AFASTAMENTOS = "UPDATE APP.Afastamentos set idafastamento = :idafastamento, datainicio = :datainicio, datafim = :datafim, obs = :obs, idprocurador = :idprocurador WHERE idafastamento = :idafastamento";
+            
     private final localTableModel modeloLocal;
     private final assuntoTableModel modeloAssunto;
     private final classeTableModel modeloClasse;
@@ -263,6 +265,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         PanelButoesAgenda.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         agendaButtonConsultar.setText("Consultar");
+        agendaButtonConsultar.setEnabled(false);
         agendaButtonConsultar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 agendaButtonConsultarActionPerformed(evt);
@@ -355,21 +358,18 @@ public class PrincipalJFrame extends javax.swing.JFrame {
 
         idLabelConsultar4.setText("ID");
 
+        agendaTextFieldId.setEditable(false);
         agendaTextFieldId.setText("0");
 
         localLabelConsultar4.setText("Processo");
 
-        agendaTextFieldProcesso.setText("0000878-30.2012.4.02.5102");
-
         agendaTextFieldDia.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
-        agendaTextFieldDia.setText("01/01/2014");
 
         jLabel2.setText("Dia");
 
         jLabel3.setText("Hora");
 
         agendaTextFieldHora.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT))));
-        agendaTextFieldHora.setText("10:00");
 
         jLabel4.setText("Classe");
 
@@ -495,6 +495,8 @@ public class PrincipalJFrame extends javax.swing.JFrame {
 
         localLabelId.setText("ID");
 
+        localTextFieldId.setEditable(false);
+
         localLabelLocal.setText("Local");
 
         localButtonConsultar.setText("Consultar");
@@ -610,6 +612,8 @@ public class PrincipalJFrame extends javax.swing.JFrame {
 
         assuntoLabelId.setText("ID");
 
+        assuntoTextFieldId.setEditable(false);
+
         assuntoLabelLocal.setText("Assunto");
 
         assuntoButtonConsultar.setText("Consultar");
@@ -724,6 +728,8 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         jTabbedPane1.addTab("Assunto", assuntoJPanel);
 
         classeLabelid.setText("ID");
+
+        classeTextFieldId.setEditable(false);
 
         classeLabelclasse.setText("Classe");
 
@@ -927,6 +933,8 @@ public class PrincipalJFrame extends javax.swing.JFrame {
 
         procuradorLabelId.setText("ID");
 
+        procuradorTextFieldId.setEditable(false);
+
         procuradorLabelProcurador.setText("Nome");
 
         procuradorLabelSigla.setText("Sigla");
@@ -1028,7 +1036,6 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         jLabel8.setText("Inicio");
 
         afastamentosTextFieldDataInicio.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
-        afastamentosTextFieldDataInicio.setText("01/01/2014");
 
         localLabelConsultar5.setText("Motivo");
 
@@ -1039,7 +1046,6 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         jLabel10.setText("Fim");
 
         afastamentosTextFieldDataFim.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
-        afastamentosTextFieldDataFim.setText("01/01/2014");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -1482,7 +1488,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_afastamentosButtonExcluirActionPerformed
 
     private void afastamentosButtonAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_afastamentosButtonAlterarActionPerformed
-        // TODO add your handling code here:
+        afastamentosAlterar();
     }//GEN-LAST:event_afastamentosButtonAlterarActionPerformed
 
     private void afastamentosButtonLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_afastamentosButtonLimparActionPerformed
@@ -2185,8 +2191,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         query.setParameter("idagenda", Integer.parseInt(agendaTextFieldId.getText()));
         query.executeUpdate();
         sessao.close();
-        
-                
+                        
     }
 
     private void limparAgenda() {
@@ -2259,6 +2264,14 @@ public class PrincipalJFrame extends javax.swing.JFrame {
 
     private void afastamentosExcluir() {
         int selectRow = afastamentoJTable.getSelectedRow();
+        Afastamentos afastamento = modeloAfastamento.getAfastamento(selectRow);
+        
+        Session sessao = HibernateUtil.getSessionFactory().openSession();
+        Query query = sessao.createSQLQuery(SQL_DELETE_AFASTAMENTOS);
+        query.setParameter("idafastamento", afastamento.getIdafastamento());
+        query.executeUpdate();
+        sessao.close();       
+        
         modeloAfastamento.removerAfastamento(selectRow);
     }
 
@@ -2281,6 +2294,33 @@ public class PrincipalJFrame extends javax.swing.JFrame {
             Afastamentos afastamento = (Afastamentos) o;
             modeloAfastamento.addAfastamento(afastamento);
         }
+    }
+
+    private void afastamentosAlterar() {
+        Afastamentos afastamento = new Afastamentos();
+        int selectRow = afastamentoJTable.getSelectedRow();
+        
+        afastamento.setIdafastamento(Integer.parseInt(modeloAfastamento.getValueAt(selectRow,0).toString()));
+        afastamento.setDatainicio(Calendario.stringToDate(afastamentosTextFieldDataInicio.getText()));
+        afastamento.setDatafim(Calendario.stringToDate(afastamentosTextFieldDataFim.getText()));
+        afastamento.setIdprocurador(agendaUtil.getIDByProcurador(afastamentoComboBoxProcurador.getSelectedItem().toString()));
+        afastamento.setObs(afastamentosTextFieldObs.getText().trim());
+                
+        modeloAfastamento.setValueAt(afastamento, selectRow);
+        
+        Session sessao = HibernateUtil.getSessionFactory().openSession();
+        sessao.beginTransaction();
+        Query query = sessao.createSQLQuery(SQL_UPDATE_AFASTAMENTOS);
+        query.setParameter("idafastamento", afastamento.getIdafastamento());
+        query.setParameter("datainicio", afastamento.getDatainicio());
+        query.setParameter("datafim", afastamento.getDatafim());
+        query.setParameter("obs", afastamento.getObs());
+        query.setParameter("idprocurador", afastamento.getIdprocurador());
+        
+        query.executeUpdate();
+        sessao.getTransaction().commit();
+        sessao.close();        
+        
     }
     
 }
