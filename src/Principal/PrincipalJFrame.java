@@ -1640,6 +1640,72 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private javax.swing.JTextField procuradorTextFieldSigla;
     // End of variables declaration//GEN-END:variables
 
+    private int getUltimoIdafastamentos() {
+        Session sessao = HibernateUtil.getSessionFactory().openSession();
+        Query query = sessao.createSQLQuery("select MAX(idafastamento) from APP.AFASTAMENTOS");
+        
+        List resultado = query.list();        
+        if (resultado.get(0) == null) {
+            return 0;
+        }
+        return Integer.parseInt(resultado.get(0).toString()) + 1;
+    }
+    
+    private int getUltimoIdAgenda() {
+        Session sessao = HibernateUtil.getSessionFactory().openSession();
+        Query query = sessao.createSQLQuery("select MAX(idagenda) from APP.AGENDA");
+        
+        List resultado = query.list();        
+        if (resultado.get(0) == null) {
+            return 0;
+        }
+        return Integer.parseInt(resultado.get(0).toString()) + 1;
+    }
+
+    private int getUltimoIdAssunto() {
+        Session sessao = HibernateUtil.getSessionFactory().openSession();
+        Query query = sessao.createSQLQuery("select MAX(idassunto) from APP.ASSUNTO");
+        
+        List resultado = query.list();        
+        if (resultado.get(0) == null) {
+            return 0;
+        }
+        return Integer.parseInt(resultado.get(0).toString()) + 1;
+    }
+
+    private int getUltimoIdClasse() {
+        Session sessao = HibernateUtil.getSessionFactory().openSession();
+        Query query = sessao.createSQLQuery("select MAX(idclasse) from APP.CLASSE");
+        
+        List resultado = query.list();        
+        if (resultado.get(0) == null) {
+            return 0;
+        }
+        return Integer.parseInt(resultado.get(0).toString()) + 1;
+    }
+
+    private int getUltimoIdLocal() {
+        Session sessao = HibernateUtil.getSessionFactory().openSession();
+        Query query = sessao.createSQLQuery("select MAX(idlocal) from APP.LOCAL");
+        
+        List resultado = query.list();        
+        if (resultado.get(0) == null) {
+            return 0;
+        }
+        return Integer.parseInt(resultado.get(0).toString()) + 1;
+    }
+
+    private int getUltimoIdProcurador() {
+        Session sessao = HibernateUtil.getSessionFactory().openSession();
+        Query query = sessao.createSQLQuery("select MAX(idprocurador) from APP.PROCURADOR");
+        
+        List resultado = query.list();        
+        if (resultado.get(0) == null) {
+            return 0;
+        }
+        return Integer.parseInt(resultado.get(0).toString()) + 1;
+    }
+    
     private List<String> preencherAgendaComboBoxLocais() {
         agendaComboBoxLocal.removeAllItems();
         List<String> linha;
@@ -1719,44 +1785,44 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         Session sessao = HibernateUtil.getSessionFactory().openSession();
         sessao.beginTransaction();
         Query query = sessao.createQuery(sql);
+        
         try {
             List resultado = query.list();
             mostrarResultadoLocal(resultado);
-        } catch(Exception e) {
-
-        } finally {
-            sessao.close();
-        }
+        } catch(Exception e) {} 
+        
+        sessao.close();        
     }
 
     private void mostrarResultadoLocal(List resultado) {
-
         for(Object o: resultado) {
             Local local = (Local)o;
             modeloLocal.addLocal(local);
         }
-
     }
 
     private void incluirLocal() {
         Session sessao = HibernateUtil.getSessionFactory().openSession();
         sessao.beginTransaction();        
         Query query = sessao.createSQLQuery(SQL_INSERT_LOCAL);
-        query.setParameter("idlocal", Integer.parseInt(localTextFieldId.getText().trim()));
-        query.setParameter("local", localTextFieldLocal.getText().trim());
-        Local l = new Local();
-
+        
+        Local local = new Local();
+        local.setIdlocal(getUltimoIdLocal());
+        local.setLocal(localTextFieldLocal.getText().trim());
+        
+        query.setParameter("idlocal", local.getIdlocal());
+        query.setParameter("local", local.getLocal());
+        
         try {
             int i = query.executeUpdate();            
-            l.setIdlocal(Integer.parseInt(localTextFieldId.getText().trim()));
-            l.setLocal(localTextFieldLocal.getText().trim());
-            modeloLocal.addLocal(l);
             sessao.getTransaction().commit();
             
+            modeloLocal.addLocal(local);
+                        
             /**
              * Adiciona os novos itens no combobox da guia Agenda.
              */
-            agendaComboBoxLocal.addItem(l.getLocal());
+            agendaComboBoxLocal.addItem(local.getLocal());
             
         } catch(HibernateException | NumberFormatException e) {            
         } finally {
@@ -1811,15 +1877,16 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     
     private void incluirAssunto() {
         Assunto assunto = new Assunto();
-        assunto.setIdassunto(Integer.parseInt(assuntoTextFieldId.getText()));
+        assunto.setIdassunto(getUltimoIdAssunto());
         assunto.setAssunto(assuntoTextFieldAssunto.getText());
         modeloAssunto.addAssunto(assunto);
         
         Session sessao = HibernateUtil.getSessionFactory().openSession();
         Query query = sessao.createSQLQuery(SQL_INSERT_ASSUNTO);
         sessao.beginTransaction();
-        query.setParameter("idassunto", assuntoTextFieldId.getText());
-        query.setParameter("assunto", assuntoTextFieldAssunto.getText());
+
+        query.setParameter("idassunto", assunto.getIdassunto());
+        query.setParameter("assunto", assunto.getAssunto());
         query.executeUpdate();
         sessao.getTransaction().commit();
         sessao.close();
@@ -1891,15 +1958,15 @@ public class PrincipalJFrame extends javax.swing.JFrame {
 
     private void incluirClasse() {
         Classe classe = new Classe();
-        classe.setIdclasse(Integer.parseInt(classeTextFieldId.getText()));
+        classe.setIdclasse(getUltimoIdClasse());
         classe.setClasse(Integer.parseInt(classeTextFieldClasse.getText()));
         modeloClasse.addClasse(classe);
         
         Session sessao = HibernateUtil.getSessionFactory().openSession();
         Query query = sessao.createSQLQuery(SQL_INSERT_CLASSE);
         sessao.beginTransaction();
-        query.setParameter("idclasse", classeTextFieldId.getText());
-        query.setParameter("classe", classeTextFieldClasse.getText());
+        query.setParameter("idclasse", classe.getIdclasse());
+        query.setParameter("classe", classe.getClasse());
         query.executeUpdate();
         sessao.getTransaction().commit();
         sessao.close();
@@ -1990,28 +2057,28 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         Session sessao = HibernateUtil.getSessionFactory().openSession();
         sessao.beginTransaction();
         Query query = sessao.createSQLQuery(SQL_INSERT_PROCURADOR);
-                
-        query.setParameter("idprocurador", Integer.parseInt(procuradorTextFieldId.getText()));
-        query.setParameter("nome", procuradorTextFieldProcurador.getText());
-        query.setParameter("sigla", procuradorTextFieldSigla.getText());
-        query.setParameter("antiguidade", Integer.parseInt(procuradorTextFieldAntiguidade.getText()));
-        query.setParameter("area", procuradorTextFieldArea.getText());
-        query.setParameter("ultimo", 0);
-        query.setParameter("atuando", procuradorComboBoxAtuando.getSelectedIndex());
-        
-        query.executeUpdate();
-        sessao.getTransaction().commit();
-        sessao.close();
-        
+
         Procurador p = new Procurador();
-        p.setIdProcurador(Integer.parseInt(procuradorTextFieldId.getText()));
+        p.setIdProcurador(getUltimoIdProcurador());
         p.setProcurador(procuradorTextFieldProcurador.getText());
         p.setSigla(procuradorTextFieldSigla.getText());
         p.setAntiguidade(Integer.parseInt(procuradorTextFieldAntiguidade.getText()));
         p.setArea(procuradorTextFieldArea.getText());
         p.setUltimo(0);
         p.setAtuando(procuradorComboBoxAtuando.getSelectedIndex());
-        modeloProcurador.addProcurador(p);
+        modeloProcurador.addProcurador(p);        
+        
+        query.setParameter("idprocurador", p.getIdProcurador());
+        query.setParameter("nome", p.getNome());
+        query.setParameter("sigla", p.getSigla());
+        query.setParameter("antiguidade", p.getAntiguidade());
+        query.setParameter("area", p.getArea());
+        query.setParameter("ultimo", p.getUltimo());
+        query.setParameter("atuando", p.getAtuando());
+        
+        query.executeUpdate();
+        sessao.getTransaction().commit();
+        sessao.close();
         
         agendaComboBoxProcurador.addItem(p.getProcurador());
     }
@@ -2020,17 +2087,6 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         Session sessao = HibernateUtil.getSessionFactory().openSession();
         Query query = sessao.createSQLQuery(SQL_UPDATE_PROCURADOR);
         
-        query.setParameter("idprocurador", Integer.parseInt(procuradorTextFieldId.getText()));
-        query.setParameter("nome", procuradorTextFieldProcurador.getText());
-        query.setParameter("sigla", procuradorTextFieldSigla.getText());
-        query.setParameter("antiguidade", Integer.parseInt(procuradorTextFieldAntiguidade.getText()));
-        query.setParameter("area", procuradorTextFieldArea.getText());        
-        query.setParameter("ultimo", 0);
-        query.setParameter("atuando", procuradorComboBoxAtuando.getSelectedIndex());
-        
-        query.executeUpdate();
-        sessao.close();
-        
         Procurador p = new Procurador();
         p.setIdProcurador(Integer.parseInt(procuradorTextFieldId.getText()));
         p.setProcurador(procuradorTextFieldProcurador.getText());
@@ -2038,10 +2094,20 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         p.setAntiguidade(Integer.parseInt(procuradorTextFieldAntiguidade.getText()));
         p.setArea(procuradorTextFieldArea.getText());
         p.setUltimo(0);
-        p.setAtuando(procuradorComboBoxAtuando.getSelectedIndex());
-        
+        p.setAtuando(procuradorComboBoxAtuando.getSelectedIndex());        
         modeloProcurador.setValueAt(p, procuradorJTable.getSelectedRow());
+
+        query.setParameter("idprocurador", p.getIdProcurador());
+        query.setParameter("nome", p.getNome());
+        query.setParameter("sigla", p.getSigla());
+        query.setParameter("antiguidade", p.getAntiguidade());
+        query.setParameter("area", p.getArea());
+        query.setParameter("ultimo", p.getUltimo());
+        query.setParameter("atuando", p.getAtuando());
         
+        query.executeUpdate();
+        sessao.close();
+                       
         preencherComboBoxProcurador();
     }
 
@@ -2071,7 +2137,8 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         Date t = Calendario.stringToTime(agendaTextFieldHora.getText());
             
         Agenda agenda = new Agenda();
-        agenda.setIdagenda(Integer.parseInt(agendaTextFieldId.getText()));
+        //agenda.setIdagenda(Integer.parseInt(agendaTextFieldId.getText()));
+        agenda.setIdagenda(getUltimoIdAgenda());
         agenda.setDia(d);
         agenda.setHora(t);
         agenda.setProcesso(agendaTextFieldProcesso.getText());
@@ -2160,17 +2227,6 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         pdf.fecharDocumento();        
     }
 
-    private int getUltimoIdafastamentos() {
-        Session sessao = HibernateUtil.getSessionFactory().openSession();
-        Query query = sessao.createSQLQuery("select MAX(idafastamento) from APP.AFASTAMENTOS");
-        
-        List resultado = query.list();        
-        if (resultado.get(0) == null) {
-            return 0;
-        }
-        return Integer.parseInt(resultado.get(0).toString()) + 1;
-    }
-    
     private void afastamentosIncluir() {
         Afastamentos afastamento = new Afastamentos();
         afastamento.setIdafastamento(getUltimoIdafastamentos());

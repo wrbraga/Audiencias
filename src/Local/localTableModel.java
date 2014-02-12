@@ -68,6 +68,7 @@ public class localTableModel extends AbstractTableModel {
         }
         
         fireTableCellUpdated(rowIndex, columnIndex);
+        fireTableDataChanged();
                                
     }
     
@@ -78,6 +79,7 @@ public class localTableModel extends AbstractTableModel {
         local.setLocal(valor.getLocal());  
         
         fireTableCellUpdated(rowIndex, 1);
+        fireTableDataChanged();        
     }
     
     public Local getLocal(int rowIndex) {
