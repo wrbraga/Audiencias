@@ -3,15 +3,17 @@
 <hibernate-configuration>
   <session-factory>
     <property name="hibernate.dialect">org.hibernate.dialect.DerbyDialect</property>
-    <property name="hibernate.connection.driver_class">org.apache.derby.jdbc.ClientDriver</property>
-    <property name="hibernate.connection.url">jdbc:derby://localhost:1527/AudienciasDB</property>
+    <!-- <property name="hibernate.connection.driver_class">org.apache.derby.jdbc.ClientDriver</property> -->
+    <property name="hibernate.connection.driver_class">org.apache.derby.jdbc.EmbeddedDriver</property>
+    <!-- <property name="hibernate.connection.url">jdbc:derby://localhost:1527/AudienciasDB</property> -->
+    <property name="hibernate.connection.url">jdbc:derby:AudienciasDB</property>
     <property name="hibernate.show_sql">true</property>
     <property name="hibernate.query.factory_class">org.hibernate.hql.ast.ASTQueryTranslatorFactory</property>
     <property name="hibernate.connection.username">wesley</property>
     <property name="hibernate.connection.password">wesley</property>
     <property name="hibernate.connection.autocommit">true</property>
     <property name="hbm2ddl.auto">validate</property>
-    <!-- <property name="hbm2ddl.auto">create</property>-->
+    <!-- <property name="hbm2ddl.auto">create</property> -->
     <mapping resource="DB/Local.hbm.xml"/>
     <mapping resource="DB/Agenda.hbm.xml"/>
     <mapping resource="DB/Procurador.hbm.xml"/>
