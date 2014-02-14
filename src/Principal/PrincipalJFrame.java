@@ -143,7 +143,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         agendaButtonExcluir = new javax.swing.JButton();
         agendaButtonAlterar = new javax.swing.JButton();
         agendaButtonLimpar = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        agendaButtonSortear = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         PanelEntradaAgenda = new javax.swing.JPanel();
         localLabelConsultar4 = new javax.swing.JLabel();
@@ -299,11 +299,11 @@ public class PrincipalJFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setBackground(new java.awt.Color(255, 51, 51));
-        jButton1.setText("1) Sortear");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        agendaButtonSortear.setBackground(new java.awt.Color(255, 51, 51));
+        agendaButtonSortear.setText("1) Sortear");
+        agendaButtonSortear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                agendaButtonSortearActionPerformed(evt);
             }
         });
 
@@ -331,7 +331,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(agendaButtonLimpar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addComponent(agendaButtonSortear)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -346,7 +346,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                         .addComponent(agendaButtonIncluir)
                         .addComponent(agendaButtonExcluir)
                         .addComponent(agendaButtonAlterar)
-                        .addComponent(jButton1)
+                        .addComponent(agendaButtonSortear)
                         .addComponent(jButton2))
                     .addComponent(agendaButtonConsultar))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -411,7 +411,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                         .addComponent(localLabelConsultar4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(agendaTextFieldProcesso, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(300, Short.MAX_VALUE))
         );
         PanelEntradaAgendaLayout.setVerticalGroup(
             PanelEntradaAgendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -457,14 +457,13 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         agendaJPanel.setLayout(agendaJPanelLayout);
         agendaJPanelLayout.setHorizontalGroup(
             agendaJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(agendaJPanelLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, agendaJPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(agendaJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 942, Short.MAX_VALUE)
-                    .addGroup(agendaJPanelLayout.createSequentialGroup()
-                        .addComponent(PanelEntradaAgenda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addComponent(PanelButoesAgenda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(agendaJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane5)
+                    .addComponent(PanelButoesAgenda, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(PanelEntradaAgenda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         agendaJPanelLayout.setVerticalGroup(
             agendaJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -474,7 +473,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(PanelButoesAgenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1450,15 +1449,28 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         consultarProcurador();
     }//GEN-LAST:event_procuradorButtonConsultarActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void agendaButtonSortearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agendaButtonSortearActionPerformed
         int semanaAnterior = 0 ;
         Procurador proximoProcurador;
-                       
+        
+        String x = "SELECT p.NOME, p.SIGLA, p.ANTIGUIDADE, p.AREA, p.ULTIMO, p.ATUANDO, a.DATAINICIO, a.DATAFIM \n" +
+        "FROM APP.PROCURADOR as p \n" +
+        "INNER JOIN APP.AFASTAMENTOS as a \n" +
+        "ON p.IDPROCURADOR = a.IDPROCURADOR\n" +
+        "WHERE NOT (a.DATAINICIO >= :datainicio AND a.DATAFIM <= :datafim) AND p.AREA = :area AND P.ATUANDO = 1\n" +
+        "ORDER BY ANTIGUIDADE DESC";
+        
         for(int selectedRows = 0; selectedRows < agendaJTable.getRowCount(); selectedRows++) {
             Session sessao = HibernateUtil.getSessionFactory().openSession();        
             String SQL_AREA = "FROM Procurador WHERE area like :area and atuando = 1 ORDER BY antiguidade DESC";
             
             String localExtraido = modeloAgenda.getValueAt(selectedRows, 6).toString().replaceAll("[0123456789]","").trim(); 
+            Query query  = sessao.createQuery(SQL_AREA);            
+            query.setParameter("area", localExtraido);
+                              
+            List resultado = query.list();
+            
+            
             int semanaAtual = Calendario.semana(modeloAgenda.getValueAt(selectedRows, 1).toString());
             
             if (selectedRows > 0) {
@@ -1466,17 +1478,14 @@ public class PrincipalJFrame extends javax.swing.JFrame {
             } else if (selectedRows == 0) {
                 semanaAnterior = semanaAtual;
             }
-            
-            Query query  = sessao.createQuery(SQL_AREA);            
-            query.setParameter("area", localExtraido);
-                              
-            List resultado = query.list();
                         
-            for(int index = 0; index <= (resultado.size()-1); index++) {
+            int totalDeItens = (resultado.size()-1);
+            
+            for(int index = 0; index <= totalDeItens; index++) {
                 Procurador p = ((Procurador)resultado.get(index));                
                 int nIndex = 0;
                 
-                if (index != (resultado.size()-1)) {
+                if (index < totalDeItens) {
                     nIndex = index+1;
                     proximoProcurador = ((Procurador)resultado.get(index + 1));                
                 } else {
@@ -1491,18 +1500,22 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                         modeloAgenda.setValueAt(agenda, selectedRows,7);
 
                     } else {
-                        p.setUltimo(0);
-                        agendaUtil.setUltimoProcurador(p.getIdProcurador(),0);
+                        p.setUltimo(0);                        
+                        agendaUtil.setUltimoProcurador(p);
                         
                         proximoProcurador.setUltimo(1);
-                        agendaUtil.setUltimoProcurador(proximoProcurador.getIdProcurador(), 1);
+                        agendaUtil.setUltimoProcurador(proximoProcurador);
                         
                         int nSelectRows = 0;
                                                 
                         if ( selectedRows != agendaJTable.getRowCount()) {
                             nSelectRows = selectedRows + 1;
-                        }
+                        } 
                         
+                        if (selectedRows >= totalDeItens) {
+                            nSelectRows = totalDeItens;
+                        }
+                                                
                         Agenda agenda = modeloAgenda.getAgenda(selectedRows);
                         agenda.setIdprocurador(proximoProcurador.getIdProcurador());
                         modeloAgenda.setValueAt(agenda, nSelectRows);
@@ -1515,7 +1528,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
             sessao.close();
         }       
         
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_agendaButtonSortearActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         gerarAgenda();
@@ -1597,6 +1610,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private javax.swing.JButton agendaButtonExcluir;
     private javax.swing.JButton agendaButtonIncluir;
     private javax.swing.JButton agendaButtonLimpar;
+    private javax.swing.JButton agendaButtonSortear;
     private javax.swing.JComboBox agendaComboBoxAssunto;
     private javax.swing.JComboBox agendaComboBoxClasse;
     private javax.swing.JComboBox agendaComboBoxLocal;
@@ -1624,7 +1638,6 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private javax.swing.JTable classeJTable;
     private javax.swing.JLabel classeLabelclasse;
     private javax.swing.JTextField classeTextFieldClasse;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
