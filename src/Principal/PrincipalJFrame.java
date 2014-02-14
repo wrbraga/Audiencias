@@ -1313,7 +1313,6 @@ public class PrincipalJFrame extends javax.swing.JFrame {
 
     private void localJTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_localJTableMouseClicked
         int selectedRows = localJTable.getSelectedRow();
-        int selectedColumn = localJTable.getSelectedColumn();
 
         localTextFieldLocal.setText(modeloLocal.getValueAt(selectedRows, 1).toString());
     }//GEN-LAST:event_localJTableMouseClicked
@@ -1336,7 +1335,6 @@ public class PrincipalJFrame extends javax.swing.JFrame {
 
     private void assuntoJTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_assuntoJTableMouseClicked
         int selectedRow = assuntoJTable.getSelectedRow();
-        int selectedColumn = assuntoJTable.getSelectedColumn();
                 
         assuntoTextFieldAssunto.setText(modeloAssunto.getValueAt(selectedRow,1).toString());
                         
@@ -1365,7 +1363,6 @@ public class PrincipalJFrame extends javax.swing.JFrame {
 
     private void classeJTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_classeJTableMouseClicked
         int selectedRow = classeJTable.getSelectedRow();
-        int selectedColumn = classeJTable.getSelectedColumn();
                 
         classeTextFieldClasse.setText(modeloClasse.getValueAt(selectedRow,1).toString());
     }//GEN-LAST:event_classeJTableMouseClicked
@@ -1393,7 +1390,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
 
     private void agendaJTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_agendaJTableMouseClicked
         int selectedRows = agendaJTable.getSelectedRow();
-        int selectedColumn = agendaJTable.getSelectedColumn();
+
         agendaTextFieldDia.setText(modeloAgenda.getValueAt(selectedRows, 1).toString());
         agendaTextFieldHora.setText(modeloAgenda.getValueAt(selectedRows, 2).toString());
         agendaTextFieldProcesso.setText(modeloAgenda.getValueAt(selectedRows, 3).toString());
@@ -1455,7 +1452,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         int semanaAnterior = 0 ;
-        Procurador proximoProcurador = new Procurador();
+        Procurador proximoProcurador;
                        
         for(int selectedRows = 0; selectedRows < agendaJTable.getRowCount(); selectedRows++) {
             Session sessao = HibernateUtil.getSessionFactory().openSession();        
@@ -1566,13 +1563,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PrincipalJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PrincipalJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PrincipalJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(PrincipalJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
