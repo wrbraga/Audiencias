@@ -146,8 +146,6 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         PanelEntradaAgenda = new javax.swing.JPanel();
-        idLabelConsultar4 = new javax.swing.JLabel();
-        agendaTextFieldId = new javax.swing.JTextField();
         localLabelConsultar4 = new javax.swing.JLabel();
         agendaTextFieldProcesso = new javax.swing.JTextField();
         agendaTextFieldDia = new javax.swing.JFormattedTextField();
@@ -163,17 +161,17 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         agendaComboBoxLocal = new javax.swing.JComboBox();
         jLabel7 = new javax.swing.JLabel();
         localJPanel = new javax.swing.JPanel();
-        localLabelId = new javax.swing.JLabel();
-        localTextFieldId = new javax.swing.JTextField();
-        localLabelLocal = new javax.swing.JLabel();
-        localTextFieldLocal = new javax.swing.JTextField();
-        localButtonConsultar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         localJTable = new javax.swing.JTable();
-        localButtonLimpar = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        localLabelLocal = new javax.swing.JLabel();
+        localTextFieldLocal = new javax.swing.JTextField();
+        jPanel5 = new javax.swing.JPanel();
+        localButtonConsultar = new javax.swing.JButton();
         localButtonIncluir = new javax.swing.JButton();
         localButtonExcluir = new javax.swing.JButton();
         localButtonAlterar = new javax.swing.JButton();
+        localButtonLimpar = new javax.swing.JButton();
         assuntoJPanel = new javax.swing.JPanel();
         assuntoLabelId = new javax.swing.JLabel();
         assuntoTextFieldId = new javax.swing.JTextField();
@@ -356,11 +354,6 @@ public class PrincipalJFrame extends javax.swing.JFrame {
 
         PanelEntradaAgenda.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        idLabelConsultar4.setText("ID");
-
-        agendaTextFieldId.setEditable(false);
-        agendaTextFieldId.setText("0");
-
         localLabelConsultar4.setText("Processo");
 
         agendaTextFieldDia.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
@@ -391,22 +384,6 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(PanelEntradaAgendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PanelEntradaAgendaLayout.createSequentialGroup()
-                        .addComponent(idLabelConsultar4, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(agendaTextFieldId, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(agendaTextFieldDia, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(agendaTextFieldHora, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(localLabelConsultar4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(agendaTextFieldProcesso, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(PanelEntradaAgendaLayout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(agendaComboBoxClasse, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -421,7 +398,19 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                     .addGroup(PanelEntradaAgendaLayout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(agendaComboBoxProcurador, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(agendaComboBoxProcurador, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(PanelEntradaAgendaLayout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(agendaTextFieldDia, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(agendaTextFieldHora, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(localLabelConsultar4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(agendaTextFieldProcesso, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         PanelEntradaAgendaLayout.setVerticalGroup(
@@ -429,8 +418,6 @@ public class PrincipalJFrame extends javax.swing.JFrame {
             .addGroup(PanelEntradaAgendaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(PanelEntradaAgendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(idLabelConsultar4)
-                    .addComponent(agendaTextFieldId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(agendaTextFieldDia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
                     .addComponent(agendaTextFieldHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -493,19 +480,6 @@ public class PrincipalJFrame extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Horário", agendaJPanel);
 
-        localLabelId.setText("ID");
-
-        localTextFieldId.setEditable(false);
-
-        localLabelLocal.setText("Local");
-
-        localButtonConsultar.setText("Consultar");
-        localButtonConsultar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                localButtonConsultarActionPerformed(evt);
-            }
-        });
-
         localJTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -524,10 +498,39 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(localJTable);
 
-        localButtonLimpar.setText("Limpar");
-        localButtonLimpar.addActionListener(new java.awt.event.ActionListener() {
+        jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        localLabelLocal.setText("Local");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(localLabelLocal)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(localTextFieldLocal, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(localLabelLocal)
+                    .addComponent(localTextFieldLocal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel4Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {localLabelLocal, localTextFieldLocal});
+
+        jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        localButtonConsultar.setText("Consultar");
+        localButtonConsultar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                localButtonLimparActionPerformed(evt);
+                localButtonConsultarActionPerformed(evt);
             }
         });
 
@@ -552,6 +555,43 @@ public class PrincipalJFrame extends javax.swing.JFrame {
             }
         });
 
+        localButtonLimpar.setText("Limpar");
+        localButtonLimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                localButtonLimparActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(localButtonConsultar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(localButtonIncluir)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(localButtonExcluir)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(localButtonAlterar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(localButtonLimpar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(localButtonConsultar)
+                    .addComponent(localButtonLimpar)
+                    .addComponent(localButtonIncluir)
+                    .addComponent(localButtonExcluir)
+                    .addComponent(localButtonAlterar))
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout localJPanelLayout = new javax.swing.GroupLayout(localJPanel);
         localJPanel.setLayout(localJPanelLayout);
         localJPanelLayout.setHorizontalGroup(
@@ -559,54 +599,22 @@ public class PrincipalJFrame extends javax.swing.JFrame {
             .addGroup(localJPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(localJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 932, Short.MAX_VALUE)
-                    .addGroup(localJPanelLayout.createSequentialGroup()
-                        .addGroup(localJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(localJPanelLayout.createSequentialGroup()
-                                .addComponent(localButtonConsultar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(localButtonIncluir)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(localButtonExcluir)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(localButtonAlterar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(localButtonLimpar))
-                            .addGroup(localJPanelLayout.createSequentialGroup()
-                                .addGroup(localJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(localLabelLocal)
-                                    .addComponent(localLabelId, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(localJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(localTextFieldId, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(localTextFieldLocal, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 552, Short.MAX_VALUE)))
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         localJPanelLayout.setVerticalGroup(
             localJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(localJPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(localJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(localLabelId)
-                    .addComponent(localTextFieldId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(localJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(localLabelLocal)
-                    .addComponent(localTextFieldLocal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(localJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(localButtonConsultar)
-                    .addComponent(localButtonLimpar)
-                    .addComponent(localButtonIncluir)
-                    .addComponent(localButtonExcluir)
-                    .addComponent(localButtonAlterar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
                 .addContainerGap())
         );
-
-        localJPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {localLabelId, localLabelLocal, localTextFieldId, localTextFieldLocal});
 
         jTabbedPane1.addTab("Local", localJPanel);
 
@@ -1244,9 +1252,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void localButtonConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_localButtonConsultarActionPerformed
-        if(!localTextFieldId.getText().trim().isEmpty()) {
-            executeQuery(String.format(SQL_QUERY_ID_LOCAL, localTextFieldId.getText().trim()));
-        } else if(!localTextFieldLocal.getText().trim().isEmpty()) {
+        if(!localTextFieldLocal.getText().trim().isEmpty()) {
             executeQuery(String.format(SQL_QUERY_LOCAL_LOCAL,"'" + localTextFieldLocal.getText().trim()+ "%'"));
         } else {
             executeQuery(SQL_QUERY_ALL_LOCAL);
@@ -1260,7 +1266,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private void localJTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_localJTableMouseClicked
         int selectedRows = localJTable.getSelectedRow();
         int selectedColumn = localJTable.getSelectedColumn();
-        localTextFieldId.setText(modeloLocal.getValueAt(selectedRows, 0).toString());
+
         localTextFieldLocal.setText(modeloLocal.getValueAt(selectedRows, 1).toString());
     }//GEN-LAST:event_localJTableMouseClicked
 
@@ -1344,7 +1350,6 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private void agendaJTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_agendaJTableMouseClicked
         int selectedRows = agendaJTable.getSelectedRow();
         int selectedColumn = agendaJTable.getSelectedColumn();
-        agendaTextFieldId.setText(modeloAgenda.getValueAt(selectedRows, 0).toString());
         agendaTextFieldDia.setText(modeloAgenda.getValueAt(selectedRows, 1).toString());
         agendaTextFieldHora.setText(modeloAgenda.getValueAt(selectedRows, 2).toString());
         agendaTextFieldProcesso.setText(modeloAgenda.getValueAt(selectedRows, 3).toString());
@@ -1565,7 +1570,6 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private javax.swing.JTable agendaJTable;
     private javax.swing.JFormattedTextField agendaTextFieldDia;
     private javax.swing.JFormattedTextField agendaTextFieldHora;
-    private javax.swing.JTextField agendaTextFieldId;
     private javax.swing.JTextField agendaTextFieldProcesso;
     private javax.swing.JButton assuntoButtonAlterar;
     private javax.swing.JButton assuntoButtonConsultar;
@@ -1589,7 +1593,6 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel classeLabelid;
     private javax.swing.JTextField classeTextFieldClasse;
     private javax.swing.JTextField classeTextFieldId;
-    private javax.swing.JLabel idLabelConsultar4;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
@@ -1605,6 +1608,8 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -1621,9 +1626,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private javax.swing.JTable localJTable;
     private javax.swing.JLabel localLabelConsultar4;
     private javax.swing.JLabel localLabelConsultar5;
-    private javax.swing.JLabel localLabelId;
     private javax.swing.JLabel localLabelLocal;
-    private javax.swing.JTextField localTextFieldId;
     private javax.swing.JTextField localTextFieldLocal;
     private javax.swing.JButton procuradorButtonAlterar;
     private javax.swing.JButton procuradorButtonConsultar;
@@ -1767,11 +1770,12 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     }    
  
     private void executeUpdate(String sql) {
+        int selectRow = localJTable.getSelectedRow();
         Session sessao = HibernateUtil.getSessionFactory().openSession();
         sessao.beginTransaction();        
         Query query = sessao.createSQLQuery(sql);        
         if(sql.contains(":idlocal")) {
-            query.setParameter("idlocal", Integer.parseInt(localTextFieldId.getText().trim()));
+            query.setParameter("idlocal", Integer.parseInt(modeloLocal.getValueAt(selectRow, 0).toString()));
         } else if(sql.contains(":local")) {
             query.setParameter("local", localTextFieldLocal.getText().trim());
         }
@@ -1782,7 +1786,6 @@ public class PrincipalJFrame extends javax.swing.JFrame {
             sessao.close();
         } catch(Exception e) {            
         } finally {
-            localTextFieldId.setText("");
             localTextFieldLocal.setText("");
         }            
     }
@@ -1832,25 +1835,24 @@ public class PrincipalJFrame extends javax.swing.JFrame {
             
         } catch(HibernateException | NumberFormatException e) {            
         } finally {
-            localTextFieldId.setText("");
             localTextFieldLocal.setText("");
         }            
     }
 
     private void alterarLocal() {   
+        int selectRow = localJTable.getSelectedRow();
+
+        Local local = modeloLocal.getLocal(selectRow);
+        local.setIdlocal(Integer.parseInt(modeloLocal.getValueAt(selectRow, 0).toString()));
+        local.setLocal(localTextFieldLocal.getText());
+        modeloLocal.setValueAt(local, selectRow);        
+        
         Session sessao = HibernateUtil.getSessionFactory().openSession(); 
         sessao.beginTransaction();
         Query query = sessao.createQuery(SQL_UPDATE_LOCAL);
-        query.setParameter("local", localTextFieldLocal.getText().trim());
-        query.setParameter("idlocal", Integer.parseInt(localTextFieldId.getText()));
-
-        int selectedRow = localJTable.getSelectedRow();
-
-        Local local = modeloLocal.getLocal(selectedRow);
-        local.setIdlocal(Integer.parseInt(localTextFieldId.getText()));
-        local.setLocal(localTextFieldLocal.getText());
-        modeloLocal.setValueAt(local, selectedRow);        
-
+        query.setParameter("idlocal", local.getIdlocal());
+        query.setParameter("local", local.getLocal());
+        
         try {
             int result = query.executeUpdate();        
             sessao.getTransaction().commit();
@@ -1868,7 +1870,6 @@ public class PrincipalJFrame extends javax.swing.JFrame {
 
     private void limparFormLocal() {
         modeloLocal.limpar();
-        localTextFieldId.setText("");
         localTextFieldLocal.setText("");
     }
 
@@ -2143,7 +2144,6 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         Date t = Calendario.stringToTime(agendaTextFieldHora.getText());
             
         Agenda agenda = new Agenda();
-        //agenda.setIdagenda(Integer.parseInt(agendaTextFieldId.getText()));
         agenda.setIdagenda(getUltimoIdAgenda());
         agenda.setDia(d);
         agenda.setHora(t);
@@ -2185,18 +2185,17 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         }
     }
 
-    private void excluirAgenda() {       
+    private void excluirAgenda() {     
+        int selectRow = agendaJTable.getSelectedRow();        
         Session sessao = HibernateUtil.getSessionFactory().openSession();
         Query query = sessao.createSQLQuery(SQL_DELETE_AGENDA);
-        query.setParameter("idagenda", Integer.parseInt(agendaTextFieldId.getText()));
+        query.setParameter("idagenda", Integer.parseInt(agendaJTable.getValueAt(selectRow, 0).toString()));
         query.executeUpdate();
-        sessao.close();
-                        
+        sessao.close();                        
     }
 
     private void limparAgenda() {
         modeloAgenda.limpar();        
-        agendaTextFieldId.setText("");
         agendaTextFieldDia.setText("");
         agendaTextFieldHora.setText("");
         agendaTextFieldProcesso.setText("");
@@ -2212,7 +2211,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         Date t = Calendario.stringToTime(agendaTextFieldHora.getText());
         
         Agenda agenda = modeloAgenda.getAgenda(selectRow);
-        agenda.setIdagenda(Integer.parseInt(agendaTextFieldId.getText()));
+        agenda.setIdagenda(Integer.parseInt(agendaJTable.getValueAt(selectRow, 0).toString()));
         agenda.setDia(d);
         agenda.setHora(t);
         agenda.setProcesso(agendaTextFieldProcesso.getText());
