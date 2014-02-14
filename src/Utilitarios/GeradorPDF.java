@@ -83,10 +83,8 @@ public class GeradorPDF {
             
             document.open();
                     
-        } catch(DocumentException de) {
+        } catch( DocumentException | IOException de) {
               System.err.println(de.getMessage());
-        } catch(IOException ioe) {
-              System.err.println(ioe.getMessage());
         }
         
     }

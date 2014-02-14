@@ -12,7 +12,8 @@
     <property name="hibernate.connection.username">wesley</property>
     <property name="hibernate.connection.password">wesley</property>
     <property name="hibernate.connection.autocommit">true</property>
-    <property name="hbm2ddl.auto">validate</property>
+    <property name="hbm2ddl.auto">update</property>
+    <!-- property name="hbm2ddl.auto">validate</property -->
     <!-- <property name="hbm2ddl.auto">create</property> -->
     <mapping resource="DB/Local.hbm.xml"/>
     <mapping resource="DB/Agenda.hbm.xml"/>
