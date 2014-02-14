@@ -173,29 +173,29 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         localButtonAlterar = new javax.swing.JButton();
         localButtonLimpar = new javax.swing.JButton();
         assuntoJPanel = new javax.swing.JPanel();
-        assuntoLabelId = new javax.swing.JLabel();
-        assuntoTextFieldId = new javax.swing.JTextField();
-        assuntoLabelLocal = new javax.swing.JLabel();
-        assuntoTextFieldAssunto = new javax.swing.JTextField();
-        assuntoButtonConsultar = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         assuntoJTable = new javax.swing.JTable();
-        assuntoButtonLimpar = new javax.swing.JButton();
+        jPanel6 = new javax.swing.JPanel();
+        assuntoLabelLocal = new javax.swing.JLabel();
+        assuntoTextFieldAssunto = new javax.swing.JTextField();
+        jPanel7 = new javax.swing.JPanel();
+        assuntoButtonConsultar = new javax.swing.JButton();
         assuntoButtonIncluir = new javax.swing.JButton();
         assuntoButtonExcluir = new javax.swing.JButton();
         assuntoButtonAlterar = new javax.swing.JButton();
+        assuntoButtonLimpar = new javax.swing.JButton();
         classeJPanel = new javax.swing.JPanel();
-        classeLabelid = new javax.swing.JLabel();
-        classeTextFieldId = new javax.swing.JTextField();
-        classeLabelclasse = new javax.swing.JLabel();
-        classeTextFieldClasse = new javax.swing.JTextField();
-        classeButtonConsultar = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         classeJTable = new javax.swing.JTable();
-        classeButtonLimpar = new javax.swing.JButton();
+        jPanel8 = new javax.swing.JPanel();
+        classeLabelclasse = new javax.swing.JLabel();
+        classeTextFieldClasse = new javax.swing.JTextField();
+        jPanel9 = new javax.swing.JPanel();
+        classeButtonConsultar = new javax.swing.JButton();
         classeButtonIncluir = new javax.swing.JButton();
         classeButtonExcluir = new javax.swing.JButton();
         classeButtonAlterar = new javax.swing.JButton();
+        classeButtonLimpar = new javax.swing.JButton();
         procuradorJPanel = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         procuradorJTable = new javax.swing.JTable();
@@ -206,8 +206,6 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         procuradorButtonAlterar = new javax.swing.JButton();
         procuradorButtonLimpar = new javax.swing.JButton();
         PanelEntrada = new javax.swing.JPanel();
-        procuradorLabelId = new javax.swing.JLabel();
-        procuradorTextFieldId = new javax.swing.JTextField();
         procuradorLabelProcurador = new javax.swing.JLabel();
         procuradorTextFieldProcurador = new javax.swing.JTextField();
         procuradorLabelSigla = new javax.swing.JLabel();
@@ -215,9 +213,9 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         procuradorLabelAntiguidade = new javax.swing.JLabel();
         procuradorTextFieldAntiguidade = new javax.swing.JTextField();
         procuradorLabelArea = new javax.swing.JLabel();
-        procuradorTextFieldArea = new javax.swing.JTextField();
         procuradorComboBoxAtuando = new javax.swing.JComboBox();
         procuradorLabelAtuando = new javax.swing.JLabel();
+        procuradorComboBoxArea = new javax.swing.JComboBox();
         afastamentosJPanel = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
@@ -510,7 +508,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(localLabelLocal)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(localTextFieldLocal, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(localTextFieldLocal, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -618,19 +616,6 @@ public class PrincipalJFrame extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Local", localJPanel);
 
-        assuntoLabelId.setText("ID");
-
-        assuntoTextFieldId.setEditable(false);
-
-        assuntoLabelLocal.setText("Assunto");
-
-        assuntoButtonConsultar.setText("Consultar");
-        assuntoButtonConsultar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                assuntoButtonConsultarActionPerformed(evt);
-            }
-        });
-
         assuntoJTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -649,10 +634,39 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(assuntoJTable);
 
-        assuntoButtonLimpar.setText("Limpar");
-        assuntoButtonLimpar.addActionListener(new java.awt.event.ActionListener() {
+        jPanel6.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        assuntoLabelLocal.setText("Assunto");
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(assuntoLabelLocal)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(assuntoTextFieldAssunto, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(assuntoLabelLocal)
+                    .addComponent(assuntoTextFieldAssunto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        jPanel6Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {assuntoLabelLocal, assuntoTextFieldAssunto});
+
+        jPanel7.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        assuntoButtonConsultar.setText("Consultar");
+        assuntoButtonConsultar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                assuntoButtonLimparActionPerformed(evt);
+                assuntoButtonConsultarActionPerformed(evt);
             }
         });
 
@@ -677,6 +691,43 @@ public class PrincipalJFrame extends javax.swing.JFrame {
             }
         });
 
+        assuntoButtonLimpar.setText("Limpar");
+        assuntoButtonLimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                assuntoButtonLimparActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(assuntoButtonConsultar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(assuntoButtonIncluir)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(assuntoButtonExcluir)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(assuntoButtonAlterar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(assuntoButtonLimpar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(assuntoButtonConsultar)
+                    .addComponent(assuntoButtonLimpar)
+                    .addComponent(assuntoButtonIncluir)
+                    .addComponent(assuntoButtonExcluir)
+                    .addComponent(assuntoButtonAlterar))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout assuntoJPanelLayout = new javax.swing.GroupLayout(assuntoJPanel);
         assuntoJPanel.setLayout(assuntoJPanelLayout);
         assuntoJPanelLayout.setHorizontalGroup(
@@ -685,68 +736,23 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(assuntoJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 932, Short.MAX_VALUE)
-                    .addGroup(assuntoJPanelLayout.createSequentialGroup()
-                        .addGroup(assuntoJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(assuntoJPanelLayout.createSequentialGroup()
-                                .addComponent(assuntoButtonConsultar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(assuntoButtonIncluir)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(assuntoButtonExcluir)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(assuntoButtonAlterar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(assuntoButtonLimpar))
-                            .addGroup(assuntoJPanelLayout.createSequentialGroup()
-                                .addGroup(assuntoJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(assuntoLabelLocal)
-                                    .addComponent(assuntoLabelId, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(assuntoJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(assuntoTextFieldId, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(assuntoTextFieldAssunto, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 552, Short.MAX_VALUE)))
+                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         assuntoJPanelLayout.setVerticalGroup(
             assuntoJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(assuntoJPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(assuntoJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(assuntoLabelId)
-                    .addComponent(assuntoTextFieldId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(assuntoJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(assuntoLabelLocal)
-                    .addComponent(assuntoTextFieldAssunto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(assuntoJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(assuntoButtonConsultar)
-                    .addComponent(assuntoButtonLimpar)
-                    .addComponent(assuntoButtonIncluir)
-                    .addComponent(assuntoButtonExcluir)
-                    .addComponent(assuntoButtonAlterar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        assuntoJPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {assuntoLabelId, assuntoLabelLocal, assuntoTextFieldAssunto, assuntoTextFieldId});
-
         jTabbedPane1.addTab("Assunto", assuntoJPanel);
-
-        classeLabelid.setText("ID");
-
-        classeTextFieldId.setEditable(false);
-
-        classeLabelclasse.setText("Classe");
-
-        classeButtonConsultar.setText("Consultar");
-        classeButtonConsultar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                classeButtonConsultarActionPerformed(evt);
-            }
-        });
 
         classeJTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -766,10 +772,39 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(classeJTable);
 
-        classeButtonLimpar.setText("Limpar");
-        classeButtonLimpar.addActionListener(new java.awt.event.ActionListener() {
+        jPanel8.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        classeLabelclasse.setText("Classe");
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(classeLabelclasse)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(classeTextFieldClasse, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(classeLabelclasse)
+                    .addComponent(classeTextFieldClasse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel8Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {classeLabelclasse, classeTextFieldClasse});
+
+        jPanel9.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        classeButtonConsultar.setText("Consultar");
+        classeButtonConsultar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                classeButtonLimparActionPerformed(evt);
+                classeButtonConsultarActionPerformed(evt);
             }
         });
 
@@ -794,6 +829,43 @@ public class PrincipalJFrame extends javax.swing.JFrame {
             }
         });
 
+        classeButtonLimpar.setText("Limpar");
+        classeButtonLimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                classeButtonLimparActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(classeButtonConsultar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(classeButtonIncluir)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(classeButtonExcluir)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(classeButtonAlterar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(classeButtonLimpar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(classeButtonConsultar)
+                    .addComponent(classeButtonLimpar)
+                    .addComponent(classeButtonIncluir)
+                    .addComponent(classeButtonExcluir)
+                    .addComponent(classeButtonAlterar))
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout classeJPanelLayout = new javax.swing.GroupLayout(classeJPanel);
         classeJPanel.setLayout(classeJPanelLayout);
         classeJPanelLayout.setHorizontalGroup(
@@ -801,54 +873,22 @@ public class PrincipalJFrame extends javax.swing.JFrame {
             .addGroup(classeJPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(classeJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 932, Short.MAX_VALUE)
-                    .addGroup(classeJPanelLayout.createSequentialGroup()
-                        .addGroup(classeJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(classeJPanelLayout.createSequentialGroup()
-                                .addComponent(classeButtonConsultar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(classeButtonIncluir)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(classeButtonExcluir)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(classeButtonAlterar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(classeButtonLimpar))
-                            .addGroup(classeJPanelLayout.createSequentialGroup()
-                                .addGroup(classeJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(classeLabelclasse)
-                                    .addComponent(classeLabelid, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(classeJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(classeTextFieldId, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(classeTextFieldClasse, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 552, Short.MAX_VALUE)))
+                    .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 932, Short.MAX_VALUE))
                 .addContainerGap())
         );
         classeJPanelLayout.setVerticalGroup(
             classeJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(classeJPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(classeJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(classeLabelid)
-                    .addComponent(classeTextFieldId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(classeJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(classeLabelclasse)
-                    .addComponent(classeTextFieldClasse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(classeJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(classeButtonConsultar)
-                    .addComponent(classeButtonLimpar)
-                    .addComponent(classeButtonIncluir)
-                    .addComponent(classeButtonExcluir)
-                    .addComponent(classeButtonAlterar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
                 .addContainerGap())
         );
-
-        classeJPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {classeLabelclasse, classeLabelid, classeTextFieldClasse, classeTextFieldId});
 
         jTabbedPane1.addTab("Classe", classeJPanel);
 
@@ -939,10 +979,6 @@ public class PrincipalJFrame extends javax.swing.JFrame {
 
         PanelEntrada.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        procuradorLabelId.setText("ID");
-
-        procuradorTextFieldId.setEditable(false);
-
         procuradorLabelProcurador.setText("Nome");
 
         procuradorLabelSigla.setText("Sigla");
@@ -955,6 +991,8 @@ public class PrincipalJFrame extends javax.swing.JFrame {
 
         procuradorLabelAtuando.setText("Atuando");
 
+        procuradorComboBoxArea.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "CIVIL", "CRIMINAL" }));
+
         javax.swing.GroupLayout PanelEntradaLayout = new javax.swing.GroupLayout(PanelEntrada);
         PanelEntrada.setLayout(PanelEntradaLayout);
         PanelEntradaLayout.setHorizontalGroup(
@@ -962,32 +1000,30 @@ public class PrincipalJFrame extends javax.swing.JFrame {
             .addGroup(PanelEntradaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(PanelEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(procuradorLabelAntiguidade)
-                    .addComponent(procuradorLabelArea)
-                    .addComponent(procuradorLabelSigla)
-                    .addComponent(procuradorLabelProcurador)
-                    .addComponent(procuradorLabelId, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(PanelEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PanelEntradaLayout.createSequentialGroup()
-                        .addComponent(procuradorTextFieldId, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(181, 181, 181)
+                        .addGroup(PanelEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(procuradorLabelAntiguidade)
+                            .addComponent(procuradorLabelArea)
+                            .addComponent(procuradorLabelSigla)
+                            .addComponent(procuradorLabelProcurador))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(PanelEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(procuradorTextFieldSigla, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(procuradorTextFieldProcurador, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(PanelEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(procuradorComboBoxArea, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(procuradorTextFieldAntiguidade, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE))))
+                    .addGroup(PanelEntradaLayout.createSequentialGroup()
                         .addComponent(procuradorLabelAtuando)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(procuradorComboBoxAtuando, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(procuradorTextFieldSigla, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(procuradorTextFieldArea, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(procuradorTextFieldAntiguidade, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(procuradorTextFieldProcurador, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(487, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(procuradorComboBoxAtuando, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         PanelEntradaLayout.setVerticalGroup(
             PanelEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelEntradaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(PanelEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(procuradorLabelId)
-                    .addComponent(procuradorTextFieldId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(procuradorLabelAtuando)
                     .addComponent(procuradorComboBoxAtuando, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1005,11 +1041,11 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(PanelEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(procuradorLabelArea)
-                    .addComponent(procuradorTextFieldArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(procuradorComboBoxArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
-        PanelEntradaLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {procuradorLabelAntiguidade, procuradorLabelArea, procuradorLabelId, procuradorLabelProcurador, procuradorLabelSigla, procuradorTextFieldAntiguidade, procuradorTextFieldArea, procuradorTextFieldId, procuradorTextFieldProcurador, procuradorTextFieldSigla});
+        PanelEntradaLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {procuradorLabelAntiguidade, procuradorLabelArea, procuradorLabelProcurador, procuradorLabelSigla, procuradorTextFieldAntiguidade, procuradorTextFieldProcurador, procuradorTextFieldSigla});
 
         javax.swing.GroupLayout procuradorJPanelLayout = new javax.swing.GroupLayout(procuradorJPanel);
         procuradorJPanel.setLayout(procuradorJPanelLayout);
@@ -1290,14 +1326,12 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         int selectedRow = assuntoJTable.getSelectedRow();
         int selectedColumn = assuntoJTable.getSelectedColumn();
                 
-        assuntoTextFieldId.setText(modeloAssunto.getValueAt(selectedRow,0).toString());
         assuntoTextFieldAssunto.setText(modeloAssunto.getValueAt(selectedRow,1).toString());
                         
     }//GEN-LAST:event_assuntoJTableMouseClicked
 
     private void assuntoButtonLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_assuntoButtonLimparActionPerformed
         modeloAssunto.limpar();
-        assuntoTextFieldId.setText("");
         assuntoTextFieldAssunto.setText("");
     }//GEN-LAST:event_assuntoButtonLimparActionPerformed
 
@@ -1321,13 +1355,11 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         int selectedRow = classeJTable.getSelectedRow();
         int selectedColumn = classeJTable.getSelectedColumn();
                 
-        classeTextFieldId.setText(modeloClasse.getValueAt(selectedRow,0).toString());
         classeTextFieldClasse.setText(modeloClasse.getValueAt(selectedRow,1).toString());
     }//GEN-LAST:event_classeJTableMouseClicked
 
     private void classeButtonLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classeButtonLimparActionPerformed
         modeloClasse.limpar();
-        classeTextFieldId.setText("");
         classeTextFieldClasse.setText("");
     }//GEN-LAST:event_classeButtonLimparActionPerformed
 
@@ -1396,10 +1428,9 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private void procuradorJTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_procuradorJTableMouseClicked
         int linha = procuradorJTable.getSelectedRow();
         
-        procuradorTextFieldId.setText(modeloProcurador.getValueAt(linha, 0).toString());
         procuradorTextFieldProcurador.setText(modeloProcurador.getValueAt(linha, 1).toString());
         procuradorTextFieldSigla.setText(modeloProcurador.getValueAt(linha, 2).toString());        
-        procuradorTextFieldArea.setText(modeloProcurador.getValueAt(linha, 3).toString());
+        procuradorComboBoxArea.setSelectedItem(modeloProcurador.getValueAt(linha, 3).toString());
         procuradorTextFieldAntiguidade.setText(modeloProcurador.getValueAt(linha, 4).toString());
         procuradorComboBoxAtuando.setSelectedIndex(Integer.parseInt(modeloProcurador.getValueAt(linha, 6).toString()));        
         
@@ -1578,10 +1609,8 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private javax.swing.JButton assuntoButtonLimpar;
     private javax.swing.JPanel assuntoJPanel;
     private javax.swing.JTable assuntoJTable;
-    private javax.swing.JLabel assuntoLabelId;
     private javax.swing.JLabel assuntoLabelLocal;
     private javax.swing.JTextField assuntoTextFieldAssunto;
-    private javax.swing.JTextField assuntoTextFieldId;
     private javax.swing.JButton classeButtonAlterar;
     private javax.swing.JButton classeButtonConsultar;
     private javax.swing.JButton classeButtonExcluir;
@@ -1590,9 +1619,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private javax.swing.JPanel classeJPanel;
     private javax.swing.JTable classeJTable;
     private javax.swing.JLabel classeLabelclasse;
-    private javax.swing.JLabel classeLabelid;
     private javax.swing.JTextField classeTextFieldClasse;
-    private javax.swing.JTextField classeTextFieldId;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
@@ -1610,6 +1637,10 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -1633,18 +1664,16 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private javax.swing.JButton procuradorButtonExcluir;
     private javax.swing.JButton procuradorButtonIncluir;
     private javax.swing.JButton procuradorButtonLimpar;
+    private javax.swing.JComboBox procuradorComboBoxArea;
     private javax.swing.JComboBox procuradorComboBoxAtuando;
     private javax.swing.JPanel procuradorJPanel;
     private javax.swing.JTable procuradorJTable;
     private javax.swing.JLabel procuradorLabelAntiguidade;
     private javax.swing.JLabel procuradorLabelArea;
     private javax.swing.JLabel procuradorLabelAtuando;
-    private javax.swing.JLabel procuradorLabelId;
     private javax.swing.JLabel procuradorLabelProcurador;
     private javax.swing.JLabel procuradorLabelSigla;
     private javax.swing.JTextField procuradorTextFieldAntiguidade;
-    private javax.swing.JTextField procuradorTextFieldArea;
-    private javax.swing.JTextField procuradorTextFieldId;
     private javax.swing.JTextField procuradorTextFieldProcurador;
     private javax.swing.JTextField procuradorTextFieldSigla;
     // End of variables declaration//GEN-END:variables
@@ -1817,7 +1846,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         
         Local local = new Local();
         local.setIdlocal(getUltimoIdLocal());
-        local.setLocal(localTextFieldLocal.getText().trim());
+        local.setLocal(localTextFieldLocal.getText().trim().toUpperCase());
         
         query.setParameter("idlocal", local.getIdlocal());
         query.setParameter("local", local.getLocal());
@@ -1844,7 +1873,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
 
         Local local = modeloLocal.getLocal(selectRow);
         local.setIdlocal(Integer.parseInt(modeloLocal.getValueAt(selectRow, 0).toString()));
-        local.setLocal(localTextFieldLocal.getText());
+        local.setLocal(localTextFieldLocal.getText().toUpperCase());
         modeloLocal.setValueAt(local, selectRow);        
         
         Session sessao = HibernateUtil.getSessionFactory().openSession(); 
@@ -1885,7 +1914,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private void incluirAssunto() {
         Assunto assunto = new Assunto();
         assunto.setIdassunto(getUltimoIdAssunto());
-        assunto.setAssunto(assuntoTextFieldAssunto.getText());
+        assunto.setAssunto(assuntoTextFieldAssunto.getText().toUpperCase());
         modeloAssunto.addAssunto(assunto);
         
         Session sessao = HibernateUtil.getSessionFactory().openSession();
@@ -1908,7 +1937,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         Session sessao = HibernateUtil.getSessionFactory().openSession();
         sessao.beginTransaction();
         Query query = sessao.createSQLQuery(SQL_DELETE_ASSUNTO);
-        query.setParameter("idassunto", assuntoTextFieldId.getText());
+        query.setParameter("idassunto", Integer.parseInt(modeloAssunto.getValueAt(assuntoJTable.getSelectedRow(), 0).toString()));
         query.executeUpdate();
         sessao.getTransaction().commit();
         sessao.close();
@@ -1916,15 +1945,15 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     
     private void alterarAssunto() {
         Assunto assunto = new Assunto();
-        assunto.setIdassunto(Integer.parseInt(assuntoTextFieldId.getText()));
-        assunto.setAssunto(assuntoTextFieldAssunto.getText());
+        assunto.setIdassunto(Integer.parseInt(modeloAssunto.getValueAt(assuntoJTable.getSelectedRow(), 0).toString()));
+        assunto.setAssunto(assuntoTextFieldAssunto.getText().toUpperCase());
         modeloAssunto.setValueAt(assunto, assuntoJTable.getSelectedRow());        
         
         Session sessao = HibernateUtil.getSessionFactory().openSession();
         sessao.beginTransaction();
         Query query = sessao.createQuery(SQL_UPDATE_ASSUNTO);        
-        query.setParameter("idassunto", Integer.parseInt(assuntoTextFieldId.getText()));
-        query.setParameter("assunto", assuntoTextFieldAssunto.getText());
+        query.setParameter("idassunto", assunto.getIdassunto());
+        query.setParameter("assunto", assunto.getAssunto());
         query.executeUpdate();
         sessao.getTransaction().commit();
         
@@ -1935,9 +1964,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         Session sessao = HibernateUtil.getSessionFactory().openSession();
         String sql;       
                
-        if(!assuntoTextFieldId.getText().isEmpty()) {
-            sql = SQL_QUERY_ID_ASSUNTO;
-        } else if(!assuntoTextFieldAssunto.getText().isEmpty()) {
+        if(!assuntoTextFieldAssunto.getText().isEmpty()) {
             sql = SQL_QUERY_ASSUNTO_ASSUNTO;
         } else {
             sql = SQL_QUERY_ALL_ASSUNTO;
@@ -1945,9 +1972,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         
         Query query = sessao.createQuery(sql);
         
-        if(!assuntoTextFieldId.getText().isEmpty()) {
-            query.setParameter("idassunto", Integer.parseInt(assuntoTextFieldId.getText()));
-        } else if(!assuntoTextFieldAssunto.getText().isEmpty()) {
+        if(!assuntoTextFieldAssunto.getText().isEmpty()) {
             query.setParameter("assunto", assuntoTextFieldAssunto.getText());
         }
                 
@@ -1988,23 +2013,23 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         Session sessao = HibernateUtil.getSessionFactory().openSession();
         sessao.beginTransaction();
         Query query = sessao.createSQLQuery(SQL_DELETE_CLASSE);
-        query.setParameter("idclasse", Integer.parseInt(classeTextFieldId.getText()));
+        query.setParameter("idclasse", Integer.parseInt(modeloClasse.getValueAt(classeJTable.getSelectedRow(), 0).toString()));
         query.executeUpdate();
         sessao.getTransaction().commit();
-        sessao.close();
+        sessao.close();        
     }
     
     private void alterarClasse() {
         Classe classe = new Classe();
-        classe.setIdclasse(Integer.parseInt(classeTextFieldId.getText()));
+        classe.setIdclasse(Integer.parseInt(modeloClasse.getValueAt(classeJTable.getSelectedRow(), 0).toString()));
         classe.setClasse(Integer.parseInt(classeTextFieldClasse.getText()));
         modeloClasse.setValueAt(classe, classeJTable.getSelectedRow()); 
         
         Session sessao = HibernateUtil.getSessionFactory().openSession();
         Query query = sessao.createSQLQuery(SQL_UPDATE_CLASSE);
         sessao.beginTransaction();
-        query.setParameter("idclasse", Integer.parseInt(classeTextFieldId.getText()));
-        query.setParameter("classe", Integer.parseInt(classeTextFieldClasse.getText()));
+        query.setParameter("idclasse", classe.getIdclasse());
+        query.setParameter("classe", classe.getClasse());
         query.executeUpdate();
         sessao.getTransaction().commit();
         sessao.close();           
@@ -2016,9 +2041,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         Session sessao = HibernateUtil.getSessionFactory().openSession();
         String sql;       
                
-        if(!classeTextFieldId.getText().isEmpty()) {
-            sql = SQL_QUERY_ID_CLASSE;
-        } else if(!classeTextFieldClasse.getText().isEmpty()) {
+        if(!classeTextFieldClasse.getText().isEmpty()) {
             sql = SQL_QUERY_CLASSE_CLASSE;
         } else {
             sql = SQL_QUERY_ALL_CLASSE;
@@ -2026,9 +2049,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         
         Query query = sessao.createQuery(sql);
         
-        if(!classeTextFieldId.getText().isEmpty()) {
-            query.setParameter("idclasse", Integer.parseInt(classeTextFieldId.getText()));
-        } else if(!classeTextFieldClasse.getText().isEmpty()) {
+        if(!classeTextFieldClasse.getText().isEmpty()) {
             query.setParameter("classe", Integer.parseInt(classeTextFieldClasse.getText()));
         }
                 
@@ -2068,9 +2089,9 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         Procurador p = new Procurador();
         p.setIdProcurador(getUltimoIdProcurador());
         p.setProcurador(procuradorTextFieldProcurador.getText());
-        p.setSigla(procuradorTextFieldSigla.getText());
+        p.setSigla(procuradorTextFieldSigla.getText().toUpperCase());
         p.setAntiguidade(Integer.parseInt(procuradorTextFieldAntiguidade.getText()));
-        p.setArea(procuradorTextFieldArea.getText());
+        p.setArea(procuradorComboBoxArea.getSelectedItem().toString());
         p.setUltimo(0);
         p.setAtuando(procuradorComboBoxAtuando.getSelectedIndex());
         modeloProcurador.addProcurador(p);        
@@ -2095,11 +2116,11 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         Query query = sessao.createSQLQuery(SQL_UPDATE_PROCURADOR);
         
         Procurador p = new Procurador();
-        p.setIdProcurador(Integer.parseInt(procuradorTextFieldId.getText()));
+        p.setIdProcurador(Integer.parseInt(modeloProcurador.getValueAt(procuradorJTable.getSelectedRow(), 0).toString()));
         p.setProcurador(procuradorTextFieldProcurador.getText());
-        p.setSigla(procuradorTextFieldSigla.getText());
+        p.setSigla(procuradorTextFieldSigla.getText().toUpperCase());
         p.setAntiguidade(Integer.parseInt(procuradorTextFieldAntiguidade.getText()));
-        p.setArea(procuradorTextFieldArea.getText());
+        p.setArea(procuradorComboBoxArea.getSelectedItem().toString());
         p.setUltimo(0);
         p.setAtuando(procuradorComboBoxAtuando.getSelectedIndex());        
         modeloProcurador.setValueAt(p, procuradorJTable.getSelectedRow());
@@ -2123,7 +2144,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         
         Session sessao = HibernateUtil.getSessionFactory().openSession();
         Query query = sessao.createSQLQuery(SQL_DELETE_PROCURADOR);
-        query.setParameter("idprocurador", Integer.parseInt(procuradorTextFieldId.getText()));
+        query.setParameter("idprocurador", Integer.parseInt(modeloProcurador.getValueAt(procuradorJTable.getSelectedRow(), 0).toString()));
         query.executeUpdate();
         sessao.close();
         
@@ -2132,11 +2153,9 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     }
     
     private void limparFormProcurador() {
-        procuradorTextFieldId.setText("");
         procuradorTextFieldProcurador.setText("");
         procuradorTextFieldSigla.setText("");
         procuradorTextFieldAntiguidade.setText("");
-        procuradorTextFieldArea.setText("");        
     }
 
     private void incluirAgenda() {

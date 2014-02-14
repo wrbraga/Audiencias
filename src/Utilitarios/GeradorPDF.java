@@ -96,6 +96,7 @@ public class GeradorPDF {
     }
     
     private void cabecalhoPagina() {
+            Calendario.setData(agenda.getValueAt(0, Colunas.DIA.valor).toString());
                     // CABECALHO CALENDARIO
             PdfPTable tabelaTitulo = new PdfPTable(3);
             int[] columnWidthsTitulo = {5, 70, 25};            

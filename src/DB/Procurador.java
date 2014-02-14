@@ -26,7 +26,7 @@ public class Procurador  implements java.io.Serializable {
         this.nome = nome;
         this.sigla = sigla;
         this.antiguidade = antiguidade;
-        this.area = area;
+        this.area = area.toUpperCase();
         this.ultimo = ultimo;
         this.atuando = atuando;
     }
@@ -36,7 +36,7 @@ public class Procurador  implements java.io.Serializable {
        this.nome = nome;
        this.sigla = sigla;
        this.antiguidade = antiguidade;
-       this.area = area;
+       this.area = area.toUpperCase();
     }
    
     public int getIdProcurador() {
@@ -92,7 +92,7 @@ public class Procurador  implements java.io.Serializable {
     }
     
     public void setArea(String area) {
-        this.area = area;
+        this.area = area.toUpperCase();
     }
 
     public Integer getUltimo() {
