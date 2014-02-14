@@ -216,6 +216,8 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         procuradorComboBoxAtuando = new javax.swing.JComboBox();
         procuradorLabelAtuando = new javax.swing.JLabel();
         procuradorComboBoxArea = new javax.swing.JComboBox();
+        jLabel11 = new javax.swing.JLabel();
+        procuradorComboBoxUltimo = new javax.swing.JComboBox();
         afastamentosJPanel = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
@@ -993,6 +995,10 @@ public class PrincipalJFrame extends javax.swing.JFrame {
 
         procuradorComboBoxArea.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "CIVIL", "CRIMINAL" }));
 
+        jLabel11.setText("Na vez?");
+
+        procuradorComboBoxUltimo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Não", "Sim" }));
+
         javax.swing.GroupLayout PanelEntradaLayout = new javax.swing.GroupLayout(PanelEntrada);
         PanelEntrada.setLayout(PanelEntradaLayout);
         PanelEntradaLayout.setHorizontalGroup(
@@ -1016,7 +1022,11 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                     .addGroup(PanelEntradaLayout.createSequentialGroup()
                         .addComponent(procuradorLabelAtuando)
                         .addGap(18, 18, 18)
-                        .addComponent(procuradorComboBoxAtuando, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(procuradorComboBoxAtuando, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(31, 31, 31)
+                        .addComponent(jLabel11)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(procuradorComboBoxUltimo, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         PanelEntradaLayout.setVerticalGroup(
@@ -1025,7 +1035,9 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(PanelEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(procuradorLabelAtuando)
-                    .addComponent(procuradorComboBoxAtuando, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(procuradorComboBoxAtuando, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11)
+                    .addComponent(procuradorComboBoxUltimo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(PanelEntradaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(procuradorTextFieldProcurador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1432,7 +1444,8 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         procuradorTextFieldSigla.setText(modeloProcurador.getValueAt(linha, 2).toString());        
         procuradorComboBoxArea.setSelectedItem(modeloProcurador.getValueAt(linha, 3).toString());
         procuradorTextFieldAntiguidade.setText(modeloProcurador.getValueAt(linha, 4).toString());
-        procuradorComboBoxAtuando.setSelectedIndex(Integer.parseInt(modeloProcurador.getValueAt(linha, 6).toString()));        
+        procuradorComboBoxUltimo.setSelectedIndex(Integer.parseInt(modeloProcurador.getValueAt(linha, 5).toString()));
+        procuradorComboBoxAtuando.setSelectedIndex(Integer.parseInt(modeloProcurador.getValueAt(linha, 6).toString()));                
         
     }//GEN-LAST:event_procuradorJTableMouseClicked
 
@@ -1624,6 +1637,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1666,6 +1680,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private javax.swing.JButton procuradorButtonLimpar;
     private javax.swing.JComboBox procuradorComboBoxArea;
     private javax.swing.JComboBox procuradorComboBoxAtuando;
+    private javax.swing.JComboBox procuradorComboBoxUltimo;
     private javax.swing.JPanel procuradorJPanel;
     private javax.swing.JTable procuradorJTable;
     private javax.swing.JLabel procuradorLabelAntiguidade;
@@ -1791,6 +1806,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         Query query = sessao.createSQLQuery("SELECT nome FROM APP.Procurador");
         linha = query.list();        
         sessao.close();
+
         for(String d: linha) {
             agendaComboBoxProcurador.addItem(d);
             afastamentoComboBoxProcurador.addItem(d);
@@ -2092,7 +2108,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         p.setSigla(procuradorTextFieldSigla.getText().toUpperCase());
         p.setAntiguidade(Integer.parseInt(procuradorTextFieldAntiguidade.getText()));
         p.setArea(procuradorComboBoxArea.getSelectedItem().toString());
-        p.setUltimo(0);
+        p.setUltimo(procuradorComboBoxUltimo.getSelectedIndex());
         p.setAtuando(procuradorComboBoxAtuando.getSelectedIndex());
         modeloProcurador.addProcurador(p);        
         
@@ -2121,7 +2137,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         p.setSigla(procuradorTextFieldSigla.getText().toUpperCase());
         p.setAntiguidade(Integer.parseInt(procuradorTextFieldAntiguidade.getText()));
         p.setArea(procuradorComboBoxArea.getSelectedItem().toString());
-        p.setUltimo(0);
+        p.setUltimo(procuradorComboBoxUltimo.getSelectedIndex());
         p.setAtuando(procuradorComboBoxAtuando.getSelectedIndex());        
         modeloProcurador.setValueAt(p, procuradorJTable.getSelectedRow());
 

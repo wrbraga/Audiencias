@@ -1197,6 +1197,10 @@
                                   <Component id="procuradorLabelAtuando" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="procuradorComboBoxAtuando" min="-2" pref="64" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+                                  <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="procuradorComboBoxUltimo" min="-2" pref="66" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
@@ -1210,6 +1214,8 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="procuradorLabelAtuando" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="procuradorComboBoxAtuando" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="procuradorComboBoxUltimo" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -1284,6 +1290,21 @@
                       <StringArray count="2">
                         <StringItem index="0" value="CIVIL"/>
                         <StringItem index="1" value="CRIMINAL"/>
+                      </StringArray>
+                    </Property>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel11">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Na vez?"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JComboBox" name="procuradorComboBoxUltimo">
+                  <Properties>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="2">
+                        <StringItem index="0" value="N&#xe3;o"/>
+                        <StringItem index="1" value="Sim"/>
                       </StringArray>
                     </Property>
                   </Properties>

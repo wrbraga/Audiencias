@@ -6,7 +6,7 @@
     <!-- <property name="hibernate.connection.driver_class">org.apache.derby.jdbc.ClientDriver</property> -->
     <property name="hibernate.connection.driver_class">org.apache.derby.jdbc.EmbeddedDriver</property>
     <!-- <property name="hibernate.connection.url">jdbc:derby://localhost:1527/AudienciasDB</property> -->
-    <property name="hibernate.connection.url">jdbc:derby:AudienciasDB</property>
+    <property name="hibernate.connection.url">jdbc:derby:AudienciasDB;create=true</property>
     <property name="hibernate.show_sql">true</property>
     <property name="hibernate.query.factory_class">org.hibernate.hql.ast.ASTQueryTranslatorFactory</property>
     <property name="hibernate.connection.username">wesley</property>
