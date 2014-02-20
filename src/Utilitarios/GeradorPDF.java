@@ -174,12 +174,13 @@ public class GeradorPDF {
         
     }
     
-    private List listaAfastamentos(int mes) {
-        String SQL_QUERY_AFASTAMENTOS_MES = "select APP.AFASTAMENTOS.DATAINICIO as DATAINICIO, APP.AFASTAMENTOS.DATAFIM as datafim, APP.AFASTAMENTOS.OBS as obs, APP.PROCURADOR.NOME as procurador , APP.PROCURADOR.SIGLA as sigla from APP.AFASTAMENTOS, APP.PROCURADOR where APP.PROCURADOR.IDPROCURADOR = APP.AFASTAMENTOS.IDPROCURADOR and month(APP.AFASTAMENTOS.DATAINICIO) = :mes and month(APP.AFASTAMENTOS.DATAFIM) = :mes";
+    private List listaAfastamentos(int mes, int ano) {
+        String SQL_QUERY_AFASTAMENTOS_MES = "select APP.AFASTAMENTOS.DATAINICIO as DATAINICIO, APP.AFASTAMENTOS.DATAFIM as datafim, APP.AFASTAMENTOS.OBS as obs, APP.PROCURADOR.NOME as procurador , APP.PROCURADOR.SIGLA as sigla from APP.AFASTAMENTOS, APP.PROCURADOR where APP.PROCURADOR.IDPROCURADOR = APP.AFASTAMENTOS.IDPROCURADOR and month(APP.AFASTAMENTOS.DATAINICIO) = :mes and year(APP.AFASTAMENTOS.DATAINICIO) = :ano";
         
         Session sessao = HibernateUtil.getSessionFactory().openSession();
         Query query = sessao.createSQLQuery(SQL_QUERY_AFASTAMENTOS_MES);
         query.setParameter("mes", (mes + 1));
+        query.setParameter("ano", ano);
                               
         List<Object[]> result = query.list();                
         return result;
@@ -293,7 +294,7 @@ public class GeradorPDF {
             int diaAudiencia = 1; // Dias para mostrar os procuradores
             int diaSigla = 1;
             
-            List<Object[]> listaDeAfastamentos = listaAfastamentos(Calendario.mes());
+            List<Object[]> listaDeAfastamentos = listaAfastamentos(Calendario.mes(), Calendario.ano());
             
                         
             for(int linha = 0; linha <= 18; linha++) {                

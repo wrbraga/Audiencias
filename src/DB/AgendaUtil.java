@@ -140,21 +140,28 @@ public class AgendaUtil {
     public void setUltimoProcurador(int idprocurador, int ultimo) {
         String SQL = "UPDATE APP.PROCURADOR SET ultimo = :ultimo WHERE idprocurador = :idprocurador";
         Session sessao = HibernateUtil.getSessionFactory().openSession();
+        sessao.beginTransaction();
+        
         Query query = sessao.createSQLQuery(SQL);
         query.setParameter("ultimo", ultimo);
         query.setParameter("idprocurador", idprocurador);
         query.executeUpdate();
+        
+        sessao.getTransaction().commit();
         sessao.close();
     }
     
     public void setUltimoProcurador(Procurador procurador) {
         String SQL = "UPDATE APP.PROCURADOR SET ultimo = :ultimo WHERE idprocurador = :idprocurador";
         Session sessao = HibernateUtil.getSessionFactory().openSession();
+        sessao.beginTransaction();
+        
         Query query = sessao.createSQLQuery(SQL);
         query.setParameter("idprocurador", procurador.getIdProcurador());
         query.setParameter("ultimo", procurador.getUltimo());
 
         query.executeUpdate();
+        sessao.getTransaction().commit();
         sessao.close();
     }
 }

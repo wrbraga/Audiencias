@@ -161,7 +161,6 @@
                 <Component class="javax.swing.JButton" name="agendaButtonConsultar">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Consultar"/>
-                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="agendaButtonConsultarActionPerformed"/>
@@ -178,7 +177,7 @@
                 <Component class="javax.swing.JButton" name="agendaButtonExcluir">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Excluir"/>
-                    <Property name="enabled" type="boolean" value="false"/>
+                    <Property name="focusCycleRoot" type="boolean" value="true"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="agendaButtonExcluirActionPerformed"/>

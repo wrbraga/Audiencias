@@ -112,6 +112,11 @@ public class agendaTableModel extends AbstractTableModel{
         
     }
     
+    public void removerAgenda(int row) {
+        linha.remove(row);
+        fireTableDataChanged();
+    }
+    
     public void limpar() {
         linha.clear();
         fireTableDataChanged();

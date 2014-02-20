@@ -75,6 +75,7 @@ public class Agenda  implements java.io.Serializable {
     public void setIdprocurador(int idprocurador) {
         this.idprocurador = idprocurador;
     }
+    
     public int getIdassunto() {
         return this.idassunto;
     }

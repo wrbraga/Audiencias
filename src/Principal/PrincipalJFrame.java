@@ -21,6 +21,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import Utilitarios.Calendario;
 import Utilitarios.GeradorPDF;
+import java.util.ArrayList;
 
 /**
  * @author wesley
@@ -31,7 +32,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
      * QUERYs para manipulação da tabela LOCAL 
      */         
     private static final String SQL_INSERT_LOCAL = "INSERT INTO APP.Local (idLocal, Local) VALUES (:idlocal,:local)";
-    private static final String SQL_QUERY_ALL_LOCAL = "FROM Local";
+    private static final String SQL_QUERY_ALL_LOCAL = "FROM Local ORDER BY local";
     private static final String SQL_QUERY_ID_LOCAL = "FROM Local WHERE idlocal=%s";
     private static final String SQL_QUERY_LOCAL_LOCAL = "FROM Local WHERE local like %s";
     private static final String SQL_DELETE_LOCAL = "DELETE FROM APP.Local WHERE idlocal=:idlocal";
@@ -41,7 +42,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
      * QUERYs para manipulação da tabela ASSUNTO 
      */         
     private static final String SQL_INSERT_ASSUNTO = "INSERT INTO APP.Assunto (idassunto, assunto) VALUES (:idassunto,:assunto)";
-    private static final String SQL_QUERY_ALL_ASSUNTO = "FROM Assunto";
+    private static final String SQL_QUERY_ALL_ASSUNTO = "FROM Assunto ORDER BY assunto";
     private static final String SQL_QUERY_ID_ASSUNTO = "FROM Assunto WHERE idassunto=:idassunto";
     private static final String SQL_QUERY_ASSUNTO_ASSUNTO = "FROM Assunto WHERE assunto like :assunto";
     private static final String SQL_DELETE_ASSUNTO = "DELETE FROM APP.Assunto WHERE idassunto=:idassunto";
@@ -51,7 +52,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
      * QUERYs para manipulação da tabela CLASSE 
      */         
     private static final String SQL_INSERT_CLASSE = "INSERT INTO APP.Classe (idclasse, classe) VALUES (:idclasse,:classe)";
-    private static final String SQL_QUERY_ALL_CLASSE = "FROM Classe";
+    private static final String SQL_QUERY_ALL_CLASSE = "FROM Classe ORDER BY classe";
     private static final String SQL_QUERY_ID_CLASSE = "FROM Classe WHERE idclasse=:idclasse";
     private static final String SQL_QUERY_CLASSE_CLASSE = "FROM Classe WHERE classe = :classe";
     private static final String SQL_DELETE_CLASSE = "DELETE FROM APP.Classe WHERE idclasse=:idclasse";
@@ -61,11 +62,12 @@ public class PrincipalJFrame extends javax.swing.JFrame {
      * QUERYs para manipulação da tabela PROCURADOR
      */         
     private static final String SQL_INSERT_PROCURADOR = "INSERT INTO APP.Procurador (idprocurador, nome, sigla, antiguidade, area, ultimo, atuando) VALUES (:idprocurador, :nome, :sigla, :antiguidade, :area, :ultimo, :atuando)";
-    private static final String SQL_QUERY_ALL_PROCURADOR = "FROM Procurador";
+    private static final String SQL_QUERY_ALL_PROCURADOR = "FROM Procurador ORDER BY nome";
     private static final String SQL_QUERY_ID_PROCURADOR = "FROM Procurador WHERE idprocurador = :idprocurador";
     private static final String SQL_DELETE_PROCURADOR = "DELETE FROM APP.PROCURADOR WHERE idprocurador = :idprocurador";
     private static final String SQL_UPDATE_PROCURADOR = "UPDATE APP.PROCURADOR SET nome = :nome, sigla = :sigla, antiguidade = :antiguidade, area = :area, ultimo = :ultimo, atuando = :atuando WHERE idprocurador = :idprocurador";
     private static final String SQL_UPDATE_PROCURADOR_NOME = "UPDATE APP.PROCURADOR SET nome = :nome WHERE idprocurador = :idprocurador";
+    private static final String SQL_UPDATE_PROCURADOR_ATUANDO = "UPDATE APP.PROCURADOR SET atuando = :atuando WHERE idprocurador = :idprocurador";
     
     private static final String SQL_QUERY_PROC_SORT_ANT = "select * from APP.PROCURADOR WHERE area = 'Criminal' order by antiguidade desc";
     
@@ -74,7 +76,14 @@ public class PrincipalJFrame extends javax.swing.JFrame {
      */             
     private static final String SQL_DELETE_AGENDA = "DELETE FROM APP.AGENDA WHERE idagenda = :idagenda";
     private static final String SQL_INSERT_AGENDA = "INSERT INTO APP.Agenda (idagenda, dia, hora, processo, idclasse, idprocurador, idassunto, idlocal) VALUES (:idagenda, :dia, :hora, :processo, :idclasse, :idprocurador, :idassunto, :idlocal)";
-    private static final String SQL_QUERY_ALL_AGENDA = "FROM Agenda";
+    //private static final String SQL_QUERY_ALL_AGENDA = "FROM Agenda ORDER BY dia,hora";
+    private static final String SQL_QUERY_ALL_AGENDA = "select A.* from APP.AGENDA A, APP.LOCAL L\n" +
+    "where L.IDLOCAL = A.IDLOCAL\n" +
+    "order by case\n" +
+    " when LOCAL  like '%CIVIL%' then 1\n" +
+    " when LOCAL  like '%CIVIL%' then 2\n" +
+    "end, DIA";
+    private static final String SQL_UPDATE_AGENDA = "UPDATE APP.AGENDA SET idagenda = :idagenda, dia = :dia, hora = :hora, processo = :processo, idclasse = :idclasse, idprocurador = :idprocurador, idassunto = :idassunto, idlocal = :idlocal WHERE idagenda = :idagenda";
     
     /**
      * QUERYs para manipulação da tabela AFASTAMENTOS
@@ -263,7 +272,6 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         PanelButoesAgenda.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         agendaButtonConsultar.setText("Consultar");
-        agendaButtonConsultar.setEnabled(false);
         agendaButtonConsultar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 agendaButtonConsultarActionPerformed(evt);
@@ -278,7 +286,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         });
 
         agendaButtonExcluir.setText("Excluir");
-        agendaButtonExcluir.setEnabled(false);
+        agendaButtonExcluir.setFocusCycleRoot(true);
         agendaButtonExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 agendaButtonExcluirActionPerformed(evt);
@@ -1450,83 +1458,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_procuradorButtonConsultarActionPerformed
 
     private void agendaButtonSortearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agendaButtonSortearActionPerformed
-        int semanaAnterior = 0 ;
-        Procurador proximoProcurador;
-        
-        String x = "SELECT p.NOME, p.SIGLA, p.ANTIGUIDADE, p.AREA, p.ULTIMO, p.ATUANDO, a.DATAINICIO, a.DATAFIM \n" +
-        "FROM APP.PROCURADOR as p \n" +
-        "INNER JOIN APP.AFASTAMENTOS as a \n" +
-        "ON p.IDPROCURADOR = a.IDPROCURADOR\n" +
-        "WHERE NOT (a.DATAINICIO >= :datainicio AND a.DATAFIM <= :datafim) AND p.AREA = :area AND P.ATUANDO = 1\n" +
-        "ORDER BY ANTIGUIDADE DESC";
-        
-        for(int selectedRows = 0; selectedRows < agendaJTable.getRowCount(); selectedRows++) {
-            Session sessao = HibernateUtil.getSessionFactory().openSession();        
-            String SQL_AREA = "FROM Procurador WHERE area like :area and atuando = 1 ORDER BY antiguidade DESC";
-            
-            String localExtraido = modeloAgenda.getValueAt(selectedRows, 6).toString().replaceAll("[0123456789]","").trim(); 
-            Query query  = sessao.createQuery(SQL_AREA);            
-            query.setParameter("area", localExtraido);
-                              
-            List resultado = query.list();
-            
-            
-            int semanaAtual = Calendario.semana(modeloAgenda.getValueAt(selectedRows, 1).toString());
-            
-            if (selectedRows > 0) {
-                semanaAnterior = Calendario.semana(modeloAgenda.getValueAt(selectedRows - 1, 1).toString());
-            } else if (selectedRows == 0) {
-                semanaAnterior = semanaAtual;
-            }
-                        
-            int totalDeItens = (resultado.size()-1);
-            
-            for(int index = 0; index <= totalDeItens; index++) {
-                Procurador p = ((Procurador)resultado.get(index));                
-                int nIndex = 0;
-                
-                if (index < totalDeItens) {
-                    nIndex = index+1;
-                    proximoProcurador = ((Procurador)resultado.get(index + 1));                
-                } else {
-                    proximoProcurador = ((Procurador)resultado.get(0));                
-                }
-                                
-                if (p.getUltimo() == 1) { // É o procurador da vez?
-                    
-                    if (semanaAtual == semanaAnterior) {  // É a mesma semana para atuação
-                        Agenda agenda = modeloAgenda.getAgenda(selectedRows);
-                        agenda.setIdprocurador(p.getIdProcurador());
-                        modeloAgenda.setValueAt(agenda, selectedRows,7);
-
-                    } else {
-                        p.setUltimo(0);                        
-                        agendaUtil.setUltimoProcurador(p);
-                        
-                        proximoProcurador.setUltimo(1);
-                        agendaUtil.setUltimoProcurador(proximoProcurador);
-                        
-                        int nSelectRows = 0;
-                                                
-                        if ( selectedRows != agendaJTable.getRowCount()) {
-                            nSelectRows = selectedRows + 1;
-                        } 
-                        
-                        if (selectedRows >= totalDeItens) {
-                            nSelectRows = totalDeItens;
-                        }
-                                                
-                        Agenda agenda = modeloAgenda.getAgenda(selectedRows);
-                        agenda.setIdprocurador(proximoProcurador.getIdProcurador());
-                        modeloAgenda.setValueAt(agenda, nSelectRows);
-                                                
-                    }
-                    break;
-                }                       
-                
-            }            
-            sessao.close();
-        }       
+        sortearProcuradorAgenda();
         
     }//GEN-LAST:event_agendaButtonSortearActionPerformed
 
@@ -1767,7 +1699,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         agendaComboBoxLocal.removeAllItems();
         List<String> linha;
         Session sessao = HibernateUtil.getSessionFactory().openSession();
-        Query query = sessao.createSQLQuery("SELECT local FROM APP.Local");
+        Query query = sessao.createSQLQuery("SELECT local FROM APP.Local ORDER BY local");
         linha = query.list();        
         sessao.close();
         for(String d: linha) {
@@ -1780,7 +1712,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         agendaComboBoxAssunto.removeAllItems();
         List<String> linha;
         Session sessao = HibernateUtil.getSessionFactory().openSession();
-        Query query = sessao.createSQLQuery("SELECT assunto FROM APP.Assunto");
+        Query query = sessao.createSQLQuery("SELECT assunto FROM APP.Assunto ORDER BY assunto");
         linha = query.list();        
         sessao.close();
         for(String d: linha) {
@@ -1793,7 +1725,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         agendaComboBoxClasse.removeAllItems();
         List<Integer> linha;
         Session sessao = HibernateUtil.getSessionFactory().openSession();
-        Query query = sessao.createSQLQuery("SELECT classe FROM APP.Classe");
+        Query query = sessao.createSQLQuery("SELECT classe FROM APP.Classe ORDER BY classe");
         linha = query.list();        
         sessao.close();
         for(int d: linha) {
@@ -1807,7 +1739,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         afastamentoComboBoxProcurador.removeAllItems();
         List<String> linha;
         Session sessao = HibernateUtil.getSessionFactory().openSession();
-        Query query = sessao.createSQLQuery("SELECT nome FROM APP.Procurador");
+        Query query = sessao.createSQLQuery("SELECT nome FROM APP.Procurador ORDER BY nome");
         linha = query.list();        
         sessao.close();
 
@@ -2194,43 +2126,48 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         
         modeloAgenda.addAgenda(agenda);
         
-//        Session sessao = HibernateUtil.getSessionFactory().openSession();
-//        Query query = sessao.createSQLQuery(SQL_INSERT_AGENDA);
-//        sessao.beginTransaction();
-//        
-//        query.setParameter("idagenda", Integer.parseInt(agendaTextFieldId.getText()));
-//        query.setParameter("dia", d);
-//        query.setParameter("hora", t);
-//        query.setParameter("processo", agendaTextFieldProcesso.getText());
-//        query.setParameter("idclasse", agendaUtil.getIDByClasse(Integer.parseInt(agendaComboBoxClasse.getSelectedItem().toString())));
-//        query.setParameter("idprocurador", agendaUtil.getIDByProcurador(agendaComboBoxProcurador.getSelectedItem().toString()));
-//        query.setParameter("idassunto", agendaUtil.getIDByAssunto(agendaComboBoxAssunto.getSelectedItem().toString()));
-//        query.setParameter("idlocal", agendaUtil.getIDByLocal(agendaComboBoxLocal.getSelectedItem().toString()));
-//        
-//        query.executeUpdate();
-//        sessao.getTransaction().commit();
-//        sessao.close();
+        Session sessao = HibernateUtil.getSessionFactory().openSession();
+        Query query = sessao.createSQLQuery(SQL_INSERT_AGENDA);
+        sessao.beginTransaction();
+        
+        query.setParameter("idagenda", getUltimoIdAgenda());
+        query.setParameter("dia", agenda.getDia());
+        query.setParameter("hora", agenda.getHora());
+        query.setParameter("processo", agenda.getProcesso());
+        query.setParameter("idclasse", agenda.getIdclasse());
+        query.setParameter("idprocurador", agenda.getIdprocurador());
+        query.setParameter("idassunto", agenda.getIdassunto());
+        query.setParameter("idlocal", agenda.getIdlocal());
+        
+        query.executeUpdate();
+        sessao.getTransaction().commit();
+        sessao.close();
         
     }
     
     private void consultarAgenda() {
         Session sessao = HibernateUtil.getSessionFactory().openSession();
-        Query query = sessao.createQuery(SQL_QUERY_ALL_AGENDA);
-        List resultado = query.list();
+        Query query = sessao.createSQLQuery(SQL_QUERY_ALL_AGENDA);
+        List<Object[]> resultado = query.list();
+       
+        for(Object[] o: resultado) {
+            Object[] aux = o;
+            Agenda a = new Agenda(Integer.parseInt(aux[0].toString()), (Date)aux[1], Calendario.stringToTime(aux[2].toString()), aux[3].toString(), Integer.parseInt(aux[4].toString()), Integer.parseInt(aux[5].toString()), Integer.parseInt(aux[6].toString()), Integer.parseInt(aux[7].toString()));
+            modeloAgenda.addAgenda(a);            
+        }          
         
-        for(Object o: resultado) {
-            Agenda dados = (Agenda) o;
-            modeloAgenda.addAgenda(dados);
-        }
     }
 
-    private void excluirAgenda() {     
+    private void excluirAgenda() {           
         int selectRow = agendaJTable.getSelectedRow();        
-        Session sessao = HibernateUtil.getSessionFactory().openSession();
-        Query query = sessao.createSQLQuery(SQL_DELETE_AGENDA);
-        query.setParameter("idagenda", Integer.parseInt(agendaJTable.getValueAt(selectRow, 0).toString()));
-        query.executeUpdate();
-        sessao.close();                        
+        Agenda agenda = modeloAgenda.getAgenda(selectRow);
+        modeloAgenda.removerAgenda(selectRow);
+        
+//        Session sessao = HibernateUtil.getSessionFactory().openSession();
+//        Query query = sessao.createSQLQuery(SQL_DELETE_AGENDA);
+//        query.setParameter("idagenda", Integer.parseInt(agendaJTable.getValueAt(selectRow, 0).toString()));
+//        query.executeUpdate();
+//        sessao.close();                        
     }
 
     private void limparAgenda() {
@@ -2260,6 +2197,23 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         agenda.setIdlocal(agendaUtil.getIDByLocal(agendaComboBoxLocal.getSelectedItem().toString()));
         
         modeloAgenda.setValueAt(agenda, selectRow);
+        
+        Session sessao = HibernateUtil.getSessionFactory().openSession();
+        Query query = sessao.createSQLQuery(SQL_UPDATE_AGENDA);
+        sessao.beginTransaction();
+        
+        query.setParameter("idagenda", agenda.getIdagenda());
+        query.setParameter("dia", agenda.getDia());
+        query.setParameter("hora", agenda.getHora());
+        query.setParameter("processo", agenda.getProcesso());
+        query.setParameter("idclasse", agenda.getIdclasse());
+        query.setParameter("idprocurador", agenda.getIdprocurador());
+        query.setParameter("idassunto", agenda.getIdassunto());
+        query.setParameter("idlocal", agenda.getIdlocal());
+        
+        query.executeUpdate();
+        sessao.getTransaction().commit();
+        sessao.close();        
     }
 
     private void gerarAgenda() {
@@ -2291,7 +2245,18 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         
         query.executeUpdate();
         sessao.getTransaction().commit();
-        sessao.close();
+               
+        /** Altera o Status de atuação do procurador
+         *  Indicando que o mesmo não está atuando
+         */
+        
+        query = sessao.createSQLQuery(SQL_UPDATE_PROCURADOR_ATUANDO);
+        query.setParameter("atuando", 0);
+        query.setParameter("idprocurador", afastamento.getIdprocurador());
+        
+        query.executeUpdate();
+        sessao.getTransaction().commit();
+        sessao.close();        
         
     }
 
@@ -2359,6 +2324,150 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         sessao.getTransaction().commit();
         sessao.close();        
         
+    }
+    
+    private boolean procuradorEstaAfastadoEm(Date data, int idProcurador) {
+        String SQL = "SELECT *\n" +
+        "FROM APP.AFASTAMENTOS as A\n" +
+        "WHERE A.IDPROCURADOR = :idProcurador \n" +
+        "AND (:data >= DATAINICIO AND :data <= DATAFIM)";
+        
+        Session sessao = HibernateUtil.getSessionFactory().openSession();
+        Query query  = sessao.createSQLQuery(SQL);            
+        query.setParameter("data", data);
+        query.setParameter("idProcurador", idProcurador);
+        List resultado = query.list();
+        int tam = resultado.size();
+        
+        if (tam == 0) {
+            return false;
+        } else {
+            return true;
+        }
+        
+    }
+
+    private List getProcuradoresAgenda(int linha, Date datainicio, Date datafim) {                               
+        Session sessao = HibernateUtil.getSessionFactory().openSession();        
+        int tam = 0;
+        List<Object[]> resultado;
+        //List resultado;
+        boolean inverte = false;
+        String inverterCondicao = "";
+        
+        do {
+               
+            if (inverte == true) {            
+                inverterCondicao = "NOT";
+            }
+            
+//            String SQL_AREA = "SELECT DISTINCT P.* \n" +
+//            "FROM APP.PROCURADOR as P \n" +
+//            "left outer join APP.AFASTAMENTOS as A\n" +
+//            "ON P.IDPROCURADOR = A.IDPROCURADOR\n" +
+//            "WHERE NOT (:datainicio >= DATAINICIO AND :datafim <= DATAFIM) AND " + inverterCondicao + " P.AREA = :area AND P.ATUANDO = 1\n" +
+//            "ORDER BY ANTIGUIDADE DESC";              
+            String SQL_AREA = "SELECT * \n" +
+            "FROM APP.PROCURADOR as P \n" +            
+            "WHERE " + inverterCondicao + " P.AREA = :area \n" +
+            "ORDER BY ANTIGUIDADE DESC";              
+
+            String localExtraido = modeloAgenda.getValueAt(linha, 6).toString().replaceAll("[0123456789]","").trim(); 
+            Query query  = sessao.createSQLQuery(SQL_AREA);            
+            query.setParameter("area", localExtraido);
+//            query.setParameter("datainicio", datainicio);
+//            query.setParameter("datafim", datafim);
+            
+                                        
+            resultado = query.list();
+            tam = resultado.size();
+            
+            if(tam == 0) {
+                inverte = true;
+            }
+            
+        } while(tam <= 0);
+        
+        sessao.close();
+        
+        List<Procurador> procResult = new ArrayList<>();
+        
+        for(Object[] o: resultado) {
+            Object[] aux = o;
+            Procurador p = new Procurador(Integer.parseInt(aux[0].toString()), aux[1].toString(), aux[2].toString(), Integer.parseInt(aux[3].toString()), aux[4].toString(), Integer.parseInt(aux[5].toString()), Integer.parseInt(aux[6].toString()));
+            procResult.add(p);
+        }            
+        
+        return procResult;
+        
+       // return resultado;
+    }
+    
+    private void sortearProcuradorAgenda() {
+        int semanaAnterior = 0 ;
+        int proximaSemana = 0;
+        int nIndex = 0;
+        Procurador proximoProcurador;
+
+        for(int selectedRows = 0; selectedRows < agendaJTable.getRowCount(); selectedRows++) { // Varre o jTable pegando
+            Agenda agenda = modeloAgenda.getAgenda(selectedRows);
+            
+            List resultado = getProcuradoresAgenda(selectedRows,Calendario.stringToDate(modeloAgenda.getValueAt(selectedRows, 1).toString()),Calendario.stringToDate(modeloAgenda.getValueAt(selectedRows, 1).toString()));
+            
+            int semanaAtual = Calendario.semana(modeloAgenda.getValueAt(selectedRows, 1).toString());
+            
+            if (selectedRows == 0) {
+                semanaAnterior = semanaAtual;
+            } else if (selectedRows > 0) {
+                semanaAnterior = Calendario.semana(modeloAgenda.getValueAt(selectedRows - 1, 1).toString());                
+                //proximaSemana = Calendario.semana(modeloAgenda.getValueAt(selectedRows + 1, 1).toString());
+            } else if (selectedRows >=  (agendaJTable.getRowCount() - 1)) {                            
+                proximaSemana = semanaAtual;
+            }
+                        
+            int totalDeItens = (resultado.size()-1);
+            
+            for(int index = 0; index <= totalDeItens; index++) { // Varre a lista de procuradores que podem atuar
+                Procurador p = ((Procurador)resultado.get(index));                
+                //int nIndex = 0;
+                                
+                // Se não for o procurador da vez?
+                if (p.getUltimo() == 0) { 
+                    continue;
+                }
+                
+                // Verifica se o procurador está afastado no dia da audiencia
+                if (procuradorEstaAfastadoEm(Calendario.stringToDate(modeloAgenda.getValueAt(selectedRows, 1).toString()), p.getIdProcurador())) {
+                    continue;
+                }                
+                                
+                // É a mesma semana para atuação
+                if (semanaAtual == semanaAnterior) {                     
+                    agenda.setIdprocurador(p.getIdProcurador());
+                } else {
+                    p.setUltimo(0);                        
+                    agendaUtil.setUltimoProcurador(p);
+
+                    if (index < totalDeItens) {
+                        nIndex = index+1;
+                    } else {
+                        nIndex = 0;
+                    }
+                    
+                    proximoProcurador = ((Procurador)resultado.get(nIndex));                    
+                    
+                    proximoProcurador.setUltimo(1);
+                    agendaUtil.setUltimoProcurador(proximoProcurador);
+                    
+                    agenda.setIdprocurador(proximoProcurador.getIdProcurador());
+                    
+                }
+                
+                modeloAgenda.setValueAt(agenda, selectedRows,7);
+                break;                
+            }            
+            
+        }       
     }
     
 }
