@@ -62,7 +62,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
      * QUERYs para manipulação da tabela PROCURADOR
      */         
     private static final String SQL_INSERT_PROCURADOR = "INSERT INTO APP.Procurador (idprocurador, nome, sigla, antiguidade, area, ultimo, atuando) VALUES (:idprocurador, :nome, :sigla, :antiguidade, :area, :ultimo, :atuando)";
-    private static final String SQL_QUERY_ALL_PROCURADOR = "FROM Procurador ORDER BY nome";
+    private static final String SQL_QUERY_ALL_PROCURADOR = "FROM Procurador ORDER BY AREA, ANTIGUIDADE";
     private static final String SQL_QUERY_ID_PROCURADOR = "FROM Procurador WHERE idprocurador = :idprocurador";
     private static final String SQL_DELETE_PROCURADOR = "DELETE FROM APP.PROCURADOR WHERE idprocurador = :idprocurador";
     private static final String SQL_UPDATE_PROCURADOR = "UPDATE APP.PROCURADOR SET nome = :nome, sigla = :sigla, antiguidade = :antiguidade, area = :area, ultimo = :ultimo, atuando = :atuando WHERE idprocurador = :idprocurador";
@@ -1392,12 +1392,13 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_classeButtonAlterarActionPerformed
 
     private void agendaButtonConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agendaButtonConsultarActionPerformed
+        limparAgenda();
         consultarAgenda();
     }//GEN-LAST:event_agendaButtonConsultarActionPerformed
 
     private void agendaJTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_agendaJTableMouseClicked
         int selectedRows = agendaJTable.getSelectedRow();
-
+                
         agendaTextFieldDia.setText(modeloAgenda.getValueAt(selectedRows, 1).toString());
         agendaTextFieldHora.setText(modeloAgenda.getValueAt(selectedRows, 2).toString());
         agendaTextFieldProcesso.setText(modeloAgenda.getValueAt(selectedRows, 3).toString());
@@ -1454,12 +1455,14 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_procuradorJTableMouseClicked
 
     private void procuradorButtonConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_procuradorButtonConsultarActionPerformed
+       
         consultarProcurador();
     }//GEN-LAST:event_procuradorButtonConsultarActionPerformed
 
     private void agendaButtonSortearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agendaButtonSortearActionPerformed
-        sortearProcuradorAgenda();
-        
+        limparAgenda();
+        consultarAgenda();
+        sortearProcuradorAgenda();        
     }//GEN-LAST:event_agendaButtonSortearActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -2160,14 +2163,16 @@ public class PrincipalJFrame extends javax.swing.JFrame {
 
     private void excluirAgenda() {           
         int selectRow = agendaJTable.getSelectedRow();        
-        Agenda agenda = modeloAgenda.getAgenda(selectRow);
-        modeloAgenda.removerAgenda(selectRow);
         
-//        Session sessao = HibernateUtil.getSessionFactory().openSession();
-//        Query query = sessao.createSQLQuery(SQL_DELETE_AGENDA);
-//        query.setParameter("idagenda", Integer.parseInt(agendaJTable.getValueAt(selectRow, 0).toString()));
-//        query.executeUpdate();
-//        sessao.close();                        
+        Session sessao = HibernateUtil.getSessionFactory().openSession();
+        sessao.beginTransaction();
+        Query query = sessao.createSQLQuery(SQL_DELETE_AGENDA);
+        query.setParameter("idagenda", Integer.parseInt(agendaJTable.getValueAt(selectRow, 0).toString()));
+        query.executeUpdate();
+        sessao.getTransaction().commit();
+        sessao.close();                       
+        
+        modeloAgenda.removerAgenda(selectRow);
     }
 
     private void limparAgenda() {
@@ -2405,31 +2410,39 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     
     private void sortearProcuradorAgenda() {
         int semanaAnterior = 0 ;
-        int proximaSemana = 0;
-        int nIndex = 0;
+        String areaAnterior = "";
+        String areaAtual = "";
+        int nIndex;
         Procurador proximoProcurador;
-
+        List resultado = new ArrayList();
+        
         for(int selectedRows = 0; selectedRows < agendaJTable.getRowCount(); selectedRows++) { // Varre o jTable pegando
             Agenda agenda = modeloAgenda.getAgenda(selectedRows);
             
-            List resultado = getProcuradoresAgenda(selectedRows,Calendario.stringToDate(modeloAgenda.getValueAt(selectedRows, 1).toString()),Calendario.stringToDate(modeloAgenda.getValueAt(selectedRows, 1).toString()));
-            
+            if (modeloAgenda.getValueAt(selectedRows, 6).toString().contains("CIVIL")) {
+                areaAtual = "CIVIL";
+            } else {
+                areaAtual = "CRIMINAL";
+            }
+                
+            if (areaAnterior.isEmpty() || !areaAnterior.equals(areaAtual)) {
+                resultado = getProcuradoresAgenda(selectedRows,Calendario.stringToDate(modeloAgenda.getValueAt(selectedRows, 1).toString()),Calendario.stringToDate(modeloAgenda.getValueAt(selectedRows, 1).toString()));                               
+                areaAnterior = areaAtual;
+            }
+                                   
             int semanaAtual = Calendario.semana(modeloAgenda.getValueAt(selectedRows, 1).toString());
             
             if (selectedRows == 0) {
                 semanaAnterior = semanaAtual;
             } else if (selectedRows > 0) {
                 semanaAnterior = Calendario.semana(modeloAgenda.getValueAt(selectedRows - 1, 1).toString());                
-                //proximaSemana = Calendario.semana(modeloAgenda.getValueAt(selectedRows + 1, 1).toString());
-            } else if (selectedRows >=  (agendaJTable.getRowCount() - 1)) {                            
-                proximaSemana = semanaAtual;
-            }
+            } 
                         
             int totalDeItens = (resultado.size()-1);
             
             for(int index = 0; index <= totalDeItens; index++) { // Varre a lista de procuradores que podem atuar
                 Procurador p = ((Procurador)resultado.get(index));                
-                //int nIndex = 0;
+                nIndex = index;
                                 
                 // Se não for o procurador da vez?
                 if (p.getUltimo() == 0) { 
@@ -2438,6 +2451,26 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                 
                 // Verifica se o procurador está afastado no dia da audiencia
                 if (procuradorEstaAfastadoEm(Calendario.stringToDate(modeloAgenda.getValueAt(selectedRows, 1).toString()), p.getIdProcurador())) {
+                    
+                    p.setUltimo(0);                        
+                    agendaUtil.setUltimoProcurador(p);
+                    
+                    do {
+                        if (index < totalDeItens) {
+                            nIndex = nIndex+1;
+                        } else {
+                            nIndex = 0;
+                        }
+
+                        proximoProcurador = ((Procurador)resultado.get(nIndex));                    
+                    } while(procuradorEstaAfastadoEm(Calendario.stringToDate(modeloAgenda.getValueAt(selectedRows, 1).toString()), proximoProcurador.getIdProcurador()));
+                    
+                    proximoProcurador.setUltimo(1);
+                    agendaUtil.setUltimoProcurador(proximoProcurador);
+                    
+                    agenda.setIdprocurador(proximoProcurador.getIdProcurador());
+                    modeloAgenda.setValueAt(agenda, selectedRows,7);
+                    
                     continue;
                 }                
                                 
