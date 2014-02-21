@@ -2366,12 +2366,6 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                 inverterCondicao = "NOT";
             }
             
-//            String SQL_AREA = "SELECT DISTINCT P.* \n" +
-//            "FROM APP.PROCURADOR as P \n" +
-//            "left outer join APP.AFASTAMENTOS as A\n" +
-//            "ON P.IDPROCURADOR = A.IDPROCURADOR\n" +
-//            "WHERE NOT (:datainicio >= DATAINICIO AND :datafim <= DATAFIM) AND " + inverterCondicao + " P.AREA = :area AND P.ATUANDO = 1\n" +
-//            "ORDER BY ANTIGUIDADE DESC";              
             String SQL_AREA = "SELECT * \n" +
             "FROM APP.PROCURADOR as P \n" +            
             "WHERE " + inverterCondicao + " P.AREA = :area \n" +
@@ -2380,9 +2374,6 @@ public class PrincipalJFrame extends javax.swing.JFrame {
             String localExtraido = modeloAgenda.getValueAt(linha, 6).toString().replaceAll("[0123456789]","").trim(); 
             Query query  = sessao.createSQLQuery(SQL_AREA);            
             query.setParameter("area", localExtraido);
-//            query.setParameter("datainicio", datainicio);
-//            query.setParameter("datafim", datafim);
-            
                                         
             resultado = query.list();
             tam = resultado.size();
@@ -2456,13 +2447,13 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                     agendaUtil.setUltimoProcurador(p);
                     
                     do {
-                        if (index < totalDeItens) {
+                        if (nIndex < totalDeItens) {
                             nIndex = nIndex+1;
                         } else {
                             nIndex = 0;
                         }
 
-                        proximoProcurador = ((Procurador)resultado.get(nIndex));                    
+                        proximoProcurador = ((Procurador)resultado.get(nIndex));   
                     } while(procuradorEstaAfastadoEm(Calendario.stringToDate(modeloAgenda.getValueAt(selectedRows, 1).toString()), proximoProcurador.getIdProcurador()));
                     
                     proximoProcurador.setUltimo(1);
@@ -2471,7 +2462,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                     agenda.setIdprocurador(proximoProcurador.getIdProcurador());
                     modeloAgenda.setValueAt(agenda, selectedRows,7);
                     
-                    continue;
+                    break;
                 }                
                                 
                 // É a mesma semana para atuação
@@ -2481,14 +2472,17 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                     p.setUltimo(0);                        
                     agendaUtil.setUltimoProcurador(p);
 
-                    if (index < totalDeItens) {
-                        nIndex = index+1;
-                    } else {
-                        nIndex = 0;
-                    }
-                    
-                    proximoProcurador = ((Procurador)resultado.get(nIndex));                    
-                    
+                    do {
+                        if (nIndex < totalDeItens) {
+                            nIndex = nIndex+1;
+                        } else {
+                            nIndex = 0;
+                        }
+
+                        proximoProcurador = ((Procurador)resultado.get(nIndex));   
+                        System.out.println(nIndex +  " : " + p.getNome() + " está de férias, o substituto será " + proximoProcurador.getNome());
+                    } while(procuradorEstaAfastadoEm(Calendario.stringToDate(modeloAgenda.getValueAt(selectedRows, 1).toString()), proximoProcurador.getIdProcurador()));
+                                                       
                     proximoProcurador.setUltimo(1);
                     agendaUtil.setUltimoProcurador(proximoProcurador);
                     
