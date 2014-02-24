@@ -14,6 +14,16 @@ import java.util.logging.Logger;
  */
 public class Calendario {
     static Calendar cal = Calendar.getInstance();
+
+    public static String nomeMes(int i) {
+        String MES[] = {"JANEIRO", "FEVEREIRO", "MARÇO", "ABRIL", "MAIO", "JUNHO", "JULHO", "AGOSTO", "SETEMBRO", "OUTUBRO", "NOVEMBRO", "DEZEMBRO"};
+        return MES[i];
+    }
+    
+    public static String nomeSemana(int i) {
+        String[] SEMANA = {"DOMINGO", "SEGUNDA", "TERÇA", "QUARTA", "QUINTA", "SEXTA", "SÁBADO"};
+        return SEMANA[i];
+    }
     
     public static void setData(String dia) {
         cal.setTime(stringToDate(dia));
@@ -92,18 +102,17 @@ public class Calendario {
         return cal.get(Calendar.MONTH);
     }
     
+    public static int mes(Date data) {
+        setData(data);
+        return mes();
+    }    
+    
     public static int ano() {
         return cal.get(Calendar.YEAR);
     }
     
-    public static String nomeMes(int i) {
-        String MES[] = {"JANEIRO", "FEVEREIRO", "MARÇO", "ABRIL", "MAIO", "JUNHO", "JULHO", "AGOSTO", "SETEMBRO", "OUTUBRO", "NOVEMBRO", "DEZEMBRO"};
-        return MES[i];
-    }
-    
-    public static String nomeSemana(int i) {
-        String[] SEMANA = {"DOMINGO", "SEGUNDA", "TERÇA", "QUARTA", "QUINTA", "SEXTA", "SÁBADO"};
-        return SEMANA[i];
+    public static boolean dataIgual(Date data1, Date data2) {
+        return data1.equals(data2);
     }
         
 }

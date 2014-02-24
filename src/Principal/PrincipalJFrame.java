@@ -2402,7 +2402,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private void sortearProcuradorAgenda() {
         int semanaAnterior = 0 ;
         String areaAnterior = "";
-        String areaAtual = "";
+        String areaAtual;
         int nIndex;
         Procurador proximoProcurador;
         List resultado = new ArrayList();
@@ -2416,7 +2416,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                 areaAtual = "CRIMINAL";
             }
                 
-            if (areaAnterior.isEmpty() || !areaAnterior.equals(areaAtual)) {
+            if (!areaAnterior.equals(areaAtual)) {
                 resultado = getProcuradoresAgenda(selectedRows,Calendario.stringToDate(modeloAgenda.getValueAt(selectedRows, 1).toString()),Calendario.stringToDate(modeloAgenda.getValueAt(selectedRows, 1).toString()));                               
                 areaAnterior = areaAtual;
             }

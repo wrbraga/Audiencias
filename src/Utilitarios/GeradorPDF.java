@@ -186,7 +186,7 @@ public class GeradorPDF {
         return result;
     }
     
-    private List<AfastamentosProcurador> preencherArrayListAfastadosDia(int dia, List<Object[]> afastados) {
+    private List<AfastamentosProcurador> preencherArrayListAfastadosDia(int dia, int mes, List<Object[]> afastados) {
 
         List<AfastamentosProcurador> listaAfastados = new ArrayList<>();
         
@@ -194,8 +194,9 @@ public class GeradorPDF {
             Object[] aux = o;
             Date di = (Date) aux[0];
             Date df = (Date) aux[1];            
-
-            if (dia >= (Calendario.dia(di)) && dia <= (Calendario.dia(df))) {                
+            
+            if (dia >= (Calendario.dia(di)) || dia <= (Calendario.dia(df))) {                
+            //if ((dia >= Calendario.dia(di) && mes == Calendario.mes(di)) || mes == Calendario.mes(df)) {                
                 AfastamentosProcurador a = new AfastamentosProcurador((Date) aux[0],(Date) aux[1],aux[2].toString(),aux[3].toString(),aux[4].toString());
                 listaAfastados.add(a);
             }            
@@ -272,11 +273,15 @@ public class GeradorPDF {
         document.newPage();
                 
         try {
+            String primeiroDia = "01/" + (Calendario.mes()+1) + "/" + Calendario.ano();
+            Calendario.setData(primeiroDia);
+            int inicio = Calendario.diaDaSemana();
+            int mesAtual = Calendario.mes();
+            int ultimoDia = Calendario.cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+            
             
             Calendario.setData(agenda.getValueAt(0, Colunas.DIA.valor).toString());
-            int inicio = Calendario.diaDaSemana();
-            int ultimoDia = Calendario.cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-                      
+                                  
             cabecalhoPagina();
             
             // CONTEUDO DO CALENDARIO
@@ -370,11 +375,17 @@ public class GeradorPDF {
                     
                     List<AfastamentosProcurador> listaAfastados = new ArrayList<>();
                     switch(linha) {
-                        case 3:
+                        case 3:                            
                             if (coluna >= (inicio - 1)) {
-                                listaAfastados = preencherArrayListAfastadosDia(diaSigla, listaDeAfastamentos);                                
+                                listaAfastados = preencherArrayListAfastadosDia(diaSigla,Calendario.mes(), listaDeAfastamentos);                                                                
                                 for(AfastamentosProcurador o: listaAfastados) {
-                                    conteudo += o.getSigla() + "  ";
+                                    String d = diaSigla + "/" + (mesAtual+1) + "/" + Calendario.ano();
+                                    System.out.println(d + " = " +  Calendario.dateToString(o.getDataInicio()) + " = " + mesAtual + " = " + Calendario.mes(o.getDatafim()) + " = " + mesAtual);
+                                    //if(Calendario.stringToDate(d).after(o.getDatafim()) && Calendario.stringToDate(d).before(o.getDataInicio())) {
+                                    //if(Calendario.dataIgual(Calendario.stringToDate(d),o.getDataInicio()) || Calendario.dataIgual(Calendario.stringToDate(d),o.getDatafim())) {                                    
+                                    //if( Calendario.mes(o.getDataInicio()) == mesAtual) {
+                                        conteudo += o.getSigla() + "  ";
+                                    //}
                                 }
                                 diaSigla++;
                             }
@@ -385,9 +396,17 @@ public class GeradorPDF {
                         case 15:
                         case 18:
                             if (diaSigla <=  ultimoDia) {
-                                listaAfastados = preencherArrayListAfastadosDia(diaSigla, listaDeAfastamentos);                                                                
+                                listaAfastados = preencherArrayListAfastadosDia(diaSigla,Calendario.mes(), listaDeAfastamentos);                                                                
                                 for(AfastamentosProcurador o: listaAfastados) {
-                                    conteudo += o.getSigla() + "  ";
+                                    String d = diaSigla + "/" + (mesAtual+1) + "/" + Calendario.ano();
+                                    System.out.println(d + " = " + Calendario.dateToString(o.getDataInicio()) + " = " + mesAtual + " = " + Calendario.mes(o.getDatafim()) + " = " + mesAtual);
+                                    
+                                    //if(Calendario.dataIgual(Calendario.stringToDate(d),o.getDataInicio()) && Calendario.dataIgual(Calendario.stringToDate(d),o.getDatafim())) {
+                                    //if(Calendario.stringToDate(d).after(o.getDatafim()) && Calendario.stringToDate(d).before(o.getDataInicio())) {
+                                    //if( Calendario.mes(o.getDataInicio()) == mesAtual || Calendario.mes(o.getDatafim()) == mesAtual) {
+                                    //if( Calendario.mes(o.getDataInicio()) == mesAtual) {
+                                        conteudo += o.getSigla() + "  ";
+                                    //}
                                 }
                                 diaSigla++;
                             }
