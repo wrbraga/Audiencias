@@ -97,7 +97,7 @@ public class GeradorPDF {
             Calendario.setData(agenda.getValueAt(0, Colunas.DIA.valor).toString());
                     // CABECALHO CALENDARIO
             PdfPTable tabelaTitulo = new PdfPTable(3);
-            int[] columnWidthsTitulo = {5, 70, 25};            
+            int[] columnWidthsTitulo = {5, 68, 27};            
             
             try {
                 tabelaTitulo.setWidthPercentage(100);            
@@ -110,8 +110,28 @@ public class GeradorPDF {
                 PdfPCell celula2 = new PdfPCell(new Phrase("Procuradoria da República no Município de Niterói\nSubcoordenadoria Jurídica",catFont));
                 celula2.setBorder(Rectangle.NO_BORDER);
                 tabelaTitulo.addCell(celula2);
-
-                PdfPCell celula3 = new PdfPCell(new Phrase(Calendario.nomeMes(Calendario.mes()) + "/" + Calendario.ano(),catFont));
+                
+                PdfPCell celula3 = new PdfPCell(); 
+                PdfPTable t1 = new PdfPTable(1);
+                t1.setHorizontalAlignment(Element.ALIGN_CENTER);
+                
+                Paragraph p1 = new Paragraph(Calendario.nomeMes(Calendario.mes()) + "/" + Calendario.ano(),catFont);
+                p1.setAlignment(Element.ALIGN_CENTER);
+                PdfPCell t1c1 = new PdfPCell(p1); 
+                t1c1.setBorder(Rectangle.NO_BORDER);
+                t1c1.setHorizontalAlignment(Element.ALIGN_RIGHT);                
+                
+                t1.addCell(t1c1);
+                
+                Paragraph p2 = new Paragraph(Calendario.getDataAtual() + " " + Calendario.getHoraAtual(),fontLinhaLegenda);
+                p2.setAlignment(Element.ALIGN_CENTER);
+                PdfPCell t1c2 = new PdfPCell(p2); 
+                t1c2.setBorder(Rectangle.NO_BORDER);
+                t1c2.setHorizontalAlignment(Element.ALIGN_RIGHT);
+                
+                t1.addCell(t1c2);
+                
+                celula3.addElement(t1);
                 celula3.setHorizontalAlignment(Element.ALIGN_RIGHT);
                 celula3.setBorder(Rectangle.NO_BORDER);
                 tabelaTitulo.addCell(celula3);                        
@@ -160,14 +180,20 @@ public class GeradorPDF {
     private String listaProcurador(int dia) {
         int d;
         String procuradores = "";
+        String p1, p2 = null;
         for(int x = 0; x < agenda.getRowCount(); x++) {
             Calendario.setData(agenda.getValueAt(x, Colunas.DIA.valor).toString());
             d = Calendario.dia();
             if(dia == d) {
-                procuradores += agenda.getValueAt(x, Colunas.LOCAL.valor).toString() + "-" + agenda.getValueAt(x, Colunas.PROCURADOR.valor).toString();
-                if (x < agenda.getRowCount()) {
-                    procuradores += "\n";
+                p1 = agenda.getValueAt(x, Colunas.LOCAL.valor).toString() + "-" + agenda.getValueAt(x, Colunas.PROCURADOR.valor).toString();
+                if (!p1.equals(p2)) {
+                    p2 = p1;
+                    if (x < agenda.getRowCount()) {
+                        procuradores += p1 + "\n";
+                    }
                 }
+                //procuradores += agenda.getValueAt(x, Colunas.LOCAL.valor).toString() + "-" + agenda.getValueAt(x, Colunas.PROCURADOR.valor).toString();
+                
             }
         }
         return procuradores;
@@ -380,10 +406,7 @@ public class GeradorPDF {
                                 listaAfastados = preencherArrayListAfastadosDia(diaSigla,Calendario.mes(), listaDeAfastamentos);                                                                
                                 for(AfastamentosProcurador o: listaAfastados) {                                    
                                     Date data = Calendario.stringToDate(diaSigla + "/" + (mesAtual+1) + "/" + Calendario.ano());
-                                    
-                                     System.out.println(data.toString() + " -- " + o.getDataInicio());
-                                     System.out.println(data.compareTo(o.getDataInicio()));
-                                     
+                                                                         
                                     if (data.compareTo(o.getDataInicio()) >= 0 && data.compareTo(o.getDatafim()) <= 0) {
                                         conteudo += o.getSigla() + "  ";
                                     }
@@ -401,10 +424,7 @@ public class GeradorPDF {
                                 listaAfastados = preencherArrayListAfastadosDia(diaSigla,Calendario.mes(), listaDeAfastamentos);                                                                
                                 for(AfastamentosProcurador o: listaAfastados) {
                                     Date data =Calendario.stringToDate(diaSigla + "/" + (mesAtual+1) + "/" + Calendario.ano());
-                                    
-                                    System.out.println(data.toString() + " -- " + o.getDataInicio());                                                                        
-                                    System.out.println(data.compareTo(o.getDataInicio()));
-                                    
+                                                                        
                                     if (data.compareTo(o.getDataInicio()) >= 0 && data.compareTo(o.getDatafim()) <= 0) {
                                         conteudo += o.getSigla() + "  ";
                                     }                                    

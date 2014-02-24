@@ -131,6 +131,9 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         preencherAgendaComboBoxAssunto();
         preencherAgendaComboBoxClasse();
         preencherComboBoxProcurador();
+        
+        System.out.println(Calendario.getDataAtual());
+        System.out.println(Calendario.getHoraAtual());
     }
 
     /**
@@ -2415,19 +2418,20 @@ public class PrincipalJFrame extends javax.swing.JFrame {
             } else {
                 areaAtual = "CRIMINAL";
             }
-                
-            if (!areaAnterior.equals(areaAtual)) {
-                resultado = getProcuradoresAgenda(selectedRows,Calendario.stringToDate(modeloAgenda.getValueAt(selectedRows, 1).toString()),Calendario.stringToDate(modeloAgenda.getValueAt(selectedRows, 1).toString()));                               
-                areaAnterior = areaAtual;
-            }
-                                   
-            int semanaAtual = Calendario.semana(modeloAgenda.getValueAt(selectedRows, 1).toString());
             
+            int semanaAtual = Calendario.semana(modeloAgenda.getValueAt(selectedRows, 1).toString());            
+                                                           
             if (selectedRows == 0) {
                 semanaAnterior = semanaAtual;
             } else if (selectedRows > 0) {
                 semanaAnterior = Calendario.semana(modeloAgenda.getValueAt(selectedRows - 1, 1).toString());                
             } 
+            
+            if (!areaAnterior.equals(areaAtual)) {
+                resultado = getProcuradoresAgenda(selectedRows,Calendario.stringToDate(modeloAgenda.getValueAt(selectedRows, 1).toString()),Calendario.stringToDate(modeloAgenda.getValueAt(selectedRows, 1).toString()));                               
+                areaAnterior = areaAtual;
+                semanaAnterior = semanaAtual;
+            }             
                         
             int totalDeItens = (resultado.size()-1);
             
@@ -2480,7 +2484,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                         }
 
                         proximoProcurador = ((Procurador)resultado.get(nIndex));   
-                        System.out.println(nIndex +  " : " + p.getNome() + " está de férias, o substituto será " + proximoProcurador.getNome());
+                        
                     } while(procuradorEstaAfastadoEm(Calendario.stringToDate(modeloAgenda.getValueAt(selectedRows, 1).toString()), proximoProcurador.getIdProcurador()));
                                                        
                     proximoProcurador.setUltimo(1);

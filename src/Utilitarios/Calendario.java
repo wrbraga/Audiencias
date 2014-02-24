@@ -14,6 +14,22 @@ import java.util.logging.Logger;
  */
 public class Calendario {
     static Calendar cal = Calendar.getInstance();
+    
+    public static String getDataAtual() {
+        Date d = new Date();
+        cal.setTime(d);
+        cal.get(Calendar.SHORT);
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");                
+        return df.format(cal.getTime());
+    }
+    
+    public static String getHoraAtual() {
+        Date d = new Date();
+        cal.setTime(d);
+        cal.get(Calendar.SHORT);
+        SimpleDateFormat df = new SimpleDateFormat("k:mm");                
+        return df.format(cal.getTime());
+    }    
 
     public static String nomeMes(int i) {
         String MES[] = {"JANEIRO", "FEVEREIRO", "MARÇO", "ABRIL", "MAIO", "JUNHO", "JULHO", "AGOSTO", "SETEMBRO", "OUTUBRO", "NOVEMBRO", "DEZEMBRO"};
