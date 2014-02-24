@@ -379,9 +379,12 @@ public class GeradorPDF {
                             if (coluna >= (inicio - 1)) {
                                 listaAfastados = preencherArrayListAfastadosDia(diaSigla,Calendario.mes(), listaDeAfastamentos);                                                                
                                 for(AfastamentosProcurador o: listaAfastados) {                                    
-                                    Date data =Calendario.stringToDate(diaSigla + "/" + (mesAtual+1) + "/" + Calendario.ano());
-                                                                        
-                                    if (data.before(o.getDataInicio()) && data.after(o.getDatafim())) {
+                                    Date data = Calendario.stringToDate(diaSigla + "/" + (mesAtual+1) + "/" + Calendario.ano());
+                                    
+                                     System.out.println(data.toString() + " -- " + o.getDataInicio());
+                                     System.out.println(data.compareTo(o.getDataInicio()));
+                                     
+                                    if (data.compareTo(o.getDataInicio()) >= 0 && data.compareTo(o.getDatafim()) <= 0) {
                                         conteudo += o.getSigla() + "  ";
                                     }
                                     
@@ -398,8 +401,11 @@ public class GeradorPDF {
                                 listaAfastados = preencherArrayListAfastadosDia(diaSigla,Calendario.mes(), listaDeAfastamentos);                                                                
                                 for(AfastamentosProcurador o: listaAfastados) {
                                     Date data =Calendario.stringToDate(diaSigla + "/" + (mesAtual+1) + "/" + Calendario.ano());
-                                                                        
-                                    if (data.before(o.getDataInicio()) && data.after(o.getDatafim())) {
+                                    
+                                    System.out.println(data.toString() + " -- " + o.getDataInicio());                                                                        
+                                    System.out.println(data.compareTo(o.getDataInicio()));
+                                    
+                                    if (data.compareTo(o.getDataInicio()) >= 0 && data.compareTo(o.getDatafim()) <= 0) {
                                         conteudo += o.getSigla() + "  ";
                                     }                                    
 
