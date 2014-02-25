@@ -70,6 +70,10 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private static final String SQL_UPDATE_PROCURADOR_ATUANDO = "UPDATE APP.PROCURADOR SET atuando = :atuando WHERE idprocurador = :idprocurador";
     
     private static final String SQL_QUERY_PROC_SORT_ANT = "select * from APP.PROCURADOR WHERE area = 'Criminal' order by antiguidade desc";
+    private static final String SQL_QUERY_PROCURADOR_AFASTAMENTO = "SELECT *\n" +
+        "FROM APP.AFASTAMENTOS as A\n" +
+        "WHERE A.IDPROCURADOR = :idProcurador \n" +
+        "AND (:data >= DATAINICIO AND :data <= DATAFIM)";
     
     /**
      * QUERYs para manipulação da tabela AGENDA
@@ -82,7 +86,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     "order by case\n" +
     " when LOCAL  like '%CIVIL%' then 1\n" +
     " when LOCAL  like '%CIVIL%' then 2\n" +
-    "end, DIA";
+    "end, DIA, HORA";
     
     private static final String SQL_QUERY_DATA_ALL_AGENDA = "select A.* from APP.AGENDA A, APP.LOCAL L\n" +
     "where L.IDLOCAL = A.IDLOCAL\n" +
@@ -91,7 +95,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     "order by case\n" +
     " when LOCAL  like '%CIVIL%' then 1\n" +
     " when LOCAL  like '%CIVIL%' then 2\n" +
-    "end, DIA";
+    "end, DIA, HORA";
     
     private static final String SQL_UPDATE_AGENDA = "UPDATE APP.AGENDA SET idagenda = :idagenda, dia = :dia, hora = :hora, processo = :processo, idclasse = :idclasse, idprocurador = :idprocurador, idassunto = :idassunto, idlocal = :idlocal WHERE idagenda = :idagenda";
     
@@ -166,7 +170,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         agendaButtonAlterar = new javax.swing.JButton();
         agendaButtonLimpar = new javax.swing.JButton();
         agendaButtonSortear = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        agendaButtonGerarPDF = new javax.swing.JButton();
         PanelEntradaAgenda = new javax.swing.JPanel();
         localLabelConsultar4 = new javax.swing.JLabel();
         agendaTextFieldProcesso = new javax.swing.JTextField();
@@ -320,19 +324,19 @@ public class PrincipalJFrame extends javax.swing.JFrame {
             }
         });
 
-        agendaButtonSortear.setBackground(new java.awt.Color(255, 51, 51));
         agendaButtonSortear.setText("1) Sortear");
+        agendaButtonSortear.setEnabled(false);
         agendaButtonSortear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 agendaButtonSortearActionPerformed(evt);
             }
         });
 
-        jButton2.setBackground(new java.awt.Color(255, 255, 51));
-        jButton2.setText("2) Gerar Agenda PDF");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        agendaButtonGerarPDF.setText("2) Gerar Agenda PDF");
+        agendaButtonGerarPDF.setEnabled(false);
+        agendaButtonGerarPDF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                agendaButtonGerarPDFActionPerformed(evt);
             }
         });
 
@@ -354,7 +358,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(agendaButtonSortear)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
+                .addComponent(agendaButtonGerarPDF)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         PanelButoesAgendaLayout.setVerticalGroup(
@@ -368,7 +372,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                         .addComponent(agendaButtonExcluir)
                         .addComponent(agendaButtonAlterar)
                         .addComponent(agendaButtonSortear)
-                        .addComponent(jButton2))
+                        .addComponent(agendaButtonGerarPDF))
                     .addComponent(agendaButtonConsultar))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -378,6 +382,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         localLabelConsultar4.setText("Processo");
 
         agendaTextFieldDia.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
+        agendaTextFieldDia.setToolTipText("Digite uma data para filtrar pelo mês!");
 
         jLabel2.setText("Dia");
 
@@ -405,34 +410,36 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(PanelEntradaAgendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PanelEntradaAgendaLayout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(agendaComboBoxClasse, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(agendaComboBoxAssunto, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(agendaComboBoxLocal, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(PanelEntradaAgendaLayout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(agendaComboBoxProcurador, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(PanelEntradaAgendaLayout.createSequentialGroup()
-                        .addComponent(jLabel2)
+                        .addGroup(PanelEntradaAgendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, PanelEntradaAgendaLayout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(agendaComboBoxClasse, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(agendaComboBoxAssunto, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, PanelEntradaAgendaLayout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(agendaTextFieldDia, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(agendaTextFieldHora, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(localLabelConsultar4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(agendaTextFieldProcesso, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(agendaTextFieldDia, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel3)
+                        .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(agendaTextFieldHora, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(localLabelConsultar4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(agendaTextFieldProcesso, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(300, Short.MAX_VALUE))
+                        .addComponent(agendaComboBoxLocal, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(193, Short.MAX_VALUE))
         );
         PanelEntradaAgendaLayout.setVerticalGroup(
             PanelEntradaAgendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1304,7 +1311,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 957, Short.MAX_VALUE)
             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -1405,8 +1412,10 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_classeButtonAlterarActionPerformed
 
     private void agendaButtonConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agendaButtonConsultarActionPerformed
+        String data = agendaTextFieldDia.getText().trim();
         limparAgenda();
-        consultarAgenda();
+        consultarAgenda(data);
+        agendaButtonSortear.setEnabled(true);
     }//GEN-LAST:event_agendaButtonConsultarActionPerformed
 
     private void agendaJTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_agendaJTableMouseClicked
@@ -1428,6 +1437,9 @@ public class PrincipalJFrame extends javax.swing.JFrame {
 
     private void agendaButtonIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agendaButtonIncluirActionPerformed
         incluirAgenda();
+        if(!agendaButtonSortear.isEnabled()) {
+            agendaButtonSortear.setEnabled(true);
+        }
     }//GEN-LAST:event_agendaButtonIncluirActionPerformed
 
     private void agendaButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agendaButtonExcluirActionPerformed
@@ -1473,14 +1485,15 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_procuradorButtonConsultarActionPerformed
 
     private void agendaButtonSortearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agendaButtonSortearActionPerformed
-        limparAgenda();
-        consultarAgenda();
+//        String data = agendaTextFieldDia.getText().trim();
+//        limparAgenda();        
+//        consultarAgenda(data);
         sortearProcuradorAgenda();        
     }//GEN-LAST:event_agendaButtonSortearActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void agendaButtonGerarPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agendaButtonGerarPDFActionPerformed
         gerarAgenda();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_agendaButtonGerarPDFActionPerformed
 
     private void afastamentosButtonConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_afastamentosButtonConsultarActionPerformed
         afastamentosConsultar();
@@ -1556,6 +1569,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private javax.swing.JButton agendaButtonAlterar;
     private javax.swing.JButton agendaButtonConsultar;
     private javax.swing.JButton agendaButtonExcluir;
+    private javax.swing.JButton agendaButtonGerarPDF;
     private javax.swing.JButton agendaButtonIncluir;
     private javax.swing.JButton agendaButtonLimpar;
     private javax.swing.JButton agendaButtonSortear;
@@ -1586,7 +1600,6 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private javax.swing.JTable classeJTable;
     private javax.swing.JLabel classeLabelclasse;
     private javax.swing.JTextField classeTextFieldClasse;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -2161,19 +2174,17 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         
     }
     
-    private void consultarAgenda() {
+    private void consultarAgenda(String data) {
         Session sessao = HibernateUtil.getSessionFactory().openSession();
         Query query;
-        
-        System.out.println("Data :" + agendaTextFieldDia.getText());
-        
-        if (agendaTextFieldDia.getText().trim().isEmpty()) {
+               
+        if (data.isEmpty()) {
              query = sessao.createSQLQuery(SQL_QUERY_ALL_AGENDA);
         } else {            
             query = sessao.createSQLQuery(SQL_QUERY_DATA_ALL_AGENDA);
-            int mes = Calendario.mes(Calendario.stringToDate(agendaTextFieldDia.getText())) + 1;
-            int ano = Calendario.ano(Calendario.stringToDate(agendaTextFieldDia.getText()));            
-            System.out.println("Consulta com mes:" + mes + " e ano " + ano);
+            int mes = Calendario.mes(Calendario.stringToDate(data)) + 1;
+            int ano = Calendario.ano(Calendario.stringToDate(data));            
+
             query.setParameter("mes", mes);
             query.setParameter("ano", ano);
         }
@@ -2204,6 +2215,8 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     }
 
     private void limparAgenda() {
+        agendaButtonGerarPDF.setEnabled(false);
+        agendaButtonSortear.setEnabled(false);
         modeloAgenda.limpar();        
         agendaTextFieldDia.setText("");
         agendaTextFieldHora.setText("");
@@ -2283,13 +2296,13 @@ public class PrincipalJFrame extends javax.swing.JFrame {
          *  Indicando que o mesmo não está atuando
          */
         
-        query = sessao.createSQLQuery(SQL_UPDATE_PROCURADOR_ATUANDO);
-        query.setParameter("atuando", 0);
-        query.setParameter("idprocurador", afastamento.getIdprocurador());
-        
-        query.executeUpdate();
-        sessao.getTransaction().commit();
-        sessao.close();        
+//        query = sessao.createSQLQuery(SQL_UPDATE_PROCURADOR_ATUANDO);
+//        query.setParameter("atuando", 0);
+//        query.setParameter("idprocurador", afastamento.getIdprocurador());
+//        
+//        query.executeUpdate();
+//        sessao.getTransaction().commit();
+//        sessao.close();        
         
     }
 
@@ -2359,14 +2372,9 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         
     }
     
-    private boolean procuradorEstaAfastadoEm(Date data, int idProcurador) {
-        String SQL = "SELECT *\n" +
-        "FROM APP.AFASTAMENTOS as A\n" +
-        "WHERE A.IDPROCURADOR = :idProcurador \n" +
-        "AND (:data >= DATAINICIO AND :data <= DATAFIM)";
-        
+    private boolean procuradorEstaAfastadoEm(Date data, int idProcurador) {              
         Session sessao = HibernateUtil.getSessionFactory().openSession();
-        Query query  = sessao.createSQLQuery(SQL);            
+        Query query  = sessao.createSQLQuery(SQL_QUERY_PROCURADOR_AFASTAMENTO);            
         query.setParameter("data", data);
         query.setParameter("idProcurador", idProcurador);
         List resultado = query.list();
@@ -2427,7 +2435,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
        // return resultado;
     }
     
-    private void sortearProcuradorAgenda() {
+    private void sortearProcuradorAgenda() {        
         int semanaAnterior = 0 ;
         String areaAnterior = "";
         String areaAtual;
@@ -2453,6 +2461,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
             } 
             
             if (!areaAnterior.equals(areaAtual)) {
+                resultado.clear();
                 resultado = getProcuradoresAgenda(selectedRows,Calendario.stringToDate(modeloAgenda.getValueAt(selectedRows, 1).toString()),Calendario.stringToDate(modeloAgenda.getValueAt(selectedRows, 1).toString()));                               
                 areaAnterior = areaAtual;
                 semanaAnterior = semanaAtual;
@@ -2524,6 +2533,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
             }            
             
         }       
+        agendaButtonGerarPDF.setEnabled(true);
     }
     
 }
