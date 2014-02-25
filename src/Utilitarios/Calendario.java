@@ -127,6 +127,11 @@ public class Calendario {
         return cal.get(Calendar.YEAR);
     }
     
+    public static int ano(Date data) {
+        setData(data);
+        return ano();
+    }
+    
     public static boolean dataIgual(Date data1, Date data2) {
         return data1.equals(data2);
     }

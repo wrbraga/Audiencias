@@ -83,6 +83,16 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     " when LOCAL  like '%CIVIL%' then 1\n" +
     " when LOCAL  like '%CIVIL%' then 2\n" +
     "end, DIA";
+    
+    private static final String SQL_QUERY_DATA_ALL_AGENDA = "select A.* from APP.AGENDA A, APP.LOCAL L\n" +
+    "where L.IDLOCAL = A.IDLOCAL\n" +
+    "AND month(DIA) = :mes\n"+
+    "AND year(DIA) = :ano\n"+
+    "order by case\n" +
+    " when LOCAL  like '%CIVIL%' then 1\n" +
+    " when LOCAL  like '%CIVIL%' then 2\n" +
+    "end, DIA";
+    
     private static final String SQL_UPDATE_AGENDA = "UPDATE APP.AGENDA SET idagenda = :idagenda, dia = :dia, hora = :hora, processo = :processo, idclasse = :idclasse, idprocurador = :idprocurador, idassunto = :idassunto, idlocal = :idlocal WHERE idagenda = :idagenda";
     
     /**
@@ -2153,7 +2163,21 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     
     private void consultarAgenda() {
         Session sessao = HibernateUtil.getSessionFactory().openSession();
-        Query query = sessao.createSQLQuery(SQL_QUERY_ALL_AGENDA);
+        Query query;
+        
+        System.out.println("Data :" + agendaTextFieldDia.getText());
+        
+        if (agendaTextFieldDia.getText().trim().isEmpty()) {
+             query = sessao.createSQLQuery(SQL_QUERY_ALL_AGENDA);
+        } else {            
+            query = sessao.createSQLQuery(SQL_QUERY_DATA_ALL_AGENDA);
+            int mes = Calendario.mes(Calendario.stringToDate(agendaTextFieldDia.getText())) + 1;
+            int ano = Calendario.ano(Calendario.stringToDate(agendaTextFieldDia.getText()));            
+            System.out.println("Consulta com mes:" + mes + " e ano " + ano);
+            query.setParameter("mes", mes);
+            query.setParameter("ano", ano);
+        }
+        
         List<Object[]> resultado = query.list();
        
         for(Object[] o: resultado) {
@@ -2161,6 +2185,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
             Agenda a = new Agenda(Integer.parseInt(aux[0].toString()), (Date)aux[1], Calendario.stringToTime(aux[2].toString()), aux[3].toString(), Integer.parseInt(aux[4].toString()), Integer.parseInt(aux[5].toString()), Integer.parseInt(aux[6].toString()), Integer.parseInt(aux[7].toString()));
             modeloAgenda.addAgenda(a);            
         }          
+        sessao.close();
         
     }
 
