@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -41,6 +42,7 @@ public class GeradorPDF {
     // criação do documento
     private Document document;
     private Image logo;
+    private String nomeArquivo;
     
     
     private static enum Colunas {
@@ -70,7 +72,10 @@ public class GeradorPDF {
     public void abrirDocumento() {
         try {                
             JFileChooser salvandoArquivo = new JFileChooser(); 
-            File arq = new File("agenda.pdf");
+            String mes = Calendario.nomeMes(Calendario.mes(agenda.getAgenda(0).getDia()));
+            int ano = Calendario.ano(agenda.getAgenda(0).getDia());
+            this.nomeArquivo = "Agenda_"+mes+"_"+ano+".pdf";
+            File arq = new File(this.nomeArquivo);
             salvandoArquivo.setSelectedFile(arq);
             int resultado = salvandoArquivo.showSaveDialog(null);  
 
@@ -91,6 +96,7 @@ public class GeradorPDF {
     
     public void fecharDocumento() {
         document.close();
+        JOptionPane.showMessageDialog(null, "Arquivo " +  this.nomeArquivo +" gerado!");
     }
     
     private void cabecalhoPagina() {
@@ -141,6 +147,7 @@ public class GeradorPDF {
                 
             }
     }    
+    
     public void criarListagem() {        
             
         try {                

@@ -2386,7 +2386,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         
     }
 
-    private List getProcuradoresAgenda(int linha, Date datainicio, Date datafim) {                               
+    private List getProcuradoresAgenda(String local, Date dia) {                               
         Session sessao = HibernateUtil.getSessionFactory().openSession();        
         int tam = 0;
         List<Object[]> resultado;
@@ -2400,15 +2400,22 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                 inverterCondicao = "NOT";
             }
             
-            String SQL_AREA = "SELECT * \n" +
-            "FROM APP.PROCURADOR as P \n" +            
-            "WHERE " + inverterCondicao + " P.AREA = :area \n" +
-            "ORDER BY ANTIGUIDADE DESC";              
-
-            String localExtraido = modeloAgenda.getValueAt(linha, 6).toString().replaceAll("[0123456789]","").trim(); 
-            localExtraido = localExtraido.replaceAll("JEF/", "").trim();
+//            String SQL_AREA = "SELECT * \n" +
+//            "FROM APP.PROCURADOR as P \n" +            
+//            "WHERE " + inverterCondicao + " P.AREA = :area \n" +
+//            "ORDER BY ANTIGUIDADE DESC";              
+            
+            String SQL_AREA = "SELECT DISTINCT P.* \n" +
+            "FROM APP.PROCURADOR P, APP.AFASTAMENTOS A \n" +
+            "WHERE P.IDPROCURADOR not IN (select DISTINCT IDPROCURADOR from APP.AFASTAMENTOS A WHERE (:data >= A.DATAINICIO AND :data <= A.DATAFIM)) \n" +
+            "AND " + inverterCondicao + " P.AREA = :area \n" +
+            "ORDER BY ANTIGUIDADE DESC";
+                    
+            String areaExtraido = local.replaceAll("[0123456789]","").trim(); 
+            areaExtraido = areaExtraido.replaceAll("JEF/", "").trim();
             Query query  = sessao.createSQLQuery(SQL_AREA);            
-            query.setParameter("area", localExtraido);
+            query.setParameter("area", areaExtraido);
+            query.setParameter("data", dia);
                                         
             resultado = query.list();
             tam = resultado.size();
@@ -2457,7 +2464,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
             
             if (!localAnterior.equals(localAtual)) {
                 resultado.clear();
-                resultado = getProcuradoresAgenda(selectedRows,agenda.getDia(),agenda.getDia());                                               
+                resultado = getProcuradoresAgenda(localAtual, agenda.getDia());                                               
                 semanaAnterior = semanaAtual;                                                
             }             
                         
@@ -2484,16 +2491,23 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                     agendaUtil.setUltimoProcurador(p);
                     
                     do {
-                        resultado.clear();
-                        resultado = getProcuradoresAgenda(selectedRows,agenda.getDia(),agenda.getDia()); 
-                        
+                                                
                         if (nIndex < totalDeItens) {
                             nIndex = nIndex+1;
                         } else {
                             nIndex = 0;
                         }
                         
+                        resultado.clear();
+                        resultado = getProcuradoresAgenda(localAtual, agenda.getDia()); 
+                        totalDeItens = (resultado.size()-1);
+                        
                         proximoProcurador = ((Procurador)resultado.get(nIndex));   
+                        
+                        if (p.getUltimo() == 0) { 
+                           continue;
+                        }
+                        
                     } while(procuradorEstaAfastadoEm(Calendario.stringToDate(modeloAgenda.getValueAt(selectedRows, 1).toString()), proximoProcurador.getIdProcurador()));
                     
                     proximoProcurador.setUltimo(1);
