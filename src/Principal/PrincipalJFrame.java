@@ -86,7 +86,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     "order by case\n" +
     " when LOCAL  like '%CIVIL%' then 1\n" +
     " when LOCAL  like '%CIVIL%' then 2\n" +
-    "end, DIA, HORA";
+    "end, DIA, LOCAL, HORA";
     
     private static final String SQL_QUERY_DATA_ALL_AGENDA = "select A.* from APP.AGENDA A, APP.LOCAL L\n" +
     "where L.IDLOCAL = A.IDLOCAL\n" +
@@ -95,7 +95,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     "order by case\n" +
     " when LOCAL  like '%CIVIL%' then 1\n" +
     " when LOCAL  like '%CIVIL%' then 2\n" +
-    "end, DIA, HORA";
+    "end, DIA, LOCAL, HORA";
     
     private static final String SQL_UPDATE_AGENDA = "UPDATE APP.AGENDA SET idagenda = :idagenda, dia = :dia, hora = :hora, processo = :processo, idclasse = :idclasse, idprocurador = :idprocurador, idassunto = :idassunto, idlocal = :idlocal WHERE idagenda = :idagenda";
     
@@ -146,8 +146,6 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         preencherAgendaComboBoxClasse();
         preencherComboBoxProcurador();
         
-        System.out.println(Calendario.getDataAtual());
-        System.out.println(Calendario.getHoraAtual());
     }
 
     /**
@@ -2203,13 +2201,13 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private void excluirAgenda() {           
         int selectRow = agendaJTable.getSelectedRow();        
         
-        Session sessao = HibernateUtil.getSessionFactory().openSession();
-        sessao.beginTransaction();
-        Query query = sessao.createSQLQuery(SQL_DELETE_AGENDA);
-        query.setParameter("idagenda", Integer.parseInt(agendaJTable.getValueAt(selectRow, 0).toString()));
-        query.executeUpdate();
-        sessao.getTransaction().commit();
-        sessao.close();                       
+//        Session sessao = HibernateUtil.getSessionFactory().openSession();
+//        sessao.beginTransaction();
+//        Query query = sessao.createSQLQuery(SQL_DELETE_AGENDA);
+//        query.setParameter("idagenda", Integer.parseInt(agendaJTable.getValueAt(selectRow, 0).toString()));
+//        query.executeUpdate();
+//        sessao.getTransaction().commit();
+//        sessao.close();                       
         
         modeloAgenda.removerAgenda(selectRow);
     }
@@ -2408,6 +2406,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
             "ORDER BY ANTIGUIDADE DESC";              
 
             String localExtraido = modeloAgenda.getValueAt(linha, 6).toString().replaceAll("[0123456789]","").trim(); 
+            localExtraido = localExtraido.replaceAll("JEF/", "").trim();
             Query query  = sessao.createSQLQuery(SQL_AREA);            
             query.setParameter("area", localExtraido);
                                         
@@ -2437,8 +2436,8 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     
     private void sortearProcuradorAgenda() {        
         int semanaAnterior = 0 ;
-        String areaAnterior = "";
-        String areaAtual;
+        String localAnterior = "INICIO";        
+        String localAtual;
         int nIndex;
         Procurador proximoProcurador;
         List resultado = new ArrayList();
@@ -2446,30 +2445,28 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         for(int selectedRows = 0; selectedRows < agendaJTable.getRowCount(); selectedRows++) { // Varre o jTable pegando
             Agenda agenda = modeloAgenda.getAgenda(selectedRows);
             
-            if (modeloAgenda.getValueAt(selectedRows, 6).toString().contains("CIVIL")) {
-                areaAtual = "CIVIL";
-            } else {
-                areaAtual = "CRIMINAL";
-            }
+            localAtual = agendaUtil.getLocalByID(agenda.getIdlocal());
             
-            int semanaAtual = Calendario.semana(modeloAgenda.getValueAt(selectedRows, 1).toString());            
+            int semanaAtual = Calendario.semana(agenda.getDia());            
                                                            
             if (selectedRows == 0) {
                 semanaAnterior = semanaAtual;
             } else if (selectedRows > 0) {
-                semanaAnterior = Calendario.semana(modeloAgenda.getValueAt(selectedRows - 1, 1).toString());                
+                semanaAnterior = Calendario.semana(modeloAgenda.getAgenda(selectedRows - 1).getDia());                
             } 
             
-            if (!areaAnterior.equals(areaAtual)) {
+            if (!localAnterior.equals(localAtual)) {
                 resultado.clear();
-                resultado = getProcuradoresAgenda(selectedRows,Calendario.stringToDate(modeloAgenda.getValueAt(selectedRows, 1).toString()),Calendario.stringToDate(modeloAgenda.getValueAt(selectedRows, 1).toString()));                               
-                areaAnterior = areaAtual;
-                semanaAnterior = semanaAtual;
+                resultado = getProcuradoresAgenda(selectedRows,agenda.getDia(),agenda.getDia());                                               
+                semanaAnterior = semanaAtual;                                                
             }             
                         
             int totalDeItens = (resultado.size()-1);
             
-            for(int index = 0; index <= totalDeItens; index++) { // Varre a lista de procuradores que podem atuar
+            /**
+             * Varre a lista de procuradores que podem atuar
+             */
+            for(int index = 0; index <= totalDeItens; index++) {
                 Procurador p = ((Procurador)resultado.get(index));                
                 nIndex = index;
                                 
@@ -2478,8 +2475,10 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                     continue;
                 }
                 
-                // Verifica se o procurador está afastado no dia da audiencia
-                if (procuradorEstaAfastadoEm(Calendario.stringToDate(modeloAgenda.getValueAt(selectedRows, 1).toString()), p.getIdProcurador())) {
+                /**
+                 * Verifica se o procurador está afastado no dia da audiencia
+                 */
+                if (procuradorEstaAfastadoEm(agenda.getDia(), p.getIdProcurador())) {
                     
                     p.setUltimo(0);                        
                     agendaUtil.setUltimoProcurador(p);
@@ -2502,9 +2501,11 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                     
                     break;
                 }                
-                                
-                // É a mesma semana para atuação
-                if (semanaAtual == semanaAnterior) {                     
+                   
+                /**
+                 * É a mesma semana para atuação, pela regra o mesmo procurador atua em todas as audiências da semana em sua área
+                 */                
+                if ((semanaAtual == semanaAnterior && localAtual.equals(localAnterior)) || localAnterior.equals("INICIO")) {                     
                     agenda.setIdprocurador(p.getIdProcurador());
                 } else {
                     p.setUltimo(0);                        
@@ -2528,11 +2529,17 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                     
                 }
                 
+                if (!localAnterior.equals(localAtual)) {
+                    localAnterior = localAtual;
+                }   
+                
                 modeloAgenda.setValueAt(agenda, selectedRows,7);
-                break;                
-            }            
+                break;     
+                
+            } // Fim da busca pelo procurador que irá atuar            
             
-        }       
+        } // Fim da listagem do JTABLE contendo os dias das audiências       
+        
         agendaButtonGerarPDF.setEnabled(true);
     }
     

@@ -205,7 +205,7 @@ public class GeradorPDF {
         
         Session sessao = HibernateUtil.getSessionFactory().openSession();
         Query query = sessao.createSQLQuery(SQL_QUERY_AFASTAMENTOS_MES);
-        query.setParameter("mes", (mes + 1));
+        query.setParameter("mes", mes);
         query.setParameter("ano", ano);
                               
         List<Object[]> result = query.list();                
@@ -298,11 +298,12 @@ public class GeradorPDF {
         document.setPageSize(PageSize.A4.rotate());
         document.newPage();
                 
-        try {
-            String primeiroDia = "01/" + (Calendario.mes()+1) + "/" + Calendario.ano();
-            Calendario.setData(primeiroDia);
-            int inicio = Calendario.diaDaSemana();
-            int mesAtual = Calendario.mes();
+        try {            
+            Date dataPrimeiraLinha = Calendario.stringToDate(agenda.getValueAt(0, Colunas.DIA.valor).toString());
+            int mesAtual = Calendario.mes(dataPrimeiraLinha)+1;
+            int anoAtual = Calendario.ano();
+            Calendario.setData("01/" + mesAtual  + "/" + anoAtual);
+            int inicio = Calendario.diaDaSemana();            
             int ultimoDia = Calendario.cal.getActualMaximum(Calendar.DAY_OF_MONTH);
             
             
@@ -325,7 +326,7 @@ public class GeradorPDF {
             int diaAudiencia = 1; // Dias para mostrar os procuradores
             int diaSigla = 1;
             
-            List<Object[]> listaDeAfastamentos = listaAfastamentos(Calendario.mes(), Calendario.ano());
+            List<Object[]> listaDeAfastamentos = listaAfastamentos(mesAtual, anoAtual);
             
                         
             for(int linha = 0; linha <= 18; linha++) {                
@@ -399,13 +400,13 @@ public class GeradorPDF {
                             }                            
                     }                    
                     
-                    List<AfastamentosProcurador> listaAfastados = new ArrayList<>();
+                    List<AfastamentosProcurador> listaAfastados;// = new ArrayList<>();
                     switch(linha) {
                         case 3:                            
                             if (coluna >= (inicio - 1)) {
-                                listaAfastados = preencherArrayListAfastadosDia(diaSigla,Calendario.mes(), listaDeAfastamentos);                                                                
+                                listaAfastados = preencherArrayListAfastadosDia(diaSigla,mesAtual, listaDeAfastamentos);                                                                
                                 for(AfastamentosProcurador o: listaAfastados) {                                    
-                                    Date data = Calendario.stringToDate(diaSigla + "/" + (mesAtual+1) + "/" + Calendario.ano());
+                                    Date data = Calendario.stringToDate(diaSigla + "/" + mesAtual + "/" + anoAtual);
                                                                          
                                     if (data.compareTo(o.getDataInicio()) >= 0 && data.compareTo(o.getDatafim()) <= 0) {
                                         conteudo += o.getSigla() + "  ";
@@ -423,7 +424,7 @@ public class GeradorPDF {
                             if (diaSigla <=  ultimoDia) {
                                 listaAfastados = preencherArrayListAfastadosDia(diaSigla,Calendario.mes(), listaDeAfastamentos);                                                                
                                 for(AfastamentosProcurador o: listaAfastados) {
-                                    Date data =Calendario.stringToDate(diaSigla + "/" + (mesAtual+1) + "/" + Calendario.ano());
+                                    Date data =Calendario.stringToDate(diaSigla + "/" + mesAtual + "/" + anoAtual);
                                                                         
                                     if (data.compareTo(o.getDataInicio()) >= 0 && data.compareTo(o.getDatafim()) <= 0) {
                                         conteudo += o.getSigla() + "  ";

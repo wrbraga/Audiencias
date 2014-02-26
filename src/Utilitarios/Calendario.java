@@ -79,7 +79,7 @@ public class Calendario {
     }
     
     public static Date stringToTime(String sData) {
-        SimpleDateFormat df = new SimpleDateFormat("hh:mm");
+        SimpleDateFormat df = new SimpleDateFormat("k:mm");
         Date data = null;
         try {
             data = df.parse(sData);
@@ -91,7 +91,7 @@ public class Calendario {
     }
     
     public static String timeToString(Date dDate) {
-        SimpleDateFormat df = new SimpleDateFormat("hh:mm");
+        SimpleDateFormat df = new SimpleDateFormat("k:mm");
         return df.format(dDate);
     }
     
@@ -100,6 +100,12 @@ public class Calendario {
         cal.setFirstDayOfWeek(Calendar.SUNDAY);
         return cal.get(Calendar.WEEK_OF_MONTH);        
     }
+    
+    public static int semana(Date dia) {
+        cal.setTime(dia);
+        cal.setFirstDayOfWeek(Calendar.SUNDAY);
+        return cal.get(Calendar.WEEK_OF_MONTH);        
+    }    
     
     public static int diaDaSemana() {
         return cal.get(Calendar.DAY_OF_WEEK);
