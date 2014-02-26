@@ -2484,12 +2484,15 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                     agendaUtil.setUltimoProcurador(p);
                     
                     do {
+                        resultado.clear();
+                        resultado = getProcuradoresAgenda(selectedRows,agenda.getDia(),agenda.getDia()); 
+                        
                         if (nIndex < totalDeItens) {
                             nIndex = nIndex+1;
                         } else {
                             nIndex = 0;
                         }
-
+                        
                         proximoProcurador = ((Procurador)resultado.get(nIndex));   
                     } while(procuradorEstaAfastadoEm(Calendario.stringToDate(modeloAgenda.getValueAt(selectedRows, 1).toString()), proximoProcurador.getIdProcurador()));
                     
