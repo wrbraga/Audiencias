@@ -1325,6 +1325,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void localButtonConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_localButtonConsultarActionPerformed
+        limparFormLocal();
         if(!localTextFieldLocal.getText().trim().isEmpty()) {
             executeQuery(String.format(SQL_QUERY_LOCAL_LOCAL,"'" + localTextFieldLocal.getText().trim()+ "%'"));
         } else {
@@ -1366,8 +1367,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_assuntoJTableMouseClicked
 
     private void assuntoButtonLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_assuntoButtonLimparActionPerformed
-        modeloAssunto.limpar();
-        assuntoTextFieldAssunto.setText("");
+        limparAssunto();
     }//GEN-LAST:event_assuntoButtonLimparActionPerformed
 
     private void assuntoButtonIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_assuntoButtonIncluirActionPerformed
@@ -1888,7 +1888,11 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         int selectedRow = localJTable.getSelectedRow();        
         modeloLocal.removeLocal(selectedRow);                 
     }
-
+    
+    private void limparAssunto() {
+        modeloAssunto.limpar();
+        assuntoTextFieldAssunto.setText("");
+    }
     
     private void incluirAssunto() {
         Assunto assunto = new Assunto();
@@ -1909,10 +1913,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         agendaComboBoxAssunto.addItem(assuntoTextFieldAssunto.getText());
     }
 
-    private void excluirAssunto() {
-        modeloAssunto.removeAssunto(assuntoJTable.getSelectedRow());
-        agendaComboBoxAssunto.removeItem(assuntoTextFieldAssunto.getText());
-        
+    private void excluirAssunto() {       
         Session sessao = HibernateUtil.getSessionFactory().openSession();
         sessao.beginTransaction();
         Query query = sessao.createSQLQuery(SQL_DELETE_ASSUNTO);
@@ -1920,6 +1921,9 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         query.executeUpdate();
         sessao.getTransaction().commit();
         sessao.close();
+        
+        modeloAssunto.removeAssunto(assuntoJTable.getSelectedRow());
+        agendaComboBoxAssunto.removeItem(assuntoTextFieldAssunto.getText());
     }
     
     private void alterarAssunto() {
@@ -1938,8 +1942,9 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         
         preencherAgendaComboBoxAssunto();
     }
-    
+            
     private void consultarAssunto() {
+        limparAssunto();
         Session sessao = HibernateUtil.getSessionFactory().openSession();
         String sql;       
                
@@ -2201,13 +2206,13 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private void excluirAgenda() {           
         int selectRow = agendaJTable.getSelectedRow();        
         
-//        Session sessao = HibernateUtil.getSessionFactory().openSession();
-//        sessao.beginTransaction();
-//        Query query = sessao.createSQLQuery(SQL_DELETE_AGENDA);
-//        query.setParameter("idagenda", Integer.parseInt(agendaJTable.getValueAt(selectRow, 0).toString()));
-//        query.executeUpdate();
-//        sessao.getTransaction().commit();
-//        sessao.close();                       
+        Session sessao = HibernateUtil.getSessionFactory().openSession();
+        sessao.beginTransaction();
+        Query query = sessao.createSQLQuery(SQL_DELETE_AGENDA);
+        query.setParameter("idagenda", Integer.parseInt(agendaJTable.getValueAt(selectRow, 0).toString()));
+        query.executeUpdate();
+        sessao.getTransaction().commit();
+        sessao.close();                       
         
         modeloAgenda.removerAgenda(selectRow);
     }
