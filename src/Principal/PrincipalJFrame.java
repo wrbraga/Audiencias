@@ -1393,8 +1393,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_classeJTableMouseClicked
 
     private void classeButtonLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classeButtonLimparActionPerformed
-        modeloClasse.limpar();
-        classeTextFieldClasse.setText("");
+        limparClasse();
     }//GEN-LAST:event_classeButtonLimparActionPerformed
 
     private void classeButtonIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classeButtonIncluirActionPerformed
@@ -1461,7 +1460,6 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_procuradorButtonIncluirActionPerformed
 
     private void procuradorButtonLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_procuradorButtonLimparActionPerformed
-
         limparFormProcurador();
     }//GEN-LAST:event_procuradorButtonLimparActionPerformed
 
@@ -1971,7 +1969,12 @@ public class PrincipalJFrame extends javax.swing.JFrame {
             modeloAssunto.addAssunto(dados);
         }
     }
-
+    
+    private void limparClasse() {
+        modeloClasse.limpar();
+        classeTextFieldClasse.setText("");
+    }
+    
     private void incluirClasse() {
         Classe classe = new Classe();
         classe.setIdclasse(getUltimoIdClasse());
@@ -2022,6 +2025,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     }
     
     private void consultarClasse() {
+        limparClasse();
         Session sessao = HibernateUtil.getSessionFactory().openSession();
         String sql;       
                
