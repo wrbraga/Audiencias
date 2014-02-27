@@ -1461,7 +1461,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_procuradorButtonIncluirActionPerformed
 
     private void procuradorButtonLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_procuradorButtonLimparActionPerformed
-        modeloProcurador.limpar();
+
         limparFormProcurador();
     }//GEN-LAST:event_procuradorButtonLimparActionPerformed
 
@@ -1478,7 +1478,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_procuradorJTableMouseClicked
 
     private void procuradorButtonConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_procuradorButtonConsultarActionPerformed
-       
+        limparFormProcurador();
         consultarProcurador();
     }//GEN-LAST:event_procuradorButtonConsultarActionPerformed
 
@@ -2140,6 +2140,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         procuradorTextFieldProcurador.setText("");
         procuradorTextFieldSigla.setText("");
         procuradorTextFieldAntiguidade.setText("");
+        modeloProcurador.limpar();
     }
 
     private void incluirAgenda() {
