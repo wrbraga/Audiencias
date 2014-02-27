@@ -96,7 +96,7 @@ public class GeradorPDF {
     
     public void fecharDocumento() {
         document.close();
-        JOptionPane.showMessageDialog(null, "Arquivo " +  this.nomeArquivo +" gerado!");
+        JOptionPane.showMessageDialog(null, "Arquivo " +  this.nomeArquivo +" gerado com sucesso!");
     }
     
     private void cabecalhoPagina() {
