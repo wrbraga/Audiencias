@@ -146,6 +146,8 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         preencherAgendaComboBoxClasse();
         preencherComboBoxProcurador();
         
+        agendaTextFieldDia.setText(Calendario.getDataAtual());
+        
     }
 
     /**
@@ -2232,7 +2234,8 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         agendaComboBoxClasse.setSelectedIndex(0);
         agendaComboBoxAssunto.setSelectedIndex(0);
         agendaComboBoxLocal.setSelectedIndex(0);
-        agendaComboBoxProcurador.setSelectedIndex(0);        
+        agendaComboBoxProcurador.setSelectedIndex(0); 
+        agendaTextFieldDia.setText(Calendario.getDataAtual());
     }
 
     private void alterarAgenda() {
