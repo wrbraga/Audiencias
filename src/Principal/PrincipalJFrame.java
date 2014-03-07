@@ -439,8 +439,8 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, PanelEntradaAgendaLayout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(agendaTextFieldDia, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
+                                .addComponent(agendaTextFieldDia, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(agendaTextFieldHora, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -622,7 +622,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(8, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(localButtonConsultar)
                     .addComponent(localButtonLimpar)
@@ -650,7 +650,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
                 .addContainerGap())
@@ -1324,7 +1324,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 957, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -1805,7 +1805,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
             int i = query.executeUpdate();
             sessao.getTransaction().commit();
             sessao.close();
-        } catch(Exception e) {            
+        } catch(HibernateException e) {            
         } finally {
             localTextFieldLocal.setText("");
         }            
@@ -1819,7 +1819,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         try {
             List resultado = query.list();
             mostrarResultadoLocal(resultado);
-        } catch(Exception e) {} 
+        } catch(HibernateException e) {} 
         
         sessao.close();        
     }
@@ -1885,7 +1885,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
              */
             preencherAgendaComboBoxLocais();
             
-        } catch(Exception e) {        
+        } catch(HibernateException e) {        
         }
     }
 
@@ -2481,8 +2481,10 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         int nIndex;
         Procurador proximoProcurador;
         List resultado = new ArrayList();
+        int i = agendaJTable.getSelectedRow();
+        if (i < 0) i = 0;
         
-        for(int selectedRows = 0; selectedRows < agendaJTable.getRowCount(); selectedRows++) { // Varre o jTable pegando
+        for(int selectedRows = i; selectedRows < agendaJTable.getRowCount(); selectedRows++) { // Varre o jTable pegando
             Agenda agenda = modeloAgenda.getAgenda(selectedRows);
             
             localAtual = agendaUtil.getLocalByID(agenda.getIdlocal());
@@ -2541,9 +2543,9 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                         
                         proximoProcurador = ((Procurador)resultado.get(nIndex));   
                         
-                        if (p.getUltimo() == 0) { 
-                           continue;
-                        }
+//                        if (p.getUltimo() == 0) { 
+//                           continue;
+//                        }
                         
                     } while(procuradorEstaAfastadoEm(agenda.getDia(), proximoProcurador.getIdProcurador()));
                     
