@@ -22,6 +22,7 @@ import org.hibernate.Session;
 import Utilitarios.Calendario;
 import Utilitarios.GeradorPDF;
 import java.util.ArrayList;
+import javax.swing.JTable;
 
 /**
  * @author wesley
@@ -147,6 +148,18 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         preencherComboBoxProcurador();
         
         agendaTextFieldDia.setText(Calendario.getDataAtual());
+        
+       // agendaJTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        agendaJTable.getColumnModel().getColumn(0).setPreferredWidth(30);
+        agendaJTable.getColumnModel().getColumn(1).setPreferredWidth(73);
+        agendaJTable.getColumnModel().getColumn(2).setPreferredWidth(47);
+        agendaJTable.getColumnModel().getColumn(3).setPreferredWidth(168);
+        agendaJTable.getColumnModel().getColumn(4).setPreferredWidth(57);
+        agendaJTable.getColumnModel().getColumn(5).setPreferredWidth(261);
+        agendaJTable.getColumnModel().getColumn(6).setPreferredWidth(79);
+        agendaJTable.getColumnModel().getColumn(7).setPreferredWidth(225);
+        modeloAgenda.fireTableDataChanged();
+        
         
     }
 
@@ -1427,7 +1440,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         agendaComboBoxAssunto.setSelectedItem(modeloAgenda.getValueAt(selectedRows, 5).toString());
         agendaComboBoxLocal.setSelectedItem(modeloAgenda.getValueAt(selectedRows, 6).toString());
         agendaComboBoxProcurador.setSelectedItem(modeloAgenda.getValueAt(selectedRows, 7).toString());
-                
+                       
     }//GEN-LAST:event_agendaJTableMouseClicked
 
     private void agendaButtonLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agendaButtonLimparActionPerformed
