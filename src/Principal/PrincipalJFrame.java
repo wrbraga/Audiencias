@@ -22,6 +22,7 @@ import org.hibernate.Session;
 import Utilitarios.Calendario;
 import Utilitarios.GeradorPDF;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
 /**
@@ -117,7 +118,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     
     private final AgendaUtil agendaUtil;
     
-    //private final localComboBoxModel modeloComboBox;
+    //private final localComboBoxModel modeloComboBox;    
     
     public PrincipalJFrame() {
         initComponents();
@@ -1363,7 +1364,9 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_localButtonIncluirActionPerformed
 
     private void localButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_localButtonExcluirActionPerformed
-        excluirLocal();        
+        if(escolherSimNao("Confirma exclusão da linha selecionada?") == 0) {
+            excluirLocal();        
+        }
     }//GEN-LAST:event_localButtonExcluirActionPerformed
 
     private void localButtonAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_localButtonAlterarActionPerformed
@@ -1390,7 +1393,9 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_assuntoButtonIncluirActionPerformed
 
     private void assuntoButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_assuntoButtonExcluirActionPerformed
-        excluirAssunto();        
+        if(escolherSimNao("Confirma exclusão da linha selecionada?") == 0) {
+            excluirAssunto();        
+        }
     }//GEN-LAST:event_assuntoButtonExcluirActionPerformed
 
     private void assuntoButtonAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_assuntoButtonAlterarActionPerformed
@@ -1416,7 +1421,9 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_classeButtonIncluirActionPerformed
 
     private void classeButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classeButtonExcluirActionPerformed
-        excluirClasse();
+        if(escolherSimNao("Confirma exclusão da linha selecionada?") == 0) {        
+            excluirClasse();
+        }
     }//GEN-LAST:event_classeButtonExcluirActionPerformed
 
     private void classeButtonAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classeButtonAlterarActionPerformed
@@ -1455,7 +1462,9 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_agendaButtonIncluirActionPerformed
 
     private void agendaButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agendaButtonExcluirActionPerformed
-        excluirAgenda();
+        if(escolherSimNao("Confirma exclusão da linha selecionada?") == 0) {
+            excluirAgenda();
+        }
     }//GEN-LAST:event_agendaButtonExcluirActionPerformed
 
     private void agendaButtonAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agendaButtonAlterarActionPerformed
@@ -1467,7 +1476,9 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_procuradorButtonAlterarActionPerformed
 
     private void procuradorButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_procuradorButtonExcluirActionPerformed
-        excluirProcurador();
+        if(escolherSimNao("Confirma exclusão da linha selecionada?") == 0) {
+            excluirProcurador();
+        }
     }//GEN-LAST:event_procuradorButtonExcluirActionPerformed
 
     private void procuradorButtonIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_procuradorButtonIncluirActionPerformed
@@ -1515,7 +1526,9 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_afastamentosButtonIncluirActionPerformed
 
     private void afastamentosButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_afastamentosButtonExcluirActionPerformed
-        afastamentosExcluir();
+        if(escolherSimNao("Confirma exclusão da linha selecionada?") == 0) {
+            afastamentosExcluir();
+        }
     }//GEN-LAST:event_afastamentosButtonExcluirActionPerformed
 
     private void afastamentosButtonAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_afastamentosButtonAlterarActionPerformed
@@ -1669,6 +1682,10 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private javax.swing.JTextField procuradorTextFieldSigla;
     // End of variables declaration//GEN-END:variables
 
+    private int escolherSimNao(String msg) {
+        return JOptionPane.showConfirmDialog(null, msg);
+    }
+    
     private int getUltimoIdafastamentos() {
         Session sessao = HibernateUtil.getSessionFactory().openSession();
         Query query = sessao.createSQLQuery("select MAX(idafastamento) from APP.AFASTAMENTOS");
