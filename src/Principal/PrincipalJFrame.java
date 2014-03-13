@@ -160,8 +160,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         agendaJTable.getColumnModel().getColumn(6).setPreferredWidth(79);
         agendaJTable.getColumnModel().getColumn(7).setPreferredWidth(225);
         modeloAgenda.fireTableDataChanged();
-        
-        
+                        
     }
 
     /**
@@ -1573,7 +1572,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public void iniciar() {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.

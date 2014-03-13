@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 26/11/2013 11:14:35 by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="DB.Procurador" table="PROCURADOR" schema="APP">
+        <id name="idprocurador" type="int">
+            <column name="IDPROCURADOR" precision="5" scale="0" />
+            <generator class="assigned" />
+        </id>
+        <property name="nome" type="string">
+            <column name="NOME" length="50" not-null="true" />
+        </property>
+        <property name="sigla" type="string">
+            <column name="SIGLA" length="5" not-null="true" />
+        </property>
+        <property name="antiguidade" type="java.lang.Integer">
+            <column name="ANTIGUIDADE" precision="5" scale="0" />
+        </property>
+        <property name="area" type="string">
+            <column name="AREA" length="10" />
+        </property>
+        <property name="ultimo" type="int">
+            <column name="ULTIMO" precision="1" scale="0"/>
+        </property>        
+        <property name="atuando" type="int">
+            <column name="ATUANDO" precision="1" scale="0"/>
+        </property>        
+    </class>
+</hibernate-mapping>
