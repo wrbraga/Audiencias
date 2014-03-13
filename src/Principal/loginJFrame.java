@@ -6,7 +6,7 @@
 
 package Principal;
 
-import static Ldap.Login.Login;
+import static Ldap.Ldap.Login;
 
 
 /**
@@ -54,6 +54,11 @@ public class loginJFrame extends javax.swing.JFrame {
         });
 
         jButton2.setText("Cancelar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -106,11 +111,16 @@ public class loginJFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        //this.setVisible(false);
-        //PrincipalJFrame.main(arg2);       
-        //Login(usuario.getText(),String.copyValueOf(senha.getPassword()));
-        Ldap.Login.search();
+      int autenticado =  Login(usuario.getText(),String.copyValueOf(senha.getPassword()));
+      if (autenticado == 0) {
+          this.setVisible(false);
+          PrincipalJFrame.main(arg2);       
+      }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

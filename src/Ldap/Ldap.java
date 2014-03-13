@@ -5,24 +5,24 @@ import javax.naming.AuthenticationException;
 import javax.naming.Context;  
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;  
-import javax.naming.directory.Attribute;  
-import javax.naming.directory.Attributes;  
-import javax.naming.directory.BasicAttribute;
-import javax.naming.directory.BasicAttributes;
 import javax.naming.directory.DirContext;  
 import javax.naming.directory.InitialDirContext;  
+import javax.naming.directory.SearchControls;
+import javax.naming.directory.SearchResult;
 
 
-public class Login {  
+public class Ldap {  
 
     private static final String baseDN = "ou=Niteroi,ou=Proc_Municipais,o=PRRJ";
     private static final String server = "ldap://10.84.0.4:389";
     
-    public static void Login(String usuario, String senha){  
+    public static int Login(String usuario, String senha){  
 
-        String userName = "cn=" + usuario + "," + baseDN;          
+        String userName = retornaDN(usuario) + "," + baseDN;          
         String newPassword = senha.trim();
 
+        System.out.println(userName);
+        
         Hashtable authEnv = new Hashtable(11);  
 
         authEnv.put(Context.INITIAL_CONTEXT_FACTORY,"com.sun.jndi.ldap.LdapCtxFactory");  
@@ -31,52 +31,48 @@ public class Login {
         authEnv.put(Context.SECURITY_PRINCIPAL, userName);  
         authEnv.put(Context.SECURITY_CREDENTIALS, newPassword);  
 
-       try  
-        {  
+       try  {  
            DirContext authContext = new InitialDirContext(authEnv);  
-           System.err.println("Autenticado!");  
-
-
-        }  
-        catch (AuthenticationException authEx)  
-        {  
-        System.out.println("Erro na autenticação! ");  
-        authEx.printStackTrace();  
-        }  
-        catch (NamingException namEx)  
-        {  
-        System.out.println("Problemas na conexão! ");  
-        //namEx.getCause().printStackTrace();  
+           //Autenticado!
+           return 0;
+        } catch (AuthenticationException authEx) {  
+            // Erro na autenticação!
+            return 1;
+        } catch (NamingException namEx) {  
+            // Problemas na conexão!
+            return 2;
         }  
     }  
 
-    public static  void search() {
+    private static String retornaDN(String nome) {
 	// Set up the environment for creating the initial context
         Hashtable<String, Object> env = new Hashtable<>(11);
 	env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
 	env.put(Context.PROVIDER_URL, server + "/" + baseDN);
 
+        String retorno = "";
 	try {
 	    // Create initial context
 	    DirContext ctx = new InitialDirContext(env);
+            
+            SearchControls ctls = new SearchControls();
+            ctls.setSearchScope(SearchControls.SUBTREE_SCOPE);
+            
+            String filter = "(&(cn="+nome+")(mail=*))";
+            
+            NamingEnumeration e = ctx.search("", filter, ctls);
+            while (e.hasMore()) {
+                SearchResult entry = (SearchResult) e.next();
+                retorno =  entry.getName();
+            }
 
-	    // Specify the attributes to match
-	    // Ask for objects with the surname ("sn") attribute
-	    // with the value "Smith"
-	    // and the "mail" attribute.
-	    Attributes matchAttrs = new BasicAttributes(true); // ignore case
-	    matchAttrs.put(new BasicAttribute("cn", "WRBraga"));
-	    matchAttrs.put(new BasicAttribute("dn"));
-
-	    // Search for objects that have those matching attributes
-	    NamingEnumeration answer = ctx.search("ou=People", matchAttrs);
-
-	    // Print the answer
-	   // Search.printSearchEnumeration(answer);
-
-	    // Close the context when we're done
 	    ctx.close();
+
 	} catch (NamingException e) {
 	}    
+        
+        return retorno;
     }
+    
+ 
 }  
