@@ -23,7 +23,6 @@ import Utilitarios.Calendario;
 import Utilitarios.GeradorPDF;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 
 /**
  * @author wesley
@@ -1530,7 +1529,11 @@ public class PrincipalJFrame extends javax.swing.JFrame {
 //        String data = agendaTextFieldDia.getText().trim();
 //        limparAgenda();        
 //        consultarAgenda(data);
-        sortearProcuradorAgenda();        
+        sortearProcuradorAgenda();      
+        for(int linha = 0; linha < agendaJTable.getRowCount(); linha++) {
+              atualizarBDAgenda(modeloAgenda,linha);
+        }
+      
     }//GEN-LAST:event_agendaButtonSortearActionPerformed
 
     private void agendaButtonGerarPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agendaButtonGerarPDFActionPerformed
@@ -2295,7 +2298,28 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         agendaComboBoxProcurador.setSelectedIndex(0); 
         agendaTextFieldDia.setText(Calendario.getDataAtual());
     }
+    
+    private void atualizarBDAgenda(agendaTableModel modeloAgenda, int linha) {
+        Session sessao = HibernateUtil.getSessionFactory().openSession();
+        Query query = sessao.createSQLQuery(SQL_UPDATE_AGENDA);
+        
+        sessao.beginTransaction();        
+        Agenda agenda = modeloAgenda.getAgenda(linha);
+        query.setParameter("idagenda", agenda.getIdagenda());
+        query.setParameter("dia", agenda.getDia());
+        query.setParameter("hora", agenda.getHora());
+        query.setParameter("processo", agenda.getProcesso());
+        query.setParameter("idclasse", agenda.getIdclasse());
+        query.setParameter("idprocurador", agenda.getIdprocurador());
+        query.setParameter("idassunto", agenda.getIdassunto());
+        query.setParameter("idlocal", agenda.getIdlocal());
 
+        query.executeUpdate();
+        sessao.getTransaction().commit();
+
+        sessao.close();        
+    }
+    
     private void alterarAgenda() {
         int selectRow = agendaJTable.getSelectedRow();
         Date d = Calendario.stringToDate(agendaTextFieldDia.getText());
@@ -2312,23 +2336,9 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         agenda.setIdlocal(agendaUtil.getIDByLocal(agendaComboBoxLocal.getSelectedItem().toString()));
         
         modeloAgenda.setValueAt(agenda, selectRow);
-        
-        Session sessao = HibernateUtil.getSessionFactory().openSession();
-        Query query = sessao.createSQLQuery(SQL_UPDATE_AGENDA);
-        sessao.beginTransaction();
-        
-        query.setParameter("idagenda", agenda.getIdagenda());
-        query.setParameter("dia", agenda.getDia());
-        query.setParameter("hora", agenda.getHora());
-        query.setParameter("processo", agenda.getProcesso());
-        query.setParameter("idclasse", agenda.getIdclasse());
-        query.setParameter("idprocurador", agenda.getIdprocurador());
-        query.setParameter("idassunto", agenda.getIdassunto());
-        query.setParameter("idlocal", agenda.getIdlocal());
-        
-        query.executeUpdate();
-        sessao.getTransaction().commit();
-        sessao.close();        
+
+        atualizarBDAgenda(modeloAgenda, selectRow);
+
     }
 
     private void gerarAgenda() {
@@ -2646,5 +2656,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         
         agendaButtonGerarPDF.setEnabled(true);
     }
+    
+
     
 }

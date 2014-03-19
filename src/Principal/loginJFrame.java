@@ -7,6 +7,7 @@
 package Principal;
 
 import static Ldap.Ldap.Login;
+import Usuarios.Usuario;
 
 
 /**
@@ -111,12 +112,18 @@ public class loginJFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-      int autenticado =  Login(usuario.getText(),String.copyValueOf(senha.getPassword()));
-      if (autenticado == 0) {   
-          PrincipalJFrame p = new PrincipalJFrame();          
-          p.iniciar();
-          this.setVisible(false);
-      }
+        Usuario user = new Usuario();
+        
+        if(!user.usuarioAutorizado(usuario.getText())) {
+            System.exit(1);
+        }
+        
+        int autenticado =  Login(usuario.getText(),String.copyValueOf(senha.getPassword()));
+        if (autenticado == 0) {   
+            PrincipalJFrame p = new PrincipalJFrame();          
+            p.iniciar();
+            this.setVisible(false);
+        }
       
     }//GEN-LAST:event_jButton1ActionPerformed
 
