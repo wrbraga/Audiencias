@@ -38,6 +38,7 @@ public class loginJFrame extends javax.swing.JFrame {
         senha = new javax.swing.JPasswordField();
         jButton2 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        status = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAlwaysOnTop(true);
@@ -54,6 +55,12 @@ public class loginJFrame extends javax.swing.JFrame {
             }
         });
 
+        senha.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                senhaKeyPressed(evt);
+            }
+        });
+
         jButton2.setText("Cancelar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -65,6 +72,10 @@ public class loginJFrame extends javax.swing.JFrame {
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Gerador de Audiências");
 
+        status.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        status.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        status.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -72,6 +83,7 @@ public class loginJFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(status, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel1)
@@ -105,31 +117,27 @@ public class loginJFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(status, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Usuario user = new Usuario();
-        
-        if(!user.usuarioAutorizado(usuario.getText())) {
-            System.exit(1);
-        }
-        
-        int autenticado =  Login(usuario.getText(),String.copyValueOf(senha.getPassword()));
-        if (autenticado == 0) {   
-            PrincipalJFrame p = new PrincipalJFrame();          
-            p.iniciar();
-            this.setVisible(false);
-        }
-      
+        autenticar();      
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         System.exit(0);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void senhaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_senhaKeyPressed
+        if (evt.getKeyCode() == 10) {
+            autenticar();
+        }
+    }//GEN-LAST:event_senhaKeyPressed
 
     /**
      * @param args the command line arguments
@@ -160,6 +168,7 @@ public class loginJFrame extends javax.swing.JFrame {
         
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new loginJFrame().setVisible(true);
             }
@@ -173,6 +182,25 @@ public class loginJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPasswordField senha;
+    private javax.swing.JLabel status;
     private javax.swing.JTextField usuario;
     // End of variables declaration//GEN-END:variables
+
+    private void autenticar() {
+        Usuario user = new Usuario();
+        
+        if(!user.usuarioAutorizado(usuario.getText())) {
+            System.exit(1);
+        }
+        
+        status.setText("Carregando...");
+        
+        int autenticado =  Login(usuario.getText(),String.copyValueOf(senha.getPassword()));
+        
+        if (autenticado == 0) {   
+            PrincipalJFrame p = new PrincipalJFrame();          
+            p.iniciar();
+            this.setVisible(false);
+        }
+    }
 }
