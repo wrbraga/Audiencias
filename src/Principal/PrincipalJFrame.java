@@ -1603,9 +1603,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private void agendaTextFieldHoraKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_agendaTextFieldHoraKeyPressed
         if (evt.getKeyCode() == 9) {      
             String texto = agendaTextFieldHora.getText();
-            System.out.println("Texto: " + texto);
             String tmp = texto.replace(":", "");
-            System.out.println("Tmp: " + tmp);
             agendaTextFieldHora.setText(formatString("##:##",tmp));
             agendaTextFieldProcesso.requestFocus();            
         }

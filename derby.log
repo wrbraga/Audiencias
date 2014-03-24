@@ -1,7 +1,7 @@
 ----------------------------------------------------------------
-Mon Mar 24 08:02:23 BRT 2014:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.8.2.2 - (1181258): instance a816c00e-0144-f3c1-6a38-000003a67650 
-on database directory G:\Silvio\Gestão de Audiências\Audiencias\AudienciasDB  with class loader sun.misc.Launcher$AppClassLoader@3c56b64c 
+Mon Mar 24 08:32:37 BRT 2014:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.8.2.2 - (1181258): instance a816c00e-0144-f3dd-1a80-000003ece600 
+on database directory G:\Silvio\Gestão de Audiências\Audiencias\AudienciasDB  with class loader sun.misc.Launcher$AppClassLoader@546da8eb 
 Loaded from file:/G:/Silvio/Gest%c3%a3o%20de%20Audi%c3%aancias/Audiencias/lib/derby.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.7.0_51-b13

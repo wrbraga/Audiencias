@@ -84,7 +84,7 @@ public class GeradorPDF {
             }  
 
             document.setPageSize(PageSize.A4);
-            document.setMargins(25, 25, 5, 5);
+            document.setMargins(20, 20, 5, 5);
             
             document.open();
                     
@@ -143,7 +143,7 @@ public class GeradorPDF {
                 tabelaTitulo.addCell(celula3);                        
 
                 document.add(tabelaTitulo);
-            } catch(Exception e) {
+            } catch(DocumentException e) {
                 
             }
     }    
@@ -198,9 +198,7 @@ public class GeradorPDF {
                     if (x < agenda.getRowCount()) {
                         procuradores += p1 + "\n";
                     }
-                }
-                //procuradores += agenda.getValueAt(x, Colunas.LOCAL.valor).toString() + "-" + agenda.getValueAt(x, Colunas.PROCURADOR.valor).toString();
-                
+                }                
             }
         }
         return procuradores;
@@ -229,7 +227,6 @@ public class GeradorPDF {
             Date df = (Date) aux[1];            
             
             if (dia >= (Calendario.dia(di)) || dia <= (Calendario.dia(df))) {                
-            //if ((dia >= Calendario.dia(di) && mes == Calendario.mes(di)) || mes == Calendario.mes(df)) {                
                 AfastamentosProcurador a = new AfastamentosProcurador((Date) aux[0],(Date) aux[1],aux[2].toString(),aux[3].toString(),aux[4].toString());
                 listaAfastados.add(a);
             }            
@@ -257,8 +254,8 @@ public class GeradorPDF {
         String conteudo = "";
         PdfPCell celula;
         
-        for(int x = 0; x < TITULO.length; x++) {
-            celula = new PdfPCell(new Phrase(TITULO[x],fontLinhaLegenda));
+        for (String TITULO1 : TITULO) {
+            celula = new PdfPCell(new Phrase(TITULO1, fontLinhaLegenda));
             celula.setHorizontalAlignment(Element.ALIGN_CENTER);
             tabelaLegenda.addCell(celula);
         }
@@ -275,24 +272,20 @@ public class GeradorPDF {
         }
         
         
-        for(int x = 0; x < listaAfastados.size(); x++) {
-            celula = new PdfPCell(new Phrase(listaAfastados.get(x).getProcurador(),fontLinhaLegenda));
+        for (AfastamentosProcurador listaAfastado : listaAfastados) {
+            celula = new PdfPCell(new Phrase(listaAfastado.getProcurador(), fontLinhaLegenda));
             celula.setHorizontalAlignment(Element.ALIGN_CENTER);
             tabelaLegenda.addCell(celula);
-            
-            celula = new PdfPCell(new Phrase(listaAfastados.get(x).getSigla(),fontLinhaLegenda));
+            celula = new PdfPCell(new Phrase(listaAfastado.getSigla(), fontLinhaLegenda));
             celula.setHorizontalAlignment(Element.ALIGN_CENTER);
             tabelaLegenda.addCell(celula);
-            
-            celula = new PdfPCell(new Phrase(listaAfastados.get(x).getObs(),fontLinhaLegenda));
+            celula = new PdfPCell(new Phrase(listaAfastado.getObs(), fontLinhaLegenda));
             celula.setHorizontalAlignment(Element.ALIGN_CENTER);
             tabelaLegenda.addCell(celula);
-            
-            celula = new PdfPCell(new Phrase(Calendario.dateToString(listaAfastados.get(x).getDataInicio()),fontLinhaLegenda));
+            celula = new PdfPCell(new Phrase(Calendario.dateToString(listaAfastado.getDataInicio()), fontLinhaLegenda));
             celula.setHorizontalAlignment(Element.ALIGN_CENTER);
             tabelaLegenda.addCell(celula);
-            
-            celula = new PdfPCell(new Phrase(Calendario.dateToString(listaAfastados.get(x).getDatafim()),fontLinhaLegenda));
+            celula = new PdfPCell(new Phrase(Calendario.dateToString(listaAfastado.getDatafim()), fontLinhaLegenda));
             celula.setHorizontalAlignment(Element.ALIGN_CENTER);
             tabelaLegenda.addCell(celula);
         }

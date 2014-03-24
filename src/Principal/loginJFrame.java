@@ -189,11 +189,11 @@ public class loginJFrame extends javax.swing.JFrame {
     private void autenticar() {
         Usuario user = new Usuario();
         
+        status.setText("Carregando...");
+        
         if(!user.usuarioAutorizado(usuario.getText())) {
             System.exit(1);
-        }
-        
-        status.setText("Carregando...");
+        }        
         
         int autenticado =  Login(usuario.getText(),String.copyValueOf(senha.getPassword()));
         
