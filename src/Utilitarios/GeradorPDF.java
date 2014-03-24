@@ -84,7 +84,7 @@ public class GeradorPDF {
             }  
 
             document.setPageSize(PageSize.A4);
-            document.setMargins(5, 5, 5, 5);
+            document.setMargins(25, 25, 5, 5);
             
             document.open();
                     
