@@ -1472,6 +1472,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         limparAgenda();
         consultarAgenda(data);
         agendaButtonSortear.setEnabled(true);
+        agendaButtonGerarPDF.setEnabled(true);
     }//GEN-LAST:event_agendaButtonConsultarActionPerformed
 
     private void agendaJTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_agendaJTableMouseClicked
