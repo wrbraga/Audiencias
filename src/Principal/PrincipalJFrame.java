@@ -2641,11 +2641,6 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                         totalDeItens = (resultado.size()-1);
                         
                         proximoProcurador = ((Procurador)resultado.get(nIndex));   
-                        
-//                        if (p.getUltimo() == 0) { 
-//                           continue;
-//                        }
-                        
                     } while(procuradorEstaAfastadoEm(agenda.getDia(), proximoProcurador.getIdProcurador()));
                     
                     proximoProcurador.setUltimo(1);
