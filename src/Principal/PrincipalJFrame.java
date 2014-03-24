@@ -2,27 +2,30 @@ package Principal;
 
 import Afastamentos.afastamentosTableModel;
 import Agenda.agendaTableModel;
-import DB.HibernateUtil;
-import DB.Local;
-import DB.Assunto;
-import DB.Classe;
-import DB.Procurador;
-import DB.Agenda;
-import DB.AgendaUtil;
-import Local.localTableModel;
 import Assunto.assuntoTableModel;
 import Classe.classeTableModel;
 import DB.Afastamentos;
+import DB.Agenda;
+import DB.AgendaUtil;
+import DB.Assunto;
+import DB.Classe;
+import DB.HibernateUtil;
+import DB.Local;
+import DB.Procurador;
+import Local.localTableModel;
 import Procurador.procuradorTableModel;
+import Utilitarios.Calendario;
+import Utilitarios.GeradorPDF;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.swing.JFormattedTextField;
+import javax.swing.JOptionPane;
+import javax.swing.text.MaskFormatter;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import Utilitarios.Calendario;
-import Utilitarios.GeradorPDF;
-import java.util.ArrayList;
-import javax.swing.JOptionPane;
 
 /**
  * @author wesley
@@ -159,7 +162,10 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         agendaJTable.getColumnModel().getColumn(6).setPreferredWidth(79);
         agendaJTable.getColumnModel().getColumn(7).setPreferredWidth(225);
         modeloAgenda.fireTableDataChanged();
-                        
+        
+        // Desabilita a alteração automática de focu nestes objetos
+        agendaTextFieldDia.setFocusTraversalKeysEnabled(false);
+        agendaTextFieldHora.setFocusTraversalKeysEnabled(false);
     }
 
     /**
@@ -399,12 +405,24 @@ public class PrincipalJFrame extends javax.swing.JFrame {
 
         agendaTextFieldDia.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
         agendaTextFieldDia.setToolTipText("Digite uma data para filtrar pelo mês!");
+        agendaTextFieldDia.setFocusLostBehavior(javax.swing.JFormattedTextField.COMMIT);
+        agendaTextFieldDia.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                agendaTextFieldDiaKeyPressed(evt);
+            }
+        });
 
         jLabel2.setText("Dia");
 
         jLabel3.setText("Hora");
 
         agendaTextFieldHora.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT))));
+        agendaTextFieldHora.setFocusLostBehavior(javax.swing.JFormattedTextField.COMMIT);
+        agendaTextFieldHora.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                agendaTextFieldHoraKeyPressed(evt);
+            }
+        });
 
         jLabel4.setText("Classe");
 
@@ -1571,10 +1589,27 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void agendaTextFieldDiaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_agendaTextFieldDiaKeyPressed
+        if (evt.getKeyCode() == 9) {      
+            String texto = agendaTextFieldDia.getText();
+            String tmp = texto.replace("/", "");
+            agendaTextFieldDia.setText(formatString("##/##/####",tmp));
+            agendaTextFieldHora.requestFocus();            
+        }
+        
+    }//GEN-LAST:event_agendaTextFieldDiaKeyPressed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void agendaTextFieldHoraKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_agendaTextFieldHoraKeyPressed
+        if (evt.getKeyCode() == 9) {      
+            String texto = agendaTextFieldHora.getText();
+            System.out.println("Texto: " + texto);
+            String tmp = texto.replace(":", "");
+            System.out.println("Tmp: " + tmp);
+            agendaTextFieldHora.setText(formatString("##:##",tmp));
+            agendaTextFieldProcesso.requestFocus();            
+        }
+    }//GEN-LAST:event_agendaTextFieldHoraKeyPressed
+       
     public void iniciar() {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -1712,6 +1747,17 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private javax.swing.JTextField procuradorTextFieldProcurador;
     private javax.swing.JTextField procuradorTextFieldSigla;
     // End of variables declaration//GEN-END:variables
+
+    private String formatString(String pattern, Object value) {
+        MaskFormatter mask;
+        try {
+            mask = new MaskFormatter(pattern);
+            mask.setValueContainsLiteralCharacters(false);
+            return mask.valueToString(value);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     private int escolherSimNao(String msg) {
         return JOptionPane.showConfirmDialog(null, msg);
