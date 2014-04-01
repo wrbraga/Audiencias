@@ -19,7 +19,7 @@ public class loginJFrame extends javax.swing.JFrame {
     private String arg2[];
     
     public loginJFrame() {
-        initComponents();
+        initComponents();        
     }
 
     /**
@@ -197,6 +197,10 @@ public class loginJFrame extends javax.swing.JFrame {
         
         int autenticado =  Login(usuario.getText(),String.copyValueOf(senha.getPassword()));
         
+        abrirPrincipal(autenticado);
+    }
+    
+    private void abrirPrincipal(int autenticado) {
         if (autenticado == 0) {   
             PrincipalJFrame p = new PrincipalJFrame();          
             p.iniciar();

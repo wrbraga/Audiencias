@@ -73,10 +73,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private static final String SQL_UPDATE_PROCURADOR_ATUANDO = "UPDATE APP.PROCURADOR SET atuando = :atuando WHERE idprocurador = :idprocurador";
     
     private static final String SQL_QUERY_PROC_SORT_ANT = "select * from APP.PROCURADOR WHERE area = 'Criminal' order by antiguidade desc";
-    private static final String SQL_QUERY_PROCURADOR_AFASTAMENTO = "SELECT *\n" +
-        "FROM APP.AFASTAMENTOS as A\n" +
-        "WHERE A.IDPROCURADOR = :idProcurador \n" +
-        "AND (:data >= DATAINICIO AND :data <= DATAFIM)";
+    
     
     /**
      * QUERYs para manipulação da tabela AGENDA
@@ -106,7 +103,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
      * QUERYs para manipulação da tabela AFASTAMENTOS
      */                 
     private static final String SQL_INSERT_AFASTAMENTOS = "INSERT INTO APP.Afastamentos (idafastamento, datainicio, datafim, obs, idprocurador) VALUES (:idafastamento, :datainicio, :datafim, :obs, :idprocurador)";
-    private static final String SQL_QUERY_ALL_AFASTAMENTOS = "FROM Afastamentos";
+    private static final String SQL_QUERY_ALL_AFASTAMENTOS = "FROM Afastamentos ORDER BY datainicio DESC";
     private static final String SQL_DELETE_AFASTAMENTOS = "DELETE FROM APP.Afastamentos WHERE idafastamento = :idafastamento";
     private static final String SQL_UPDATE_AFASTAMENTOS = "UPDATE APP.Afastamentos set idafastamento = :idafastamento, datainicio = :datainicio, datafim = :datafim, obs = :obs, idprocurador = :idprocurador WHERE idafastamento = :idafastamento";
             
@@ -118,7 +115,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     private final afastamentosTableModel modeloAfastamento;
     
     private final AgendaUtil agendaUtil;
-    
+        
     //private final localComboBoxModel modeloComboBox;    
     
     public PrincipalJFrame() {
@@ -1548,9 +1545,9 @@ public class PrincipalJFrame extends javax.swing.JFrame {
 //        limparAgenda();        
 //        consultarAgenda(data);
         sortearProcuradorAgenda();      
-        for(int linha = 0; linha < agendaJTable.getRowCount(); linha++) {
-              atualizarBDAgenda(modeloAgenda,linha);
-        }
+//        for(int linha = 0; linha < agendaJTable.getRowCount(); linha++) {
+//              atualizarBDAgenda(modeloAgenda,linha);
+//        }
       
     }//GEN-LAST:event_agendaButtonSortearActionPerformed
 
@@ -2496,21 +2493,30 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         
     }
     
-    private boolean procuradorEstaAfastadoEm(Date data, int idProcurador) {              
+
+    
+    private boolean procuradorAfastadoEODaVez(Date data, String area) {
         Session sessao = HibernateUtil.getSessionFactory().openSession();
-        Query query  = sessao.createSQLQuery(SQL_QUERY_PROCURADOR_AFASTAMENTO);            
-        query.setParameter("data", data);
-        query.setParameter("idProcurador", idProcurador);
-        List resultado = query.list();
-        int tam = resultado.size();
+        String SQL = "SELECT DISTINCT P.ULTIMO\n" +
+                    "FROM APP.PROCURADOR P, APP.AFASTAMENTOS A\n" +
+                    "WHERE P.IDPROCURADOR IN (select DISTINCT IDPROCURADOR from APP.AFASTAMENTOS A WHERE (:data >= A.DATAINICIO AND :data <= A.DATAFIM)) and P.AREA = :area";                    
         
-        if (tam == 0) {
+        Query query  = sessao.createSQLQuery(SQL);            
+        
+        query.setParameter("data", data);        
+        query.setParameter("area", area);        
+        
+        List resultado = query.list();
+                        
+        if (resultado.isEmpty()) {
             return false;
-        } else {
-            return true;
         }
         
+        return Integer.parseInt(resultado.get(0).toString()) != 0;
+        
     }
+    
+
     
     private String extrairAreaDoLocal(String local) {
         String areaExtraido = local.replaceAll("[0123456789]","").trim(); 
@@ -2531,12 +2537,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
             if (inverte == true) {            
                 inverterCondicao = "NOT";
             }
-            
-//            String SQL_AREA = "SELECT * \n" +
-//            "FROM APP.PROCURADOR as P \n" +            
-//            "WHERE " + inverterCondicao + " P.AREA = :area \n" +
-//            "ORDER BY ANTIGUIDADE DESC";              
-            
+                       
             String SQL_AREA = "SELECT DISTINCT P.* \n" +
             "FROM APP.PROCURADOR P, APP.AFASTAMENTOS A \n" +
             "WHERE P.IDPROCURADOR not IN (select DISTINCT IDPROCURADOR from APP.AFASTAMENTOS A WHERE (:data >= A.DATAINICIO AND :data <= A.DATAFIM)) \n" +
@@ -2581,14 +2582,19 @@ public class PrincipalJFrame extends javax.swing.JFrame {
         Procurador proximoProcurador;
         List resultado = new ArrayList();
         int i = agendaJTable.getSelectedRow();
-        if (i < 0) i = 0;
+        if (i < 0) i = 0;        
+        boolean substituicao = false;
         
         for(int selectedRows = i; selectedRows < agendaJTable.getRowCount(); selectedRows++) { // Varre o jTable pegando
             Agenda agenda = modeloAgenda.getAgenda(selectedRows);
-            
+                                    
             localAtual = agendaUtil.getLocalByID(agenda.getIdlocal());
             areaAtual = extrairAreaDoLocal(localAtual);
             areaAnterior = extrairAreaDoLocal(localAnterior);
+            
+            if (!areaAtual.equals(areaAnterior)) {
+                substituicao = false;
+            }
             
             int semanaAtual = Calendario.semana(agenda.getDia());            
                                                            
@@ -2597,7 +2603,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
             } else if (selectedRows > 0) {
                 semanaAnterior = Calendario.semana(modeloAgenda.getAgenda(selectedRows - 1).getDia());                
             } 
-            
+                        
             if (semanaAnterior != semanaAtual || !areaAnterior.equals(areaAtual) || !localAtual.equals(localAnterior)) {
                 resultado.clear();
                 resultado = getProcuradoresAgenda(localAtual, agenda.getDia());                                          
@@ -2612,7 +2618,19 @@ public class PrincipalJFrame extends javax.swing.JFrame {
              * Varre a lista de procuradores que podem atuar
              */
             for(int index = 0; index <= totalDeItens; index++) {
-                Procurador p = ((Procurador)resultado.get(index));                
+                
+                boolean procuradorAfastadoEODaVez = procuradorAfastadoEODaVez(agenda.getDia(), areaAtual);
+                
+                Procurador p = ((Procurador)resultado.get(index));
+                
+                if(procuradorAfastadoEODaVez)  {
+                    substituicao = true;
+                    //int id = agendaUtil.getIDprocuradorAfastadoDaVez(agenda.getDia(), areaAtual);
+                    //agendaUtil.setUltimoProcurador(id, 0);
+                    p.setUltimo(1);
+                    //agendaUtil.setUltimoProcurador(p);                    
+                }
+                
                 nIndex = index;
                                 
                 // Se não for o procurador da vez?
@@ -2623,7 +2641,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                 /**
                  * Verifica se o procurador está afastado no dia da audiencia
                  */
-                if (procuradorEstaAfastadoEm(agenda.getDia(), p.getIdProcurador())) {
+                if (agendaUtil.procuradorEstaAfastadoEm(agenda.getDia(), p.getIdProcurador())) {
                     
                     p.setUltimo(0);                        
                     agendaUtil.setUltimoProcurador(p);
@@ -2641,7 +2659,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                         totalDeItens = (resultado.size()-1);
                         
                         proximoProcurador = ((Procurador)resultado.get(nIndex));   
-                    } while(procuradorEstaAfastadoEm(agenda.getDia(), proximoProcurador.getIdProcurador()));
+                    } while(agendaUtil.procuradorEstaAfastadoEm(agenda.getDia(), proximoProcurador.getIdProcurador()));
                     
                     proximoProcurador.setUltimo(1);
                     agendaUtil.setUltimoProcurador(proximoProcurador);
@@ -2657,11 +2675,13 @@ public class PrincipalJFrame extends javax.swing.JFrame {
                  */                
                 if ( localAnterior.equals("INICIO") ) { // Se for o inicio do sorteio
                     agenda.setIdprocurador(p.getIdProcurador());
-                //} else if ( semanaAtual == semanaAnterior && areaAtual.equals(areaAnterior) && localAtual.equals(localAnterior)) { // Mesma semana e mesmo área
                 } else if ( semanaAtual == semanaAnterior && localAtual.equals(localAnterior)) { // Mesma semana e mesmo área                    
                     agenda.setIdprocurador(p.getIdProcurador());
                 } else if ( semanaAtual == semanaAnterior && !areaAtual.equals(areaAnterior)) {                     
                     agenda.setIdprocurador(p.getIdProcurador());
+                } else if (substituicao == true && semanaAtual != semanaAnterior) {
+                    agenda.setIdprocurador(p.getIdProcurador());
+                    substituicao = false;
                 } else {
                     p.setUltimo(0);
                     agendaUtil.setUltimoProcurador(p);
@@ -2675,7 +2695,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
 
                         proximoProcurador = ((Procurador)resultado.get(nIndex));   
                         
-                    } while(procuradorEstaAfastadoEm(agenda.getDia(), proximoProcurador.getIdProcurador()));
+                    } while(agendaUtil.procuradorEstaAfastadoEm(agenda.getDia(), proximoProcurador.getIdProcurador()));
                                                        
                     proximoProcurador.setUltimo(1);
                     agendaUtil.setUltimoProcurador(proximoProcurador);

@@ -1,5 +1,6 @@
 package DB;
 
+import java.util.Date;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -16,6 +17,10 @@ public class AgendaUtil {
     
     private static final String SQL_QUERY_ID_CLASSE = "FROM Classe WHERE idclasse=:idclasse";    
     private static final String SQL_QUERY_CLASSE_CLASSE = "FROM Classe WHERE classe=:classe";    
+    private static final String SQL_QUERY_PROCURADOR_AFASTAMENTO = "SELECT *\n" +
+        "FROM APP.AFASTAMENTOS as A\n" +
+        "WHERE A.IDPROCURADOR = :idProcurador \n" +
+        "AND (:data >= DATAINICIO AND :data <= DATAFIM)";
     
     public String getLocalByID(int id) {
         Session sessao = HibernateUtil.getSessionFactory().openSession();
@@ -163,5 +168,46 @@ public class AgendaUtil {
         query.executeUpdate();
         sessao.getTransaction().commit();
         sessao.close();
+    }
+    
+    public boolean procuradorEstaAfastadoEm(Date data, int idProcurador) {              
+        Session sessao = HibernateUtil.getSessionFactory().openSession();
+        Query query  = sessao.createSQLQuery(SQL_QUERY_PROCURADOR_AFASTAMENTO);            
+        query.setParameter("data", data);
+        query.setParameter("idProcurador", idProcurador);
+        List resultado = query.list();
+        int tam = resultado.size();
+        
+        sessao.close();
+        
+        if (tam == 0) {
+            return false;
+        } else {
+            return true;
+        }
+        
+    }
+    
+    public int getIDprocuradorAfastadoDaVez(Date data, String area) {
+        Session sessao = HibernateUtil.getSessionFactory().openSession();
+        String SQL = "SELECT DISTINCT P.IDPROCURADOR\n" +
+                    "FROM APP.PROCURADOR P, APP.AFASTAMENTOS A\n" +
+                    "WHERE P.IDPROCURADOR IN (select DISTINCT IDPROCURADOR from APP.AFASTAMENTOS A WHERE (:data >= A.DATAINICIO AND :data <= A.DATAFIM)) and P.AREA = :area and P.ULTIMO = 1";                    
+        
+        Query query  = sessao.createSQLQuery(SQL);            
+        
+        query.setParameter("data", data);        
+        query.setParameter("area", area);        
+        
+        List resultado = query.list();
+                        
+        if (resultado.isEmpty()) {
+            return -1;
+        }
+        
+        sessao.close();
+        
+        return Integer.parseInt(resultado.get(0).toString());
+        
     }
 }
