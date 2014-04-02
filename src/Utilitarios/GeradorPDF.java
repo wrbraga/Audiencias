@@ -3,13 +3,23 @@ package Utilitarios;
 import Agenda.agendaTableModel;
 import DB.AfastamentosProcurador;
 import DB.HibernateUtil;
+import com.itextpdf.text.BadElementException;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfPCell;
-import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -206,14 +216,22 @@ public class GeradorPDF {
     }
     
     private List listaAfastamentos(int mes, int ano) {
-        String SQL_QUERY_AFASTAMENTOS_MES = "select APP.AFASTAMENTOS.DATAINICIO as DATAINICIO, APP.AFASTAMENTOS.DATAFIM as datafim, APP.AFASTAMENTOS.OBS as obs, APP.PROCURADOR.NOME as procurador , APP.PROCURADOR.SIGLA as sigla from APP.AFASTAMENTOS, APP.PROCURADOR where APP.PROCURADOR.IDPROCURADOR = APP.AFASTAMENTOS.IDPROCURADOR and month(APP.AFASTAMENTOS.DATAINICIO) = :mes and year(APP.AFASTAMENTOS.DATAINICIO) = :ano";
-        
+        String SQL_QUERY_AFASTAMENTOS_MES = "select A.DATAINICIO as DATAINICIO, A.DATAFIM as datafim, A.OBS as obs, P.NOME as procurador , P.SIGLA as sigla \n" +
+            "from APP.AFASTAMENTOS A \n" +
+            "inner join APP.PROCURADOR P\n" +
+            "on A.IDPROCURADOR = P.IDPROCURADOR\n" +
+            "where \n" +
+            "month(A.DATAINICIO) = :mes\n" +
+            "or \n" +
+            "month(A.DATAFIM) = :mes\n" +
+            "and year(A.DATAINICIO) = :ano";
         Session sessao = HibernateUtil.getSessionFactory().openSession();
         Query query = sessao.createSQLQuery(SQL_QUERY_AFASTAMENTOS_MES);
         query.setParameter("mes", mes);
         query.setParameter("ano", ano);
                               
         List<Object[]> result = query.list();                
+        sessao.close();
         return result;
     }
     

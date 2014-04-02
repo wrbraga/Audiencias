@@ -1542,9 +1542,9 @@ public class PrincipalJFrame extends javax.swing.JFrame {
 
     private void agendaButtonSortearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agendaButtonSortearActionPerformed
         sortearProcuradorAgenda();      
-//        for(int linha = 0; linha < agendaJTable.getRowCount(); linha++) {
-//              atualizarBDAgenda(modeloAgenda,linha);
-//        }
+        for(int linha = 0; linha < agendaJTable.getRowCount(); linha++) {
+              atualizarBDAgenda(modeloAgenda,linha);
+        }
       
     }//GEN-LAST:event_agendaButtonSortearActionPerformed
 
@@ -2523,7 +2523,7 @@ public class PrincipalJFrame extends javax.swing.JFrame {
 
     private List getProcuradoresAgenda(String local, Date dia) {                               
         Session sessao = HibernateUtil.getSessionFactory().openSession();        
-        int tam = 0;
+        int tam;
         List<Object[]> resultado;
         //List resultado;
         boolean inverte = false;
