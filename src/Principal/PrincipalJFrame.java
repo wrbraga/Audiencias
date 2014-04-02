@@ -1541,9 +1541,6 @@ public class PrincipalJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_procuradorButtonConsultarActionPerformed
 
     private void agendaButtonSortearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agendaButtonSortearActionPerformed
-//        String data = agendaTextFieldDia.getText().trim();
-//        limparAgenda();        
-//        consultarAgenda(data);
         sortearProcuradorAgenda();      
 //        for(int linha = 0; linha < agendaJTable.getRowCount(); linha++) {
 //              atualizarBDAgenda(modeloAgenda,linha);
