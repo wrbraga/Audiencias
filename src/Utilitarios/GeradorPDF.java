@@ -224,7 +224,7 @@ public class GeradorPDF {
             "month(A.DATAINICIO) = :mes\n" +
             "or \n" +
             "month(A.DATAFIM) = :mes\n" +
-            "and year(A.DATAINICIO) = :ano";
+            "and year(A.DATAINICIO) = :ano order by DATAINICIO";
         Session sessao = HibernateUtil.getSessionFactory().openSession();
         Query query = sessao.createSQLQuery(SQL_QUERY_AFASTAMENTOS_MES);
         query.setParameter("mes", mes);
@@ -427,7 +427,8 @@ public class GeradorPDF {
                                     Date data = Calendario.stringToDate(diaSigla + "/" + mesAtual + "/" + anoAtual);
                                                                          
                                     if (data.compareTo(o.getDataInicio()) >= 0 && data.compareTo(o.getDatafim()) <= 0) {
-                                        conteudo += o.getSigla() + "  ";
+                                        if (!conteudo.contains(o.getSigla()))
+                                            conteudo += o.getSigla() + "  ";
                                     }
                                     
                                 }
@@ -445,7 +446,8 @@ public class GeradorPDF {
                                     Date data =Calendario.stringToDate(diaSigla + "/" + mesAtual + "/" + anoAtual);
                                                                         
                                     if (data.compareTo(o.getDataInicio()) >= 0 && data.compareTo(o.getDatafim()) <= 0) {
-                                        conteudo += o.getSigla() + "  ";
+                                        if (!conteudo.contains(o.getSigla()))
+                                            conteudo += o.getSigla() + "  ";
                                     }                                    
 
                                 }
