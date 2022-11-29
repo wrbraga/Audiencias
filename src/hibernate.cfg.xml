@@ -7,8 +7,8 @@
     <property name="hibernate.connection.url">jdbc:derby://localhost:1527/AudienciasDB</property>
     <property name="hibernate.show_sql">true</property>
     <property name="hibernate.query.factory_class">org.hibernate.hql.ast.ASTQueryTranslatorFactory</property>
-    <property name="hibernate.connection.username">wesley</property>
-    <property name="hibernate.connection.password">wesley</property>
+    <property name="hibernate.connection.username">ADMIN</property>
+    <property name="hibernate.connection.password">secret</property>
     <property name="hibernate.connection.autocommit">true</property>
     <property name="hbm2ddl.auto">validate</property>
     <!-- <property name="hbm2ddl.auto">create</property>-->
